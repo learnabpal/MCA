@@ -1,0 +1,19 @@
+name: Mirror To Public Repository
+
+on:
+  push:
+
+jobs:
+  mirror:
+    if: ${{ github.repository == 'apxdgtl/MCA' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Mirror
+        run: git push --mirror https://x-access-token:${{ secrets.PUBLIC_REPO_TOKEN }}@github.com/learnabpal/MCA.git
