@@ -30,6 +30,7 @@ int main()
         }
 
         insert_element(arr, ++size);
+        
         cout << "Array after insertion: ";
         for (int i = 0; i < size; i++)
         {
