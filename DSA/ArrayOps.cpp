@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-void insert_element(int arr[], int &size)
+void insert_element(int arr[], int size)
 {
         int element, index;
         cout << "Enter the index to be inserted at: ";
@@ -14,7 +14,6 @@ void insert_element(int arr[], int &size)
                 arr[i] = arr[i - 1];
         }
         arr[index] = element;
-        size++;
 }
 
 int main()
@@ -30,7 +29,7 @@ int main()
                 cin >> arr[i];
         }
 
-        insert_element(arr, size);
+        insert_element(arr, ++size);
         cout << "Array after insertion: ";
         for (int i = 0; i < size; i++)
         {
