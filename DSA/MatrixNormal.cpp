@@ -1,7 +1,29 @@
 #include <iostream>
 using namespace std;
 
-void display_matrix(int M[][100], int r, int c)
+const int MAX = 10;
+
+void input_matrix(int M[][MAX], int& r, int& c, int matrix_number)
+{
+    cout << "Enter rows and columns of matrix " << matrix_number << " (maximum " << MAX << "):" << endl;
+    cin >> r >> c;
+    while (r < 1 || r > MAX || c < 1 || c > MAX)
+    {
+        cout << "Rows and columns must be between 1 and " << MAX << ". Enter again:" << endl;
+        cin >> r >> c;
+    }
+
+    cout << "Enter elements of matrix " << matrix_number << endl;
+    for (int i = 0; i < r; i++)
+    {
+        for (int j = 0; j < c; j++)
+        {
+            cin >> M[i][j];
+        }
+    }
+}
+
+void display_matrix(int M[][MAX], int r, int c)
 {
         for (int i = 0; i < r; i++)
         {
@@ -13,7 +35,7 @@ void display_matrix(int M[][100], int r, int c)
         }
 }
 
-void add_matrices(int A[][100], int B[][100], int R[][100], int r1, int c1, int r2, int c2)
+void add_matrices(int A[][MAX], int B[][MAX], int R[][MAX], int r1, int c1, int r2, int c2)
 {
         bool valid = r1 == r2 && c1 == c2;
         if (valid)
@@ -32,7 +54,7 @@ void add_matrices(int A[][100], int B[][100], int R[][100], int r1, int c1, int 
         }
 }
 
-void mul_matrices(int A[][100], int B[][100], int R[][100], int r1, int c1, int r2, int c2)
+void mul_matrices(int A[][MAX], int B[][MAX], int R[][MAX], int r1, int c1, int r2, int c2)
 {
         bool valid = c1 == r2;
         if (valid)
@@ -55,7 +77,7 @@ void mul_matrices(int A[][100], int B[][100], int R[][100], int r1, int c1, int 
         }
 }
 
-void repr_column_major(int M[][100], int C[], int r, int c)
+void repr_column_major(int M[][MAX], int C[], int r, int c)
 {
         int ix = 0;
         for (int i = 0; i < c; i++)
@@ -65,61 +87,48 @@ void repr_column_major(int M[][100], int C[], int r, int c)
                         C[ix++] = M[j][i];
                 }
         }
-
         for (int i = 0; i < ix; i++)
         {
                 cout << C[i] << "\t";
         }
+        cout << endl;
 }
 
 int main()
 {
         int r1, c1, r2, c2;
-        int A[r1][c1], B[r2][c2];
+        int A[MAX][MAX], B[MAX][MAX];
+        int ADD[MAX][MAX], MUL[MAX][MAX];
+        int C[MAX * MAX], D[MAX * MAX];
 
-        cout << "Enter rows and columns of first matrix" << endl;
-        cin >> r1 >> c1;
-        cout << "Enter elements of first matrix" << endl;
-        for (int i = 0; i < r1; i++)
-        {
-                for (int j = 0; j < c1; j++)
-                {
-                        cin >> A[i][j];
-                }
-        }
-
-        cout << "Enter rows and columns of second matrix" << endl;
-        cin >> r2 >> c2;
-        cout << "Enter elements of second matrix" << endl;
-        for (int i = 0; i < r2; i++)
-        {
-                for (int j = 0; j < c2; j++)
-                {
-                        cin >> B[i][j];
-                }
-        }
+        input_matrix(A, r1, c1, 1);
+        input_matrix(B, r2, c2, 2);
 
         cout << "First matrix:" << endl;
         display_matrix(A, r1, c1);
+
         cout << "Second matrix:" << endl;
         display_matrix(B, r2, c2);
 
-        int C[r1 * c1], D[r2 * c2];
         cout << "Column-major representation of first matrix:" << endl;
         repr_column_major(A, C, r1, c1);
 
         cout << "Column-major representation of second matrix:" << endl;
         repr_column_major(B, D, r2, c2);
 
-        int ADD[r1][c1], MUL[r1][c2];
-
         cout << "Addition of matrices:" << endl;
         add_matrices(A, B, ADD, r1, c1, r2, c2);
-        display_matrix(ADD, r1, c1);
+        if (r1 == r2 && c1 == c2)
+        {
+                display_matrix(ADD, r1, c1);
+        }
 
         cout << "Multiplication of matrices:" << endl;
         mul_matrices(A, B, MUL, r1, c1, r2, c2);
-        display_matrix(MUL, r1, c2);
+        if (c1 == r2)
+        {
+                display_matrix(MUL, r1, c2);
+        }
 
         return 0;
 }

@@ -1,7 +1,9 @@
 #include <iostream>
 using namespace std;
 
-int zero_counts(int M[][100], int r, int c)
+const int MAX = 10;
+
+int zero_counts(int M[][MAX], int r, int c)
 {
         int zeroes = 0;
         for (int i = 0; i < r; i++)
@@ -17,15 +19,15 @@ int zero_counts(int M[][100], int r, int c)
         return zeroes;
 }
 
-bool is_sparse(int M[][100], int r, int c)
+bool is_sparse(int M[][MAX], int r, int c)
 {
         return zero_counts(M, r, c) > (r * c) / 2;
 }
 
-void represent_sparse(int M[][100], int r, int c)
+void represent_sparse(int M[][MAX], int r, int c)
 {
         int rows = 3, cols = (r * c) - zero_counts(M, r, c);
-        int R[rows][cols];
+        int R[rows][MAX * MAX];
         int cx = 0;
         for (int i = 0; i < r; i++)
         {
@@ -33,9 +35,9 @@ void represent_sparse(int M[][100], int r, int c)
                 {
                         if (M[i][j] != 0)
                         {
-                                R[0][cx] = M[i][j];
-                                R[1][cx] = i;
-                                R[2][cx] = j;
+                                R[0][cx] = i;
+                                R[1][cx] = j;
+                                R[2][cx] = M[i][j];
                                 cx++;
                         }
                 }
@@ -54,11 +56,17 @@ void represent_sparse(int M[][100], int r, int c)
 int main()
 {
         int r, c;
-        int M[r][c];
+        int M[MAX][MAX];
 
-        cout << "Enter rows and columns of matrix: ";
+        cout << "Enter rows and columns of matrix (maximum " << MAX << "): " << endl;
         cin >> r >> c;
-        cout << "Enter elements of matrix: " << endl;
+        while (r < 1 || r > MAX || c < 1 || c > MAX)
+        {
+                cout << "Rows and columns must be between 1 and " << MAX << ". Enter again: " << endl;
+                cin >> r >> c;
+        }
+
+        cout << "Enter elements of matrix:" << endl;
         for (int i = 0; i < r; i++)
         {
                 for (int j = 0; j < c; j++)
