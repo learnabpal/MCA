@@ -4,6 +4,7 @@
 using namespace std;
 
 const int MAX = 10;
+const string OF = "Stack overflow", UF = "Stack underflow";
 
 struct Stack
 {
@@ -24,7 +25,7 @@ struct Stack
         {
                 if (is_full())
                 {
-                        cout << "Stack overflow" << endl;
+                        cout << OF << endl;
                         return;
                 }
                 arr[++top] = data;
@@ -34,7 +35,7 @@ struct Stack
         {
                 if (is_empty())
                 {
-                        cout << "Stack underflow" << endl;
+                        cout << UF << endl;
                         return -1;
                 }
                 return arr[top--];
@@ -44,7 +45,7 @@ struct Stack
         {
                 if (is_empty())
                 {
-                        cout << "Stack underflow" << endl;
+                        cout << UF << endl;
                         return -1;
                 }
                 return arr[top];
