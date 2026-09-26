@@ -78,7 +78,7 @@ void display_menu(string choices_sans_exit[], int size, function<void(int)> acti
                 }
                 cout << "- Enter any other number to exit" << endl;
                 cout << endl;
-                cout << "Enter your choice: ";
+                cout << "- Enter your choice: ";
                 cin >> choice;
                 cout << endl;
 
