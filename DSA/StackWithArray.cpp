@@ -57,6 +57,7 @@ struct Stack
                         cout << "Stack is empty" << endl;
                         return;
                 }
+                cout << "Stack: ";
                 for (int i = top; i >= 0; i--)
                 {
                         cout << arr[i] << " ";
@@ -79,6 +80,7 @@ void display_menu(string choices_sans_exit[], int size, function<void(int)> acti
                 cout << endl;
                 cout << "Enter your choice: ";
                 cin >> choice;
+                cout << endl;
 
                 if (choice >= 1 && choice <= size)
                 {
