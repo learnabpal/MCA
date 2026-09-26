@@ -18,7 +18,7 @@ int main()
 
         cout << "Enter the number of students (maximum " << MAX << "): ";
         cin >> count;
-        while(count < 1 || count > MAX)
+        while (count < 1 || count > MAX)
         {
                 cout << "Invalid number of students. Enter again: ";
                 cin >> count;
@@ -40,10 +40,11 @@ int main()
         float max_cgpa = 0.0;
         for (int i = 0; i < count; i++)
         {
-                if (students[i].cgpa > max_cgpa)
+                Student s = students[i];
+                if (s.cgpa > max_cgpa)
                 {
-                        max_cgpa = students[i].cgpa;
-                        max_name = students[i].name;
+                        max_cgpa = s.cgpa;
+                        max_name = s.name;
                 }
         }
 
