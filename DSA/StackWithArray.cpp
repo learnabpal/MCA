@@ -10,19 +10,19 @@ struct Stack
         int top = -1;
         int arr[MAX];
 
-        bool isEmpty()
+        bool is_empty()
         {
                 return top == -1;
         }
 
-        bool isFull()
+        bool is_full()
         {
                 return top == MAX - 1;
         }
 
         void push(int data)
         {
-                if (isFull())
+                if (is_full())
                 {
                         cout << "Stack overflow" << endl;
                         return;
@@ -32,7 +32,7 @@ struct Stack
 
         int pop()
         {
-                if (isEmpty())
+                if (is_empty())
                 {
                         cout << "Stack underflow" << endl;
                         return -1;
@@ -42,7 +42,7 @@ struct Stack
 
         int peek()
         {
-                if (isEmpty())
+                if (is_empty())
                 {
                         cout << "Stack underflow" << endl;
                         return -1;
@@ -52,7 +52,7 @@ struct Stack
 
         void display()
         {
-                if (isEmpty())
+                if (is_empty())
                 {
                         cout << "Stack is empty" << endl;
                         return;
