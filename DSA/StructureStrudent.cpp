@@ -14,17 +14,17 @@ struct Student
 int main()
 {
         Student students[MAX];
-        int student_count;
+        int count;
 
         cout << "Enter the number of students (maximum " << MAX << "): ";
-        cin >> student_count;
-        while(student_count < 1 || student_count > MAX)
+        cin >> count;
+        while(count < 1 || count > MAX)
         {
                 cout << "Invalid number of students. Enter again: ";
-                cin >> student_count;
+                cin >> count;
         }
 
-        for (int i = 0; i < student_count; i++)
+        for (int i = 0; i < count; i++)
         {
                 cout << "Enter details for student " << i + 1 << ":" << endl;
                 cout << "Roll No: ";
@@ -36,18 +36,18 @@ int main()
                 cin >> students[i].cgpa;
         }
 
-        string highest_name = "";
-        float highest_cgpa = 0.0;
-        for (int i = 0; i < student_count; i++)
+        string max_name = "";
+        float max_cgpa = 0.0;
+        for (int i = 0; i < count; i++)
         {
-                if (students[i].cgpa > highest_cgpa)
+                if (students[i].cgpa > max_cgpa)
                 {
-                        highest_name = students[i].name;
-                        highest_cgpa = students[i].cgpa;
+                        max_name = students[i].name;
+                        max_cgpa = students[i].cgpa;
                 }
         }
 
-        cout << "Student with highest CGPA is: " << highest_name << " (CGPA: " << highest_cgpa << ")" << endl;
+        cout << "Student with the highest CGPA is: " << max_name << " (CGPA: " << max_cgpa << ")" << endl;
 
         return 0;
 }
