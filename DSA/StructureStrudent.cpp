@@ -26,7 +26,7 @@ int main()
 
         for (int i = 0; i < count; i++)
         {
-                cout << "Enter details for student " << i + 1 << ":" << endl;
+                cout << "Enter details for student #" << i + 1 << ":" << endl;
                 cout << "Roll No: ";
                 cin >> students[i].roll_no;
                 cout << "Name: ";
@@ -42,8 +42,8 @@ int main()
         {
                 if (students[i].cgpa > max_cgpa)
                 {
-                        max_name = students[i].name;
                         max_cgpa = students[i].cgpa;
+                        max_name = students[i].name;
                 }
         }
 
