@@ -16,31 +16,33 @@ void insert_element(int arr[], int size)
         arr[index] = element;
 }
 
-void search_element(int arr[], int size)
+int search_element(int arr[], int size)
 {
-        int element;
+        int element, index = -1;
         cout << "Enter the element to be searched: ";
         cin >> element;
         for (int i = 0; i < size; i++)
         {
                 if (arr[i] == element)
                 {
-                        cout << "Element found at index " << i << endl;
-                        return;
+                        index = i;
+                        break;
                 }
         }
-        cout << "Element not found in the array." << endl;
+        return index;
 }
 
-void delete_element(int arr[], int size)
+int delete_element(int arr[], int size)
 {
-        int index;
-        cout << "Enter the index to be deleted: ";
+        int index, element;
+        cout << "Enter the index of the element to be deleted: ";
         cin >> index;
+        element = arr[index];
         for (int i = index; i < size - 1; i++)
         {
                 arr[i] = arr[i + 1];
         }
+        return element;
 }
 
 int maximum_element(int arr[], int size)
@@ -84,11 +86,20 @@ int main()
 
         cout << "Maximum element: " << maximum_element(arr, size) << endl;
 
-        search_element(arr, size);
+        int fidx = search_element(arr, size);
+        if (fidx == -1)
+        {
+                cout << "Element not found" << endl;
+        }
+        else
+        {
+                cout << "Element found at index: " << fidx << endl;
+        }
 
-        delete_element(arr, size--);
+        int del_el = delete_element(arr, size--);
+        cout << "Deleted element: " << del_el << endl;
         cout << "Array after deletion: ";
         display_array(arr, size);
-        
+
         return 0;
 }

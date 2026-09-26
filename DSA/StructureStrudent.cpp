@@ -2,7 +2,7 @@
 #include <string>
 using namespace std;
 
-const int MAX_STUDENTS = 10;
+const int MAX = 10;
 
 struct Student
 {
@@ -13,12 +13,12 @@ struct Student
 
 int main()
 {
-        Student students[MAX_STUDENTS];
+        Student students[MAX];
         int student_count;
 
-        cout << "Enter the number of students (maximum " << MAX_STUDENTS << "): ";
+        cout << "Enter the number of students (maximum " << MAX << "): ";
         cin >> student_count;
-        while(student_count < 1 || student_count > MAX_STUDENTS)
+        while(student_count < 1 || student_count > MAX)
         {
                 cout << "Invalid number of students. Enter again: ";
                 cin >> student_count;
