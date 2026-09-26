@@ -6,7 +6,6 @@ const int MAX = 10;
 
 struct Student
 {
-        int roll_no;
         string name;
         float cgpa;
 };
@@ -27,8 +26,6 @@ int main()
         for (int i = 0; i < count; i++)
         {
                 cout << "Enter details for student " << i + 1 << ":" << endl;
-                cout << "Roll No: ";
-                cin >> students[i].roll_no;
                 cout << "Name: ";
                 cin.ignore();
                 getline(cin, students[i].name);
