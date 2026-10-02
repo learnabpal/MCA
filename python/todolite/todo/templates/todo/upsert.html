@@ -1,0 +1,37 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}{% if todo %}Edit Todo{% else %}Create Todo{% endif %} · TodoLite{% endblock %}
+
+{% block content %}
+    <c-ui.card title="{% if todo %}Edit Todo{% else %}Create Todo{% endif %}" subheading="{% if todo %}{{ todo.title|truncatechars:60 }}{% else %}Add a new task{% endif %}">
+        <form method="post">
+            <div class="space-y-4">
+                {% csrf_token %}
+
+                <c-ui.input
+                        label="Title"
+                        name="title"
+                        type="text"
+                        value="{{ todo.title|default:'' }}"
+                        placeholder="Enter your task"
+                        required
+                />
+
+                <c-ui.switch
+                        name="completed"
+                        value="true"
+                        label="Completed"
+                        :checked="{{ todo.completed|default:False }}"
+                />
+
+                <c-ui.button variant="primary" type="submit">
+                    {% if todo %}Save Changes{% else %}Create Todo{% endif %}
+                </c-ui.button>
+
+                <c-ui.button variant="ghost" href="{% if todo %}{% url 'todo:detail' todo_id=todo.id %}{% else %}{% url 'todo:index' %}{% endif %}">
+                    Cancel
+                </c-ui.button>
+            </div>
+        </form>
+    </c-ui.card>
+{% endblock %}

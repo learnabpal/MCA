@@ -1,0 +1,23 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}Delete Todo · TodoLite{% endblock %}
+
+{% block content %}
+    <c-ui.card title="Delete Todo" subheading="This action cannot be undone.">
+        <div class="space-y-4">
+            <c-ui.alert variant="error">
+                Delete "{{ todo.title }}"?
+            </c-ui.alert>
+
+            <form method="post">
+                {% csrf_token %}
+                <c-ui.button variant="danger" type="submit">
+                    Delete Todo
+                </c-ui.button>
+                <c-ui.button variant="ghost" href="{% url 'todo:detail' todo_id=todo.id %}">
+                    Cancel
+                </c-ui.button>
+            </form>
+        </div>
+    </c-ui.card>
+{% endblock %}

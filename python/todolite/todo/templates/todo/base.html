@@ -1,0 +1,98 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TodoLite{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'django_cotton_ui/cotton-ui.css' %}">
+    <style>
+        :root {
+            --color-accent: var(--color-red-900);
+            --color-accent-content: var(--color-red-900);
+            --color-accent-foreground: var(--color-gray-50);
+            --color-ink-50: var(--color-gray-50);
+            --color-ink-100: var(--color-gray-100);
+            --color-ink-200: var(--color-gray-200);
+            --color-ink-300: var(--color-gray-300);
+            --color-ink-400: var(--color-gray-400);
+            --color-ink-500: var(--color-gray-500);
+            --color-ink-600: var(--color-gray-600);
+            --color-ink-700: var(--color-gray-700);
+            --color-ink-800: var(--color-gray-800);
+            --color-ink-900: var(--color-gray-900);
+            --color-ink-950: var(--color-gray-950);
+            --color-bg: var(--color-gray-50);
+            --color-content: var(--color-gray-900);
+            --radius-control: 1rem;
+            --radius-box: 1rem;
+            --focus-ring-width: 3px;
+            --shadow-input: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-box: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --page-padding: 1rem;
+            --page-gap: 0.5rem;
+        }
+
+        .dark {
+            --color-accent: var(--color-red-900);
+            --color-accent-content: var(--color-red-800);
+            --color-accent-foreground: var(--color-gray-50);
+            --color-bg: var(--color-gray-950);
+            --color-content: var(--color-gray-300);
+            --surface-level: 10%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            color: var(--color-content);
+            font-weight: 600;
+            font-family: Roboto, sans-serif;
+            background-color: var(--color-bg);
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: var(--page-gap);
+            padding: var(--page-padding);
+        }
+
+        .cotton-stack {
+            display: flex;
+            flex-direction: column;
+            gap: var(--page-gap);
+        }
+
+        .cotton-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--page-gap);
+        }
+    </style>
+</head>
+<body>
+<c-ui.navbar>
+    <c-slot name="brand">
+        <c-ui.navbar.item href="{% url 'todo:index' %}" :current="True">
+            TodoLite
+        </c-ui.navbar.item>
+    </c-slot>
+    <c-slot name="actions">
+        <c-ui.button variant="primary" href="{% url 'todo:create' %}">
+            New Todo
+        </c-ui.button>
+    </c-slot>
+</c-ui.navbar>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<script defer src="{% static 'django_cotton_ui/cotton-ui.min.js' %}"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>

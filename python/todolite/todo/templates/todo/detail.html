@@ -1,0 +1,28 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}{{ todo.title }} · TodoLite{% endblock %}
+
+{% block content %}
+    <c-ui.card padding="sm">
+        <c-ui.badge color="{% if todo.completed %}green{% else %}amber{% endif %}">
+            {% if todo.completed %}Completed{% else %}Pending{% endif %}
+        </c-ui.badge>
+        <div class="space-y-4">
+            <p class="text-xs">Created {{ todo.created_at|date:"d M Y, H:i" }}</p>
+            <div>
+                {{ todo.title }}
+            </div>
+            <div class="cotton-actions">
+                <c-ui.button variant="primary" href="{% url 'todo:update' todo_id=todo.id %}">
+                    Edit
+                </c-ui.button>
+                <c-ui.button variant="danger" href="{% url 'todo:delete' todo_id=todo.id %}">
+                    Delete
+                </c-ui.button>
+                <c-ui.button variant="ghost" href="{% url 'todo:index' %}">
+                    Back
+                </c-ui.button>
+            </div>
+        </div>
+    </c-ui.card>
+{% endblock %}

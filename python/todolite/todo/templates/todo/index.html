@@ -1,0 +1,41 @@
+{% extends 'todo/base.html' %}
+
+{% block title %}TodoLite{% endblock %}
+
+{% block content %}
+    <c-ui.card title="TodoLite" subheading="Your tasks">
+        <div class="space-y-4">
+            {% for todo in todos %}
+                <c-ui.card padding="sm" variant="outline">
+                    <c-ui.badge color="{% if todo.completed %}green{% else %}amber{% endif %}" size="lg">
+                        {% if todo.completed %}Completed{% else %}Pending{% endif %}
+                    </c-ui.badge>
+                    <div class="space-y-4">
+                        <div>
+                            {{ todo.title|truncatechars:60 }}
+                        </div>
+
+                        <div class="cotton-actions">
+                            <c-ui.button size="sm" variant="primary" href="{% url 'todo:detail' todo_id=todo.id %}">
+                                View
+                            </c-ui.button>
+                            <c-ui.button size="sm" variant="subtle" href="{% url 'todo:update' todo_id=todo.id %}">
+                                Edit
+                            </c-ui.button>
+                            <c-ui.button size="sm" variant="danger" href="{% url 'todo:delete' todo_id=todo.id %}">
+                                Delete
+                            </c-ui.button>
+                        </div>
+                    </div>
+                </c-ui.card>
+            {% empty %}
+                <c-ui.alert>
+                    No todos yet.
+                </c-ui.alert>
+                <c-ui.button variant="primary" href="{% url 'todo:create' %}">
+                    Create Your First Todo
+                </c-ui.button>
+            {% endfor %}
+        </div>
+    </c-ui.card>
+{% endblock %}
