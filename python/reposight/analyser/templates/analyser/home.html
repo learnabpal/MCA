@@ -1,0 +1,20 @@
+{% extends 'analyser/base.html' %}
+
+{% block title %}RepoSight{% endblock %}
+
+{% block content %}
+    <main class="min-h-screen flex items-center justify-center px-6">
+        <div class="w-full max-w-3xl text-center">
+            <p class="text-sm font-medium uppercase tracking-widest text-gray-400">Repository Analysis</p>
+            <h1 class="mt-4 text-5xl font-bold tracking-tight">RepoSight</h1>
+            <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-400">
+                Analyse a software repository and understand its structure, code and development characteristics.
+            </p>
+            <div class="mt-8">
+                <c-ui.button variant="primary" href="{% url 'analyser:upload' %}">
+                    Analyse Repository
+                </c-ui.button>
+            </div>
+        </div>
+    </main>
+{% endblock %}

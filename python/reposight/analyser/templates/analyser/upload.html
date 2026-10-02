@@ -1,0 +1,37 @@
+{% extends 'analyser/base.html' %}
+
+{% block title %}Upload Repository · RepoSight{% endblock %}
+
+{% block content %}
+    <c-ui.card title="Analyse Repository" subheading="Upload a repository archive to begin analysis.">
+        <div class="cotton-stack">
+            {% if error %}
+                <c-ui.alert>
+                    {{ error }}
+                </c-ui.alert>
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data" class="cotton-stack">
+                {% csrf_token %}
+
+                <c-ui.input
+                        label="Repository Archive"
+                        name="repository"
+                        type="file"
+                        accept=".zip"
+                        required
+                />
+
+                <div class="cotton-actions">
+                    <c-ui.button variant="primary" type="submit">
+                        Analyse Repository
+                    </c-ui.button>
+
+                    <c-ui.button variant="ghost" href="{% url 'analyser:home' %}">
+                        Cancel
+                    </c-ui.button>
+                </div>
+            </form>
+        </div>
+    </c-ui.card>
+{% endblock %}

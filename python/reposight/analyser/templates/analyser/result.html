@@ -1,0 +1,237 @@
+{% extends 'analyser/base.html' %}
+
+{% block title %}{{ repository_name }} · RepoSight{% endblock %}
+
+{% block content %}
+    <c-ui.card title="{{ repository_name }}" subheading="Repository analysis">
+        <div class="cotton-actions">
+            <c-ui.badge color="red" variant="pill">{{ total_files }} files</c-ui.badge>
+            <c-ui.badge color="zinc" variant="pill">{{ total_directories }} directories</c-ui.badge>
+            <c-ui.badge color="zinc" variant="pill">{{ total_repository_size|filesizeformat }}</c-ui.badge>
+            <c-ui.badge color="zinc" variant="pill">{{ total_lines }} lines</c-ui.badge>
+        </div>
+    </c-ui.card>
+
+    <c-ui.card title="Repository Overview">
+        <c-ui.table>
+            <thead>
+            <tr>
+                <th>Metric</th>
+                <th class="text-right">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Archive Size</td>
+                <td class="text-right">{{ archive_size|filesizeformat }}</td>
+            </tr>
+            <tr>
+                <td>Repository Size</td>
+                <td class="text-right">{{ total_repository_size|filesizeformat }}</td>
+            </tr>
+            <tr>
+                <td>Files</td>
+                <td class="text-right">{{ total_files }}</td>
+            </tr>
+            <tr>
+                <td>Directories</td>
+                <td class="text-right">{{ total_directories }}</td>
+            </tr>
+            <tr>
+                <td>Maximum Directory Depth</td>
+                <td class="text-right">{{ maximum_depth }}</td>
+            </tr>
+            <tr>
+                <td>Total Lines</td>
+                <td class="text-right">{{ total_lines }}</td>
+            </tr>
+            <tr>
+                <td>Code Lines</td>
+                <td class="text-right">{{ total_code_lines }}</td>
+            </tr>
+            <tr>
+                <td>Blank Lines</td>
+                <td class="text-right">{{ total_blank_lines }}</td>
+            </tr>
+            <tr>
+                <td>Comment Lines</td>
+                <td class="text-right">{{ total_comment_lines }}</td>
+            </tr>
+            </tbody>
+        </c-ui.table>
+    </c-ui.card>
+
+    <c-ui.card title="Languages" subheading="Recognised source files and line statistics.">
+        {% if language_data %}
+            <c-ui.table>
+                <thead>
+                <tr>
+                    <th>Language</th>
+                    <th class="text-right">Files</th>
+                    <th class="text-right">Lines</th>
+                    <th class="text-right">Code</th>
+                    <th class="text-right">Comments</th>
+                    <th class="text-right">Blank</th>
+                    <th class="text-right">Size</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for language in language_data %}
+                    <tr>
+                        <td>{{ language.language }}</td>
+                        <td class="text-right">{{ language.files }}</td>
+                        <td class="text-right">{{ language.lines }}</td>
+                        <td class="text-right">{{ language.code }}</td>
+                        <td class="text-right">{{ language.comments }}</td>
+                        <td class="text-right">{{ language.blank }}</td>
+                        <td class="text-right">{{ language.bytes|filesizeformat }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </c-ui.table>
+        {% else %}
+            <c-ui.alert variant="warning">No recognised source files were found.</c-ui.alert>
+        {% endif %}
+    </c-ui.card>
+
+    <c-ui.card title="Frameworks and Platforms">
+        {% if frameworks %}
+            <div class="cotton-actions">
+                {% for framework in frameworks %}
+                    <c-ui.badge color="red" variant="pill">{{ framework }}</c-ui.badge>
+                {% endfor %}
+            </div>
+        {% else %}
+            <c-ui.alert variant="info">No recognised frameworks were detected.</c-ui.alert>
+        {% endif %}
+    </c-ui.card>
+
+    <c-ui.card title="Python Analysis">
+        <c-ui.table>
+            <thead>
+            <tr>
+                <th>Metric</th>
+                <th class="text-right">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Classes</td>
+                <td class="text-right">{{ python_classes }}</td>
+            </tr>
+            <tr>
+                <td>Functions</td>
+                <td class="text-right">{{ python_functions }}</td>
+            </tr>
+            <tr>
+                <td>Imported Modules</td>
+                <td class="text-right">{{ python_imports|length }}</td>
+            </tr>
+            </tbody>
+        </c-ui.table>
+
+        {% if python_imports %}
+            <div class="cotton-actions">
+                {% for module in python_imports %}
+                    <c-ui.badge color="zinc">{{ module }}</c-ui.badge>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </c-ui.card>
+
+    <c-ui.card title="Dependencies">
+        {% if dependencies %}
+            <div class="cotton-actions">
+                {% for dependency in dependencies %}
+                    <c-ui.badge color="zinc">{{ dependency }}</c-ui.badge>
+                {% endfor %}
+            </div>
+        {% else %}
+            <c-ui.alert variant="info">No recognised dependency manifest was found.</c-ui.alert>
+        {% endif %}
+    </c-ui.card>
+
+    <c-ui.card title="Largest Files">
+        <c-ui.table>
+            <thead>
+            <tr>
+                <th>File</th>
+                <th>Language</th>
+                <th class="text-right">Size</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for file in largest_files %}
+                <tr>
+                    <td>{{ file.path }}</td>
+                    <td>{{ file.language }}</td>
+                    <td class="text-right">{{ file.size|filesizeformat }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </c-ui.table>
+    </c-ui.card>
+
+    <c-ui.card title="File Types">
+        <c-ui.table>
+            <thead>
+            <tr>
+                <th>Extension</th>
+                <th class="text-right">Files</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for extension in extension_data %}
+                <tr>
+                    <td>{{ extension.extension }}</td>
+                    <td class="text-right">{{ extension.files }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </c-ui.table>
+    </c-ui.card>
+
+    <c-ui.card title="Git Repository">
+        {% if git_data.present %}
+            <c-ui.alert variant="success">
+                Git metadata detected in the uploaded repository.
+            </c-ui.alert>
+
+            <c-ui.table>
+                <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th class="text-right">Value</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Current Branch</td>
+                    <td class="text-right">{{ git_data.head|default:"Unknown" }}</td>
+                </tr>
+                <tr>
+                    <td>Branches Detected</td>
+                    <td class="text-right">{{ git_data.branches }}</td>
+                </tr>
+                <tr>
+                    <td>Git Objects</td>
+                    <td class="text-right">{{ git_data.objects }}</td>
+                </tr>
+                </tbody>
+            </c-ui.table>
+        {% else %}
+            <c-ui.alert variant="info">
+                No .git directory was included in the uploaded archive. Git history cannot be analysed from a source-only ZIP.
+            </c-ui.alert>
+        {% endif %}
+    </c-ui.card>
+
+    <div class="cotton-actions">
+        <c-ui.button variant="primary" href="{% url 'analyser:upload' %}">
+            Analyse Another Repository
+        </c-ui.button>
+        <c-ui.button variant="ghost" href="{% url 'analyser:home' %}">
+            Home
+        </c-ui.button>
+    </div>
+{% endblock %}
