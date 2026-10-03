@@ -125,7 +125,7 @@ int main()
         Stack stack;
         cout << "Enter the expression: ";
         cin >> expr;
-        postfix(expr, &stack);
+        postfix("(" + expr + ")", &stack);
 
         return 0;
 }
