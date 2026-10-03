@@ -9,10 +9,22 @@ const string OF = "Stack overflow", UF = "Stack underflow";
 const map<char, int> PRIORITIES = {{'+', 1}, {'-', 1}, {'*', 2}, {'/', 2}, {'^', 3}};
 const char operators[] = {'+', '-', '*', '/', '^'};
 
+bool is_operator(char c)
+{
+        for (int i = 0; i < 5; i++)
+        {
+                if (c == operators[i])
+                        return true;
+        }
+        return false;
+}
+
 int get_priority(char c)
 {
-        cout << PRIORITIES.at(c) << endl;
-        return PRIORITIES.at(c);
+        auto f = PRIORITIES.find(c);
+        if (f != PRIORITIES.end())
+                return f->second;
+        return -1;
 }
 
 struct Stack
@@ -79,9 +91,32 @@ void postfix(string expression, Stack *stack)
                 {
                         continue;
                 }
-                stack->push(c);
+                if (c == '(')
+                {
+                        stack->push(c);
+                        continue;
+                }
+                if (is_operator(c))
+                {
+                        while (!stack->is_empty() && get_priority(c) <= get_priority(stack->peek()))
+                        {
+                                cout << stack->pop() << " ";
+                        }
+                        stack->push(c);
+                }
+                else if (c == ')')
+                {
+                        while (stack->peek() != '(')
+                        {
+                                cout << stack->pop() << " ";
+                        }
+                        stack->pop();
+                }
+                else
+                {
+                        cout << c << " ";
+                }
         }
-        stack->display();
 }
 
 int main()
