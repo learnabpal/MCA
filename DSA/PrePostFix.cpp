@@ -4,9 +4,16 @@
 
 using namespace std;
 
-const int MAX = 10;
+const int MAX = 100;
 const string OF = "Stack overflow", UF = "Stack underflow";
 const map<char, int> PRIORITIES = {{'+', 1}, {'-', 1}, {'*', 2}, {'/', 2}, {'^', 3}};
+const char operators[] = {'+', '-', '*', '/', '^'};
+
+int get_priority(char c)
+{
+        cout << PRIORITIES.at(c) << endl;
+        return PRIORITIES.at(c);
+}
 
 struct Stack
 {
@@ -47,11 +54,21 @@ struct Stack
                 }
                 return arr[top];
         }
+        void display()
+        {
+                if (is_empty())
+                {
+                        cout << "Stack is empty" << endl;
+                        return;
+                }
+                cout << "Stack: ";
+                for (int i = top; i >= 0; i--)
+                {
+                        cout << arr[i] << " ";
+                }
+                cout << endl;
+        }
 };
-
-
-
-const char operators[] = {'+', '-', '*', '/', '^'};
 
 void postfix(string expression, Stack *stack)
 {
@@ -62,28 +79,9 @@ void postfix(string expression, Stack *stack)
                 {
                         continue;
                 }
-                if (c >= '0' && c <= '9')
-                {
-                        cout << c;
-                }
-                else if (c == '(')
-                {
-                        stack->push(c);
-                }
-                else if (c == ')')
-                {
-                        while (stack->peek() != '(')
-                        {
-                                cout << stack->pop();
-                        }
-                        stack->pop();
-                }
-                else
-                {
-                        stack->push(c);
-                }
-                cout<< stack->peek();
+                stack->push(c);
         }
+        stack->display();
 }
 
 int main()
