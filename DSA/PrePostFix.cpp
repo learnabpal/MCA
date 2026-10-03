@@ -82,6 +82,15 @@ struct Stack
         }
 };
 
+/*
+POSTFIX                         PREFIX
+
+left → right                    right → left
+'(' → push                      ')' → push
+')' → pop until '('             '(' → pop until ')'
+priority <=                      priority <
+*/
+
 void postfix(string expression, Stack *stack)
 {
         for (int i = 0; i < expression.length(); i++)
@@ -98,7 +107,8 @@ void postfix(string expression, Stack *stack)
                 }
                 if (is_operator(c))
                 {
-                        while (!stack->is_empty() && get_priority(c) <= get_priority(stack->peek()))
+                        int char_priority = get_priority(c);
+                        while (!stack->is_empty() && ((char_priority < get_priority(stack->peek())) || (char_priority == get_priority(stack->peek()) && c != '^')))
                         {
                                 cout << stack->pop() << " ";
                         }
@@ -119,13 +129,62 @@ void postfix(string expression, Stack *stack)
         }
 }
 
+void prefix(string expression, Stack *stack)
+{
+        Stack temp;
+        for (int i = expression.length() - 1; i >= 0; i--)
+        {
+                char c = expression[i];
+                if (c == ' ')
+                {
+                        continue;
+                }
+                if (c == ')')
+                {
+                        stack->push(c);
+                        continue;
+                }
+                if (is_operator(c))
+                {
+                        int char_priority = get_priority(c);
+                        while (!stack->is_empty() && ((char_priority < get_priority(stack->peek())) || (char_priority == get_priority(stack->peek()) && c == '^')))
+                        {
+                                temp.push(stack->pop());
+                        }
+                        stack->push(c);
+                }
+                else if (c == '(')
+                {
+                        while (stack->peek() != ')')
+                        {
+                                // cout << stack->pop() << " ";
+                                temp.push(stack->pop());
+                        }
+                        // stack->pop();
+                        stack->pop();
+                }
+                else
+                {
+                        // cout << c << " ";
+                        temp.push(c);
+                }
+        }
+        while (!temp.is_empty())
+        {
+                cout << temp.pop() << " ";
+        }
+}
+
 int main()
 {
         string expr = "";
         Stack stack;
         cout << "Enter the expression: ";
-        cin >> expr;
-        postfix("(" + expr + ")", &stack);
+        getline(cin, expr);
+        expr = "(" + expr + ")";
+        prefix(expr, &stack);
+        cout << endl;
+        postfix(expr, &stack);
 
         return 0;
 }
