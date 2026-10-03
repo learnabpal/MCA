@@ -107,8 +107,8 @@ void postfix(string expression, Stack *stack)
                 }
                 if (is_operator(c))
                 {
-                        int char_priority = get_priority(c);
-                        while (!stack->is_empty() && ((char_priority < get_priority(stack->peek())) || (char_priority == get_priority(stack->peek()) && c != '^')))
+                        int cp = get_priority(c);
+                        while (!stack->is_empty() && ((cp < get_priority(stack->peek())) || (cp == get_priority(stack->peek()) && c != '^')))
                         {
                                 cout << stack->pop() << " ";
                         }
@@ -146,8 +146,8 @@ void prefix(string expression, Stack *stack)
                 }
                 if (is_operator(c))
                 {
-                        int char_priority = get_priority(c);
-                        while (!stack->is_empty() && ((char_priority < get_priority(stack->peek())) || (char_priority == get_priority(stack->peek()) && c == '^')))
+                        int cp = get_priority(c);
+                        while (!stack->is_empty() && ((cp < get_priority(stack->peek())) || (cp == get_priority(stack->peek()) && c == '^')))
                         {
                                 temp.push(stack->pop());
                         }
