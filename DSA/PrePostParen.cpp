@@ -175,6 +175,39 @@ void prefix(string expression, Stack *stack)
         }
 }
 
+void match_parentheses(string expression)
+{
+        Stack stack;
+        for (int i = 0; i < expression.length(); i++)
+        {
+                char c = expression[i];
+                if (c == '(' || c == '{' || c == '[')
+                {
+                        stack.push(c);
+                }
+                else if (
+                    (c == ')' && stack.peek() == '(') ||
+                    (c == '}' && stack.peek() == '{') ||
+                    (c == ']' && stack.peek() == '['))
+                {
+                        stack.pop();
+                }
+                else if (c == ')' || c == '}' || c == ']')
+                {
+                        cout << "Parentheses don't match" << endl;
+                        return;
+                }
+        }
+        if (stack.is_empty())
+        {
+                cout << "Parentheses match" << endl;
+        }
+        else
+        {
+                cout << "Parentheses don't match" << endl;
+        }
+}
+
 int main()
 {
         string expr = "";
@@ -185,6 +218,8 @@ int main()
         prefix(expr, &stack);
         cout << endl;
         postfix(expr, &stack);
+        cout << endl;
+        match_parentheses(expr);
 
         return 0;
 }
