@@ -1,0 +1,56 @@
+{% extends 'analyser/base.html' %}
+
+{% block title %}Analyse Text · Sentiment Intelligence{% endblock %}
+
+{% block content %}
+    <c-ui.card title="Sentiment Intelligence" subheading="Analyse sentiment using a local transformer model and an independent NLP model.">
+        {% if error %}
+            <c-ui.alert variant="danger">
+                {{ error }}
+            </c-ui.alert>
+        {% endif %}
+
+        <form method="post" action="{% url 'analyser:analyse' %}">
+            {% csrf_token %}
+
+            <c-ui.textarea
+                    label="Text"
+                    name="text"
+                    placeholder="Paste a review, customer comment, article excerpt or any other English text..."
+                    description="Maximum 10,000 characters. The text is analysed in memory and is not stored."
+                    height="2xl"
+                    required
+            />
+
+            <div class="flex gap-3">
+                <c-ui.button variant="primary" type="submit">
+                    Analyse Sentiment
+                </c-ui.button>
+
+                <c-ui.button variant="ghost" href="{% url 'analyser:batch' %}">
+                    Batch Analysis
+                </c-ui.button>
+            </div>
+        </form>
+    </c-ui.card>
+
+    <div class="grid gap-4 md:grid-cols-3">
+        <c-ui.card title="Transformer Model" padding="sm">
+            <p class="text-sm text-ink-400">
+                DistilBERT fine-tuned on SST-2 performs the primary sentiment classification locally.
+            </p>
+        </c-ui.card>
+
+        <c-ui.card title="Independent Signal" padding="sm">
+            <p class="text-sm text-ink-400">
+                VADER provides a second sentiment score so the application can compare two approaches.
+            </p>
+        </c-ui.card>
+
+        <c-ui.card title="Text Intelligence" padding="sm">
+            <p class="text-sm text-ink-400">
+                Sentence-level predictions, keywords and text statistics provide more than a single label.
+            </p>
+        </c-ui.card>
+    </div>
+{% endblock %}

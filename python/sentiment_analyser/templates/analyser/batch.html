@@ -1,0 +1,102 @@
+{% extends 'analyser/base.html' %}
+
+{% block title %}Batch Analysis · Sentiment Intelligence{% endblock %}
+
+{% block content %}
+    <c-ui.card title="Batch Sentiment Analysis" subheading="Analyse up to 100 CSV rows in memory without storing the uploaded file.">
+        {% if error %}
+            <c-ui.alert type="danger">
+                {{ error }}
+            </c-ui.alert>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <c-ui.input
+                    label="CSV File"
+                    name="file"
+                    type="file"
+                    accept=".csv"
+                    required
+            />
+
+            <c-ui.input
+                    label="Text Column"
+                    name="column"
+                    type="text"
+                    placeholder="Optional — automatically detects the first text column"
+            />
+
+            <c-ui.button variant="primary" type="submit">
+                Analyse CSV
+            </c-ui.button>
+        </form>
+    </c-ui.card>
+
+    {% if results %}
+        <div class="grid gap-4 md:grid-cols-4">
+            <c-ui.card title="Rows" padding="sm">
+                <p class="text-2xl font-bold">{{ row_count }}</p>
+            </c-ui.card>
+
+            <c-ui.card title="Positive" padding="sm">
+                <p class="text-2xl font-bold">{{ positive_count }}</p>
+            </c-ui.card>
+
+            <c-ui.card title="Negative" padding="sm">
+                <p class="text-2xl font-bold">{{ negative_count }}</p>
+            </c-ui.card>
+
+            <c-ui.card title="Model Agreement" padding="sm">
+                <p class="text-2xl font-bold">{{ agreement_count }}</p>
+            </c-ui.card>
+        </div>
+
+        <c-ui.card title="Batch Results" subheading="Primary DistilBERT classification compared with VADER.">
+            <c-ui.table>
+                <thead>
+                <tr>
+                    <th>Text</th>
+                    <th>DistilBERT</th>
+                    <th>Confidence</th>
+                    <th>VADER</th>
+                    <th>Agreement</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for item in results %}
+                    <tr>
+                        <td>{{ item.text|truncatechars:100 }}</td>
+
+                        <td>
+                            <c-ui.badge color="{% if item.model_label == 'POSITIVE' %}green{% else %}red{% endif %}">
+                                {{ item.model_label }}
+                            </c-ui.badge>
+                        </td>
+
+                        <td>
+                            {{ item.model_score }}%
+                        </td>
+
+                        <td>
+                            <c-ui.badge color="{% if item.vader_label == 'POSITIVE' %}green{% elif item.vader_label == 'NEGATIVE' %}red{% else %}amber{% endif %}">
+                                {{ item.vader_label }}
+                            </c-ui.badge>
+                        </td>
+
+                        <td>
+                            {% if item.agreement %}
+                                <c-ui.badge color="green">Match</c-ui.badge>
+                            {% else %}
+                                <c-ui.badge color="amber">Different</c-ui.badge>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </c-ui.table>
+        </c-ui.card>
+    {% endif %}
+{% endblock %}

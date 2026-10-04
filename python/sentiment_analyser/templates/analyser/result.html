@@ -1,0 +1,133 @@
+{% extends 'analyser/base.html' %}
+
+{% block title %}Analysis Result · Sentiment Intelligence{% endblock %}
+
+{% block content %}
+    <c-ui.card title="Analysis Result" subheading="Combined transformer and lexical sentiment analysis.">
+        <c-ui.card variant="outline" padding="sm">
+            <c-ui.badge color="{% if result.model_label == 'POSITIVE' %}green{% else %}red{% endif %}">
+                {{ result.model_label }}
+            </c-ui.badge>
+
+            <p class="mt-3 text-lg">
+                {{ result.text }}
+            </p>
+        </c-ui.card>
+    </c-ui.card>
+
+    <div class="grid gap-4 md:grid-cols-2">
+        <c-ui.card title="DistilBERT Prediction" subheading="Primary ML model">
+            <div class="flex items-center gap-3">
+                <c-ui.badge color="{% if result.model_label == 'POSITIVE' %}green{% else %}red{% endif %}" size="lg">
+                    {{ result.model_label }}
+                </c-ui.badge>
+
+                <span class="text-2xl font-bold">
+                {{ result.model_score }}%
+            </span>
+            </div>
+
+            <p class="mt-4 text-sm text-ink-400">
+                Confidence returned by the text-classification model.
+            </p>
+        </c-ui.card>
+
+        <c-ui.card title="VADER Prediction" subheading="Independent lexical model">
+            <div class="flex items-center gap-3">
+                <c-ui.badge color="{% if result.vader_label == 'POSITIVE' %}green{% elif result.vader_label == 'NEGATIVE' %}red{% else %}amber{% endif %}" size="lg">
+                    {{ result.vader_label }}
+                </c-ui.badge>
+
+                <span class="text-2xl font-bold">
+                {{ result.vader_compound }}
+            </span>
+            </div>
+
+            <p class="mt-4 text-sm text-ink-400">
+                Positive {{ result.vader_positive }}% · Neutral {{ result.vader_neutral }}% · Negative {{ result.vader_negative }}%
+            </p>
+        </c-ui.card>
+    </div>
+
+    <c-ui.card title="Model Agreement" subheading="Comparison between the two sentiment approaches.">
+        {% if result.agreement %}
+            <c-ui.alert type="success">
+                Both models classified the text as {{ result.model_label|lower }}.
+            </c-ui.alert>
+        {% else %}
+            <c-ui.alert type="warning">
+                The models disagree. This is a potentially ambiguous or context-sensitive input.
+            </c-ui.alert>
+        {% endif %}
+    </c-ui.card>
+
+    <div class="grid gap-4 md:grid-cols-4">
+        <c-ui.card title="Words" padding="sm">
+            <p class="text-2xl font-bold">{{ result.word_count }}</p>
+        </c-ui.card>
+
+        <c-ui.card title="Characters" padding="sm">
+            <p class="text-2xl font-bold">{{ result.character_count }}</p>
+        </c-ui.card>
+
+        <c-ui.card title="Sentences" padding="sm">
+            <p class="text-2xl font-bold">{{ result.sentence_count }}</p>
+        </c-ui.card>
+
+        <c-ui.card title="Sentiment Words" padding="sm">
+            <p class="text-2xl font-bold">
+                {{ result.positive_word_count|add:result.negative_word_count }}
+            </p>
+        </c-ui.card>
+    </div>
+
+    <c-ui.card title="Sentence-Level Analysis" subheading="DistilBERT prediction for each detected sentence.">
+        <c-ui.table>
+            <thead>
+            <tr>
+                <th>Sentence</th>
+                <th>Sentiment</th>
+                <th class="text-right">Confidence</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for sentence in result.sentence_results %}
+                <tr>
+                    <td>{{ sentence.text }}</td>
+                    <td>
+                        <c-ui.badge color="{% if sentence.label == 'POSITIVE' %}green{% else %}red{% endif %}">
+                            {{ sentence.label }}
+                        </c-ui.badge>
+                    </td>
+                    <td class="text-right">
+                        {{ sentence.score }}%
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </c-ui.table>
+    </c-ui.card>
+
+    <c-ui.card title="Keywords" subheading="Most frequent meaningful terms detected in the input.">
+        <div class="flex flex-wrap gap-2">
+            {% for keyword, count in result.keywords %}
+                <c-ui.badge color="zinc">
+                    {{ keyword }} · {{ count }}
+                </c-ui.badge>
+            {% empty %}
+                <span class="text-ink-400">No keywords detected.</span>
+            {% endfor %}
+        </div>
+    </c-ui.card>
+
+    <div class="flex gap-3">
+        <c-ui.button variant="primary" href="{% url 'analyser:home' %}">
+            Analyse Another Text
+        </c-ui.button>
+
+        <c-ui.button variant="ghost" href="{% url 'analyser:batch' %}">
+            Batch Analysis
+        </c-ui.button>
+    </div>
+{% endblock %}

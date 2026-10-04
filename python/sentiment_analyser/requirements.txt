@@ -1,0 +1,6 @@
+Django
+django-cotton-ui
+transformers
+torch
+vaderSentiment
+pandas
