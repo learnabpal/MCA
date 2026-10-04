@@ -3,7 +3,7 @@
 {% block title %}Analysis Result · Sentiment Intelligence{% endblock %}
 
 {% block content %}
-    <c-ui.card title="Analysis Result" subheading="Transformer and lexical analysis of the complete input.">
+    <c-ui.card title="Analysis Result" subheading="Sentence-level transformer and lexical analysis with aggregated model results.">
         <details>
             <summary>
                 <c-ui.badge color="{% if result.model_label == 'POSITIVE' %}green{% else %}red{% endif %}" size="lg">
@@ -16,41 +16,51 @@
         </details>
     </c-ui.card>
 
-    <div class="grid gap-4 md:grid-cols-2">
-        <c-ui.card title="DistilBERT" subheading="Primary transformer model">
+    <div class="grid gap-4 md:grid-cols-3">
+        <c-ui.card title="Ensemble" subheading="Final combined classification">
             <div class="flex items-center gap-3">
                 <c-ui.badge color="{% if result.model_label == 'POSITIVE' %}green{% else %}red{% endif %}" size="lg">
                     {{ result.model_label }}
                 </c-ui.badge>
-
                 <span class="text-2xl font-bold">
-                    {{ result.model_score }}%
-                </span>
+                   {{ result.model_score }}%
+               </span>
             </div>
-
             <p class="mt-4 text-sm text-ink-400">
-                Weighted overall confidence across {{ result.model_chunk_count }} model chunk{{ result.model_chunk_count|pluralize }}.
+                DistilBERT weighted at 60% and VADER weighted at 40%.
             </p>
         </c-ui.card>
 
-        <c-ui.card title="VADER" subheading="Independent lexical analysis">
+        <c-ui.card title="DistilBERT" subheading="Aggregated transformer result">
             <div class="flex items-center gap-3">
-                <c-ui.badge color="{% if result.vader_label == 'POSITIVE' %}green{% elif result.vader_label == 'NEGATIVE' %}red{% else %}amber{% endif %}" size="lg">
-                    {{ result.vader_label }}
+                <c-ui.badge color="{% if result.model_raw_label == 'POSITIVE' %}green{% else %}red{% endif %}" size="lg">
+                    {{ result.model_raw_label }}
                 </c-ui.badge>
-
                 <span class="text-2xl font-bold">
-                    {% if result.vader_compound >= 0 %}+{% endif %}{{ result.vader_compound }}
-                </span>
+                   {{ result.model_raw_score }}%
+               </span>
             </div>
-
             <p class="mt-4 text-sm text-ink-400">
-                Overall compound valence from -1.000 to +1.000.
+                Every sentence was analysed independently, with transformer chunks averaged before aggregation.
+            </p>
+        </c-ui.card>
+
+        <c-ui.card title="VADER" subheading="Lexical polarity analysis">
+            <div class="flex items-center gap-3">
+                <c-ui.badge color="{% if result.vader_raw_label == 'POSITIVE' %}green{% elif result.vader_raw_label == 'NEGATIVE' %}red{% else %}amber{% endif %}" size="lg">
+                    {{ result.vader_raw_label }}
+                </c-ui.badge>
+                <span class="text-2xl font-bold">
+                   {% if result.vader_compound >= 0 %}+{% endif %}{{ result.vader_compound }}
+               </span>
+            </div>
+            <p class="mt-4 text-sm text-ink-400">
+                Compound polarity calculated across the complete input, alongside independent sentence-level VADER analysis.
             </p>
         </c-ui.card>
     </div>
 
-    <c-ui.card title="VADER Sentence Distribution" subheading="{{ result.vader_sentence_count }} sentence{{ result.vader_sentence_count|pluralize }} classified independently.">
+    <c-ui.card title="VADER Sentence Distribution" subheading="{{ result.sentence_count }} sentence{{ result.sentence_count|pluralize }} classified independently.">
         <div class="grid gap-4 md:grid-cols-3">
             <c-ui.card padding="sm" variant="outline">
                 <c-ui.badge color="green">
@@ -90,14 +100,14 @@
         </div>
     </c-ui.card>
 
-    <c-ui.card title="Model Agreement" subheading="Overall classification comparison.">
+    <c-ui.card title="Model Agreement" subheading="Comparison of the aggregated model results and final ensemble.">
         {% if result.agreement %}
             <c-ui.alert type="success">
-                DistilBERT and VADER both classified the complete input as {{ result.model_label|lower }}.
+                DistilBERT, VADER sentence aggregation, and the final ensemble reached the same overall classification.
             </c-ui.alert>
         {% else %}
             <c-ui.alert type="warning">
-                DistilBERT and VADER produced different overall classifications. Review the sentence-level analysis below.
+                The models and/or ensemble produced different overall classifications. Review the sentence-level results below.
             </c-ui.alert>
         {% endif %}
     </c-ui.card>
@@ -134,12 +144,13 @@
         </c-ui.card>
     </div>
 
-    <c-ui.card title="Sentence-Level Analysis" subheading="DistilBERT and VADER results for each sentence.">
+    <c-ui.card title="Sentence-Level Analysis" subheading="Each sentence is analysed independently by DistilBERT and VADER, with the ensemble classification shown separately.">
         <c-ui.table>
             <thead>
             <tr class="text-xs">
                 <th>Sentence</th>
                 <th>DistilBERT</th>
+                <th>Ensemble</th>
                 <th>Confidence</th>
                 <th>VADER</th>
                 <th>Compound</th>
@@ -152,6 +163,12 @@
                 <tr class="text-xs">
                     <td>
                         {{ sentence.text }}
+                    </td>
+
+                    <td>
+                        <c-ui.badge color="{% if sentence.model_raw_label == 'POSITIVE' %}green{% else %}red{% endif %}">
+                            {{ sentence.model_raw_label }}
+                        </c-ui.badge>
                     </td>
 
                     <td>
@@ -171,7 +188,7 @@
                     </td>
 
                     <td>
-                        {{ sentence.vader_compound }}
+                        {% if sentence.vader_compound >= 0 %}+{% endif %}{{ sentence.vader_compound }}
                     </td>
 
                     <td>
@@ -180,7 +197,7 @@
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         No sentence-level results available.
                     </td>
                 </tr>
@@ -197,8 +214,8 @@
                 </c-ui.badge>
             {% empty %}
                 <span class="text-ink-400">
-                    No keywords detected.
-                </span>
+                   No keywords detected.
+               </span>
             {% endfor %}
         </div>
     </c-ui.card>
@@ -229,7 +246,6 @@
         <c-ui.button variant="primary" href="{% url 'analyser:home' %}">
             Analyse Another Text
         </c-ui.button>
-
         <c-ui.button variant="ghost" href="{% url 'analyser:batch' %}">
             Batch Analysis
         </c-ui.button>
