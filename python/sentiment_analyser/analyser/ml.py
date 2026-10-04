@@ -25,6 +25,9 @@ def get_vader() :
 	return SentimentIntensityAnalyzer()
 
 
+def word_count( t ) : return re.findall(r"\b[\w'-]+\b", t.lower())
+
+
 def analyse_text( text ) :
 	transformer = get_transformer()
 	vader = get_vader()
@@ -35,10 +38,23 @@ def analyse_text( text ) :
 		if sentence.strip()
 	]
 	
-	model_result = transformer(text[ :512 ], truncation = True, max_length = 512)[ 0 ]
+	model_chunks = [ ]
 	
-	model_label = model_result[ 'label' ].upper()
-	model_score = float(model_result[ 'score' ])
+	for start in range(0, len(text), 1800) :
+		chunk = text[ start :start + 1800 ]
+		model_result = transformer(chunk, truncation = True, max_length = 512)[ 0 ]
+		model_chunks.append(model_result)
+	
+	model_positive = sum(
+		float(result[ 'score' ])
+		if result[ 'label' ].upper() == 'POSITIVE'
+		else 1 - float(result[ 'score' ])
+		for result in model_chunks
+	) / len(model_chunks)
+	
+	model_negative = 1 - model_positive
+	model_label = 'POSITIVE' if model_positive >= model_negative else 'NEGATIVE'
+	model_score = max(model_positive, model_negative)
 	
 	vader_result = vader.polarity_scores(text)
 	vader_compound = float(vader_result[ 'compound' ])
@@ -50,26 +66,52 @@ def analyse_text( text ) :
 	else :
 		vader_label = 'NEUTRAL'
 	
-	agreement = model_label == vader_label
-	
 	sentence_results = [ ]
+	vader_sentence_labels = [ ]
 	
-	for sentence in sentences[ :30 ] :
+	for sentence in sentences :
 		sentence_result = transformer(
-			sentence[ :512 ],
+			sentence,
 			truncation = True,
-			max_length = 512,
+			max_length = 512
 		)[ 0 ]
+		
+		sentence_vader = vader.polarity_scores(sentence)
+		sentence_compound = float(sentence_vader[ 'compound' ])
+		
+		if sentence_compound >= 0.05 :
+			sentence_vader_label = 'POSITIVE'
+		elif sentence_compound <= -0.05 :
+			sentence_vader_label = 'NEGATIVE'
+		else :
+			sentence_vader_label = 'NEUTRAL'
+		
+		vader_sentence_labels.append(sentence_vader_label)
 		
 		sentence_results.append(
 			{
-				'text'  : sentence,
-				'label' : sentence_result[ 'label' ].upper(),
-				'score' : round(float(sentence_result[ 'score' ]) * 100, 1),
+				'text'           : sentence,
+				'label'          : sentence_result[ 'label' ].upper(),
+				'score'          : round(float(sentence_result[ 'score' ]) * 100, 1),
+				'vader_label'    : sentence_vader_label,
+				'vader_compound' : round(sentence_compound, 3),
+				'token_count'    : len(word_count(sentence)),
 			}
 		)
 	
-	words = re.findall(r"\b[\w'-]+\b", text.lower())
+	sentence_count = len(sentences)
+	
+	vader_positive_sentences = vader_sentence_labels.count('POSITIVE')
+	vader_negative_sentences = vader_sentence_labels.count('NEGATIVE')
+	vader_neutral_sentences = vader_sentence_labels.count('NEUTRAL')
+	
+	vader_positive = round(vader_positive_sentences / sentence_count * 100, 1) if sentence_count else 0
+	vader_negative = round(vader_negative_sentences / sentence_count * 100, 1) if sentence_count else 0
+	vader_neutral = round(vader_neutral_sentences / sentence_count * 100, 1) if sentence_count else 0
+	
+	agreement = model_label == vader_label
+	
+	words = word_count(text)
 	
 	stop_words = {
 		'the', 'and', 'that', 'this', 'with', 'from', 'have', 'has',
@@ -88,7 +130,7 @@ def analyse_text( text ) :
 	
 	keywords = sorted(
 		frequency.items(),
-		key = lambda item : (-item[ 1 ], item[ 0 ]),
+		key = lambda item : (-item[ 1 ], item[ 0 ])
 	)[ :15 ]
 	
 	positive_words = sum(
@@ -104,21 +146,25 @@ def analyse_text( text ) :
 	)
 	
 	return {
-		'text'                : text,
-		'model'               : 'DistilBERT SST-2',
-		'model_label'         : model_label,
-		'model_score'         : round(model_score * 100, 1),
-		'vader_label'         : vader_label,
-		'vader_compound'      : round(vader_compound, 3),
-		'vader_positive'      : round(vader_result[ 'pos' ] * 100, 1),
-		'vader_negative'      : round(vader_result[ 'neg' ] * 100, 1),
-		'vader_neutral'       : round(vader_result[ 'neu' ] * 100, 1),
-		'agreement'           : agreement,
-		'sentence_results'    : sentence_results,
-		'keywords'            : keywords,
-		'word_count'          : len(words),
-		'character_count'     : len(text),
-		'sentence_count'      : len(sentences),
-		'positive_word_count' : positive_words,
-		'negative_word_count' : negative_words,
+		'text'                     : text,
+		'model'                    : 'DistilBERT SST-2',
+		'model_label'              : model_label,
+		'model_score'              : round(model_score * 100, 1),
+		'vader_label'              : vader_label,
+		'vader_compound'           : round(vader_compound, 3),
+		'vader_positive'           : vader_positive,
+		'vader_negative'           : vader_negative,
+		'vader_neutral'            : vader_neutral,
+		'vader_positive_sentences' : vader_positive_sentences,
+		'vader_negative_sentences' : vader_negative_sentences,
+		'vader_neutral_sentences'  : vader_neutral_sentences,
+		'agreement'                : agreement,
+		'sentence_results'         : sentence_results,
+		'keywords'                 : keywords,
+		'word_count'               : len(words),
+		'character_count'          : len(text),
+		'sentence_count'           : sentence_count,
+		'positive_word_count'      : positive_words,
+		'negative_word_count'      : negative_words,
+		'model_chunk_count'        : len(model_chunks),
 	}
