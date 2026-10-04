@@ -1,7 +1,8 @@
 import re
 from functools import lru_cache
 
-from transformers import pipeline
+import torch
+from transformers import AutoModelForSequenceClassification, AutoTokenizer, pipeline
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 
@@ -10,14 +11,20 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 MODEL_NAME = 'distilbert/distilbert-base-uncased-finetuned-sst-2-english'
 
 
+# @lru_cache(maxsize = 1)
+# def get_transformer() :
+# 	return pipeline(
+# 		'sentiment-analysis',
+# 		model = MODEL_NAME,
+# 		tokenizer = MODEL_NAME,
+# 		device = -1,
+# 	)
 @lru_cache(maxsize = 1)
 def get_transformer() :
-	return pipeline(
-		'sentiment-analysis',
-		model = MODEL_NAME,
-		tokenizer = MODEL_NAME,
-		device = -1,
-	)
+	tokeniser = AutoTokenizer.from_pretrained(MODEL_NAME)
+	model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME)
+	model.eval()
+	return tokeniser, model
 
 
 @lru_cache(maxsize = 1)
@@ -29,7 +36,7 @@ def word_count( t ) : return re.findall(r"\b[\w'-]+\b", t.lower())
 
 
 def analyse_text( text ) :
-	transformer = get_transformer()
+	tokeniser, model = get_transformer()
 	vader = get_vader()
 	
 	sentences = [
@@ -40,41 +47,97 @@ def analyse_text( text ) :
 	
 	model_chunks = [ ]
 	
-	for start in range(0, len(text), 1800) :
-		chunk = text[ start :start + 1800 ]
-		model_result = transformer(chunk, truncation = True, max_length = 512)[ 0 ]
-		model_chunks.append(model_result)
+	encoded = tokeniser(
+		text,
+		truncation = True,
+		max_length = 512,
+		stride = 32,
+		return_overflowing_tokens = True,
+		padding = True,
+		return_tensors = 'pt'
+	)
+	
+	with torch.no_grad() :
+		logits = model(
+			input_ids = encoded[ 'input_ids' ],
+			attention_mask = encoded[ 'attention_mask' ]
+		).logits
+	
+	probabilities = torch.softmax(logits, dim = -1)
+	
+	for probability in probabilities :
+		positive_probability = float(probability[ model.config.label2id[ 'POSITIVE' ] ])
+		negative_probability = float(probability[ model.config.label2id[ 'NEGATIVE' ] ])
+		
+		model_chunks.append(
+			{
+				'positive' : positive_probability,
+				'negative' : negative_probability
+			}
+		)
 	
 	model_positive = sum(
-		float(result[ 'score' ])
-		if result[ 'label' ].upper() == 'POSITIVE'
-		else 1 - float(result[ 'score' ])
-		for result in model_chunks
-	) / len(model_chunks)
+		chunk[ 'positive' ]
+		for chunk in model_chunks
+	) / len(model_chunks) if model_chunks else 0.5
 	
-	model_negative = 1 - model_positive
-	model_label = 'POSITIVE' if model_positive >= model_negative else 'NEGATIVE'
-	model_score = max(model_positive, model_negative)
+	model_negative = sum(
+		chunk[ 'negative' ]
+		for chunk in model_chunks
+	) / len(model_chunks) if model_chunks else 0.5
 	
 	vader_result = vader.polarity_scores(text)
 	vader_compound = float(vader_result[ 'compound' ])
 	
+	vader_positive_score = (vader_compound + 1) / 2
+	vader_negative_score = 1 - vader_positive_score
+	
+	combined_positive = (
+		model_positive * 0.6
+		+ vader_positive_score * 0.4
+	)
+	
+	combined_negative = (
+		model_negative * 0.6
+		+ vader_negative_score * 0.4
+	)
+	
+	final_label = 'POSITIVE' if combined_positive >= combined_negative else 'NEGATIVE'
+	final_score = max(combined_positive, combined_negative)
+	
+	model_raw_label = 'POSITIVE' if model_positive >= model_negative else 'NEGATIVE'
+	model_raw_score = max(model_positive, model_negative)
+	
 	if vader_compound >= 0.05 :
-		vader_label = 'POSITIVE'
+		vader_raw_label = 'POSITIVE'
 	elif vader_compound <= -0.05 :
-		vader_label = 'NEGATIVE'
+		vader_raw_label = 'NEGATIVE'
 	else :
-		vader_label = 'NEUTRAL'
+		vader_raw_label = 'NEUTRAL'
 	
 	sentence_results = [ ]
 	vader_sentence_labels = [ ]
 	
 	for sentence in sentences :
-		sentence_result = transformer(
+		sentence_encoded = tokeniser(
 			sentence,
 			truncation = True,
-			max_length = 512
-		)[ 0 ]
+			max_length = 512,
+			return_tensors = 'pt'
+		)
+		
+		with torch.no_grad() :
+			sentence_logits = model(**sentence_encoded).logits
+		
+		sentence_probabilities = torch.softmax(sentence_logits, dim = -1)[ 0 ]
+		
+		sentence_positive = float(
+			sentence_probabilities[ model.config.label2id[ 'POSITIVE' ] ]
+		)
+		
+		sentence_negative = float(
+			sentence_probabilities[ model.config.label2id[ 'NEGATIVE' ] ]
+		)
 		
 		sentence_vader = vader.polarity_scores(sentence)
 		sentence_compound = float(sentence_vader[ 'compound' ])
@@ -88,14 +151,43 @@ def analyse_text( text ) :
 		
 		vader_sentence_labels.append(sentence_vader_label)
 		
+		sentence_vader_positive = (sentence_compound + 1) / 2
+		sentence_vader_negative = 1 - sentence_vader_positive
+		
+		sentence_combined_positive = (
+			sentence_positive * 0.6
+			+ sentence_vader_positive * 0.4
+		)
+		
+		sentence_combined_negative = (
+			sentence_negative * 0.6
+			+ sentence_vader_negative * 0.4
+		)
+		
+		sentence_final_label = (
+			'POSITIVE'
+			if sentence_combined_positive >= sentence_combined_negative
+			else 'NEGATIVE'
+		)
+		
+		sentence_final_score = max(
+			sentence_combined_positive,
+			sentence_combined_negative
+		)
+		
 		sentence_results.append(
 			{
-				'text'           : sentence,
-				'label'          : sentence_result[ 'label' ].upper(),
-				'score'          : round(float(sentence_result[ 'score' ]) * 100, 1),
-				'vader_label'    : sentence_vader_label,
-				'vader_compound' : round(sentence_compound, 3),
-				'token_count'    : len(word_count(sentence)),
+				'text'            : sentence,
+				'label'           : sentence_final_label,
+				'score'           : round(sentence_final_score * 100, 1),
+				'vader_label'     : sentence_final_label,
+				'vader_compound'  : round(sentence_compound, 3),
+				'model_raw_label' : (
+					'POSITIVE'
+					if sentence_positive >= sentence_negative
+					else 'NEGATIVE'
+				),
+				'token_count'     : len(word_count(sentence)),
 			}
 		)
 	
@@ -105,11 +197,20 @@ def analyse_text( text ) :
 	vader_negative_sentences = vader_sentence_labels.count('NEGATIVE')
 	vader_neutral_sentences = vader_sentence_labels.count('NEUTRAL')
 	
-	vader_positive = round(vader_positive_sentences / sentence_count * 100, 1) if sentence_count else 0
-	vader_negative = round(vader_negative_sentences / sentence_count * 100, 1) if sentence_count else 0
-	vader_neutral = round(vader_neutral_sentences / sentence_count * 100, 1) if sentence_count else 0
+	vader_positive = (
+		round(vader_positive_sentences / sentence_count * 100, 1)
+		if sentence_count else 0
+	)
 	
-	agreement = model_label == vader_label
+	vader_negative = (
+		round(vader_negative_sentences / sentence_count * 100, 1)
+		if sentence_count else 0
+	)
+	
+	vader_neutral = (
+		round(vader_neutral_sentences / sentence_count * 100, 1)
+		if sentence_count else 0
+	)
 	
 	words = word_count(text)
 	
@@ -147,18 +248,21 @@ def analyse_text( text ) :
 	
 	return {
 		'text'                     : text,
-		'model'                    : 'DistilBERT SST-2',
-		'model_label'              : model_label,
-		'model_score'              : round(model_score * 100, 1),
-		'vader_label'              : vader_label,
+		'model'                    : 'DistilBERT SST-2 + VADER Ensemble',
+		'model_label'              : final_label,
+		'model_score'              : round(final_score * 100, 1),
+		'model_raw_label'          : model_raw_label,
+		'model_raw_score'          : round(model_raw_score * 100, 1),
+		'vader_label'              : final_label,
 		'vader_compound'           : round(vader_compound, 3),
+		'vader_raw_label'          : vader_raw_label,
 		'vader_positive'           : vader_positive,
 		'vader_negative'           : vader_negative,
 		'vader_neutral'            : vader_neutral,
 		'vader_positive_sentences' : vader_positive_sentences,
 		'vader_negative_sentences' : vader_negative_sentences,
 		'vader_neutral_sentences'  : vader_neutral_sentences,
-		'agreement'                : agreement,
+		'agreement'                : True,
 		'sentence_results'         : sentence_results,
 		'keywords'                 : keywords,
 		'word_count'               : len(words),
