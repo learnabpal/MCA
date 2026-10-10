@@ -1,38 +1,13 @@
 "use client";
-import { APP_NAME } from "@/app/(public)/layout";
+import { APP_NAME, EcoOutlined, FEATURES } from "@/app/AbicioMaster";
 import ArrowForwardRounded from "@mui/icons-material/ArrowForwardRounded";
 import BiotechOutlined from "@mui/icons-material/BiotechOutlined";
-import CameraAltOutlined from "@mui/icons-material/CameraAltOutlined";
-import EcoOutlined from "@mui/icons-material/EnergySavingsLeafOutlined";
-import RecyclingOutlined from "@mui/icons-material/RecyclingOutlined";
-import ShieldOutlined from "@mui/icons-material/ShieldOutlined";
 import SpaOutlined from "@mui/icons-material/SpaOutlined";
 import { Box, Button, Card, CardContent, Chip, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
 
 
-
-const FEATURES = [
-	  {
-			 title: "Detect mixed waste",
-			 description: "Identify multiple visible waste items in one photograph and view their predicted locations.",
-			 icon: <CameraAltOutlined/>,
-			 colour: "success" as const
-	  },
-	  {
-			 title: "Get practical guidance",
-			 description: "Turn detected labels into segregation, reuse, recycling and disposal suggestions.",
-			 icon: <RecyclingOutlined/>,
-			 colour: "info" as const
-	  },
-	  {
-			 title: "Keep hazardous items separate",
-			 description: "Surface special handling guidance for batteries and other waste that should not enter mixed household waste.",
-			 icon: <ShieldOutlined/>,
-			 colour: "warning" as const
-	  }
-];
 
 export default function HomePage() {
 	  return <Stack spacing={ { xs: 4, md: 6 } }>

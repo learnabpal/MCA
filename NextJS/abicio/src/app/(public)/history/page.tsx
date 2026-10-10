@@ -1,8 +1,7 @@
 "use client";
 import { WasteHistoryRecord } from "@/ai/WasteMaster";
-import { formatTimestamp, HISTORY_KEY } from "@/app/(public)/layout";
+import { formatTimestamp, HISTORY_KEY, HistoryOutlined } from "@/app/AbicioMaster";
 import DeleteSweepOutlined from "@mui/icons-material/DeleteSweepOutlined";
-import HistoryOutlined from "@mui/icons-material/HistoryOutlined";
 import { Alert, Box, Button, Card, CardContent, Chip, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";

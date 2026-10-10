@@ -1,11 +1,7 @@
 "use client";
+import { APP_NAME, APP_TAGLINE, NAV_ITEMS } from "@/app/AbicioMaster";
 import { AppThemeModeToggleButton } from "@/components/mui/apx/tsx/AppThemeModeProvider";
-import { DateTimeFormatter, Instant, ZoneId } from "@js-joda/core";
-import { Locale } from "@js-joda/locale_en";
-import EcoOutlined from "@mui/icons-material/EnergySavingsLeafOutlined";
-import HistoryOutlined from "@mui/icons-material/HistoryOutlined";
 import RecyclingOutlined from "@mui/icons-material/RecyclingOutlined";
-import TravelExploreOutlined from "@mui/icons-material/TravelExploreOutlined";
 import { AppBar, Box, Button, Container, Stack, Toolbar, Typography } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import Link from "next/link";
@@ -13,32 +9,6 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 
-
-
-export const NAV_ITEMS = {
-	  overview: {
-			 label: "Overview",
-			 href: "/",
-			 icon: <EcoOutlined fontSize={ "small" }/>
-	  },
-	  analyse: {
-			 label: "Analyse Waste",
-			 href: "/analyse",
-			 icon: <TravelExploreOutlined fontSize={ "small" }/>
-	  },
-	  history: {
-			 label: "History",
-			 href: "/history",
-			 icon: <HistoryOutlined fontSize={ "small" }/>
-	  }
-} as const;
-
-export const APP_NAME = "Abicio";
-export const APP_TAGLINE = "Waste Intelligence";
-export const HISTORY_KEY = "abicio-analysis-history";
-export const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
-export const DATE_FORMAT = DateTimeFormatter.ofPattern("d MMM yyyy, HH:mm", Locale.ENGLISH);
-export const formatTimestamp = (at: string) => Instant.parse(at).atZone(ZoneId.systemDefault()).format(DATE_FORMAT);
 
 
 export default function PublicLayout({ children }: Readonly<{ children: React.ReactNode }>) {

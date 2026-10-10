@@ -1,12 +1,11 @@
 "use client";
 import { detectWaste } from "@/ai/WasteDetector";
 import { WASTE_COLOURS, WASTE_GUIDANCE, WasteDetection, WasteHistoryRecord } from "@/ai/WasteMaster";
-import { APP_NAME, HISTORY_KEY, MAX_IMAGE_BYTES } from "@/app/(public)/layout";
+import { APP_NAME, HISTORY_KEY, MAX_IMAGE_BYTES, RecyclingOutlined } from "@/app/AbicioMaster";
 import AddPhotoAlternateOutlined from "@mui/icons-material/AddPhotoAlternateOutlined";
 import CameraAltOutlined from "@mui/icons-material/CameraAltOutlined";
 import DeleteOutlineOutlined from "@mui/icons-material/DeleteOutlineOutlined";
 import ImageSearchOutlined from "@mui/icons-material/ImageSearchOutlined";
-import RecyclingOutlined from "@mui/icons-material/RecyclingOutlined";
 import { Alert, Box, Button, Card, CardContent, Chip, Divider, LinearProgress, Paper, Stack, Typography } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import React from "react";
@@ -250,8 +249,10 @@ export default function AnalysePage() {
 																		  <Divider/>
 																		  <Typography variant={ "subtitle1" }>{ destination }</Typography>
 																		  <Typography color={ "text.secondary" }>{ action }</Typography>
-																		  <Alert severity={ category === "Hazardous" ? "warning" : "info" } icon={ <RecyclingOutlined/> }>
-																				 { caution }</Alert></Stack></CardContent></Card>;
+																		  <Alert severity={ category === "Hazardous" ? "warning" : "info" } icon={ <RecyclingOutlined/> }>{ caution }</Alert>
+																	</Stack>
+															 </CardContent>
+													  </Card>;
 												}) }
 										 </Stack>
 							  }
