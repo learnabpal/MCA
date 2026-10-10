@@ -1,3 +1,4 @@
+import { APP_NAME } from "@/app/AbicioMaster";
 import * as ort from "onnxruntime-web";
 import { WASTE_CLASSES, type WasteBox, type WasteClass, type WasteDetection } from "./WasteMaster";
 
@@ -11,20 +12,21 @@ const WASTE_MODEL_CONFIG = {
 } as const;
 
 let wasteSessionPromise: Promise<ort.InferenceSession> | null = null;
+let wasteInferenceQueue: Promise<void> = Promise.resolve();
 
 export const loadWasteModel = (): Promise<ort.InferenceSession> => {
-	  if (typeof window === "undefined") return Promise.reject(new Error("Abicio inference must run in the browser."));
+	  if (typeof window === "undefined") return Promise.reject(new Error(APP_NAME + " inference must run in the browser."));
 	  if (wasteSessionPromise !== null) return wasteSessionPromise;
 	  const supportsWebGPU = typeof navigator !== "undefined" && Reflect.get(navigator, "gpu") !== undefined;
 	  const createSession = (useWebGPU: boolean): Promise<ort.InferenceSession> => ort.InferenceSession.create(WASTE_MODEL_CONFIG.modelUrl, { executionProviders: useWebGPU ? [ "webgpu", "wasm" ] : [ "wasm" ], graphOptimizationLevel: "all" });
 	  wasteSessionPromise = createSession(supportsWebGPU).then((session) => session, (initialError: unknown) => {
 			 if (supportsWebGPU === false) {
 					wasteSessionPromise = null;
-					return Promise.reject(new Error(`Could not load Abicio's ONNX model. Check that ${ WASTE_MODEL_CONFIG.modelUrl } exists and is valid. ${ String(initialError) }`));
+					return Promise.reject(new Error(`Could not load ${ APP_NAME }'s ONNX model. Check that ${ WASTE_MODEL_CONFIG.modelUrl } exists and is valid. ${ String(initialError) }`));
 			 }
 			 return createSession(false).then((session) => session, (fallbackError: unknown) => {
 					wasteSessionPromise = null;
-					return Promise.reject(new Error(`Abicio could not load its ONNX model with WebGPU or WASM. Check the model file and ONNX Runtime assets. ${ String(fallbackError) }`));
+					return Promise.reject(new Error(`${ APP_NAME } could not load its ONNX model with WebGPU or WASM. Check the model file and ONNX Runtime assets. ${ String(fallbackError) }`));
 			 });
 	  });
 	  return wasteSessionPromise;
@@ -32,7 +34,7 @@ export const loadWasteModel = (): Promise<ort.InferenceSession> => {
 
 
 export const detectWaste = (source: HTMLImageElement | HTMLCanvasElement | ImageBitmap): Promise<WasteDetection[]> => {
-	  if (typeof window === "undefined") return Promise.reject(new Error("Abicio detection must run in the browser."));
+	  if (typeof window === "undefined") return Promise.reject(new Error(APP_NAME + " detection must run in the browser."));
 	  return loadWasteModel().then((session) => {
 			 const sourceWidth = source instanceof HTMLImageElement ? source.naturalWidth : source.width;
 			 const sourceHeight = source instanceof HTMLImageElement ? source.naturalHeight : source.height;
@@ -67,7 +69,9 @@ export const detectWaste = (source: HTMLImageElement | HTMLCanvasElement | Image
 			 const scaleX = resizedWidth / sourceWidth;
 			 const scaleY = resizedHeight / sourceHeight;
 			 const clamp = (value: number, min: number, max: number): number => Math.max(min, Math.min(max, value));
-			 return session.run({ [inputName]: inputTensor }).then((outputs) => {
+			 const inferencePromise = wasteInferenceQueue.then(() => session.run({ [inputName]: inputTensor }));
+			 wasteInferenceQueue = inferencePromise.then(() => undefined, () => undefined);
+			 return inferencePromise.then((outputs) => {
 					const outputName = session.outputNames[0];
 					if (outputName === undefined || outputs[outputName] === undefined) throw new Error("The ONNX model did not return a detection tensor.");
 					const output = outputs[outputName];

@@ -61,7 +61,7 @@ export default function HistoryPage() {
 														 <Typography variant={ "h6" } sx={ { overflowWrap: "anywhere" } }>{ record.fileName }</Typography>
 														 <Typography variant={ "body2" } color={ "text.secondary" }>{ formatTimestamp(record.analysedAt) }</Typography>
 												  </Box>
-												  <Chip color={ record.detections.length > 0 ? "success" : "default" } label={ `${ record.detections.length } detection${ record.detections.length === 1 ? "" : "s" }` }/>
+												  <Chip variant={ "outlined" } color={ record.detections.length > 0 ? "success" : "default" } label={ `${ record.detections.length } detection${ record.detections.length === 1 ? "" : "s" }` }/>
 											</Box>
 												  { record.detections.length === 0 ? <Alert severity={ "info" }>{ "No objects exceeded the confidence threshold." }</Alert>
 															 :
@@ -73,8 +73,7 @@ export default function HistoryPage() {
 												  }
 											</Stack>
 									 </CardContent>
-							  </Card>
-										 ;
+							  </Card>;
 						}) }
 						</Stack>
 			 }

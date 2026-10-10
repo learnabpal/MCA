@@ -49,18 +49,18 @@ export const FEATURES = [
 			 title: "Detect mixed waste",
 			 description: "Identify multiple visible waste items in one photograph and view their predicted locations.",
 			 icon: <CameraAltOutlined/>,
-			 colour: "success" as const
+			 // colour: "success" as const
 	  },
 	  {
 			 title: "Get practical guidance",
 			 description: "Turn detected labels into segregation, reuse, recycling and disposal suggestions.",
 			 icon: <RecyclingOutlined/>,
-			 colour: "info" as const
+			 // colour: "info" as const
 	  },
 	  {
 			 title: "Keep hazardous items separate",
 			 description: "Surface special handling guidance for batteries and other waste that should not enter mixed household waste.",
 			 icon: <ShieldOutlined/>,
-			 colour: "warning" as const
+			 // colour: "warning" as const
 	  }
 ];

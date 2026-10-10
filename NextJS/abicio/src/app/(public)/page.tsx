@@ -58,7 +58,7 @@ export default function HomePage() {
 									 <Grid key={ feature.title } size={ { xs: 12, md: 4 } }>
 											<Card sx={ { height: "100%" } }><CardContent sx={ { p: 3 } }>
 												  <Stack spacing={ 2 }>
-														 <Box sx={ { display: "grid", placeItems: "center", width: 48, height: 48, borderRadius: 2, bgcolor: `${ feature.colour }.dark`, color: "common.white" } }>
+														 <Box sx={ { display: "grid", placeItems: "center", width: 48, height: 48, borderRadius: 2, bgcolor: `primary.main`, color: "background.default" } }>
 																{ feature.icon }
 														 </Box>
 														 <Typography variant={ "h5" }>{ `${ String(index + 1).padStart(2, "0") } · ${ feature.title }` }</Typography>
@@ -77,7 +77,7 @@ export default function HomePage() {
 										<BiotechOutlined sx={ { fontSize: 30 } }/>
 								 </Box>
 								 <Box sx={ { flex: 1 } }>
-										<Typography variant={ "h5" }>{ "Browser - based AI inference" }</Typography>
+										<Typography variant={ "h5" }>{ "Browser-based AI inference" }</Typography>
 										<Typography color={ "text.secondary" } sx={ { mt: 0.5 } }>{ "The waste detector runs in the browser with ONNX Runtime Web. Photos do not need to be uploaded to a separate Python inference server." }</Typography>
 								 </Box>
 								 <Button component={ Link } href={ NAV_ITEMS.analyse.href } endIcon={ <ArrowForwardRounded/> } sx={ { flexShrink: 0 } }>{ "Try " + APP_NAME }</Button>
