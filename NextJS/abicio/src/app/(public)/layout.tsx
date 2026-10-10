@@ -15,7 +15,7 @@ import React from "react";
 
 function Branding() {
 	  return (
-				 <Box component={ Link } href={ "/" } gap={ 1 } sx={ { whiteSpace: "nowrap", display: "flex", alignItems: "center", color: "inherit", textDecoration: "none", mr: { xs: "auto" } } }>
+				 <Box component={ Link } href={ "/" } gap={ 1 } sx={ { whiteSpace: "nowrap", display: "flex", alignItems: "center", color: "inherit", textDecoration: "none" } }>
 						<Image src={ AppIcon } alt={ APP_NAME } height={ 48 } width={ 48 }/>
 						<Stack>
 							  <Typography variant={ "h5" }>{ APP_NAME }</Typography>
@@ -35,12 +35,14 @@ export default function PublicLayout({ children }: Readonly<{ children: React.Re
 				 <Box sx={ { minHeight: "100vh", bgcolor: "background.default", color: "text.primary" } }>
 						<AppBar
 								  position={ "sticky" } color={ "transparent" } elevation={ 0 }
-								  sx={ { borderBottom: 1, borderColor: "divider", bgcolor: alpha(theme.palette.background.paper, 0.90), backdropFilter: "blur(6px)" } }>
+								  sx={ { borderBottom: 1, borderColor: "divider", bgcolor: alpha(theme.palette.background.paper, 0.90), backdropFilter: "blur(6px)" } }
+						>
 							  <Container maxWidth={ "lg" } disableGutters={ true }>
-									 <Toolbar sx={ { minHeight: 64, p: 2, gap: 2 } }>
+									 <Toolbar sx={ { minHeight: 64, px: 2, py: 1, gap: 2 } }>
 											<Branding/>
+											<Box sx={ { flexGrow: 1 } }/>
 											<AppThemeModeToggleButton/>
-											<IconButton aria-label={ "Open navigation menu" } onClick={ () => setMenuOpen(true) } color={ "inherit" } size={ "large" }>
+											<IconButton aria-label={ "Open navigation menu" } onClick={ () => setMenuOpen(true) } color={ "inherit" }>
 												  <MenuOutlined/>
 											</IconButton>
 									 </Toolbar>
