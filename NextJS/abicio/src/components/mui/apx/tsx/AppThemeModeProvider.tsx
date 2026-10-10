@@ -16,7 +16,6 @@ import React from "react";
 export type ThemeMode = "dark" | "light";
 
 
-
 const createAppTheme = (mode: ThemeMode): Theme => {
 	  const isDark = mode === "dark";
 	  const primary = isDark ? green[400] : green[800];
@@ -47,6 +46,9 @@ const createAppTheme = (mode: ThemeMode): Theme => {
 					h4: { fontSize: 23, fontWeight: 800 },
 					h5: { fontSize: 19, fontWeight: 800 },
 					h6: { fontSize: 16, fontWeight: 800 },
+					caption: { fontFamily: `"Roboto Condensed", "Arial", sans-serif`, fontWeight: 600, letterSpacing: 0.5 },
+					body1: { fontFamily: `"Roboto Condensed", "Arial", sans-serif`, fontWeight: 400 },
+					body2: { fontFamily: `"Roboto Condensed", "Arial", sans-serif`, fontSize: 12 },
 					subtitle1: { fontSize: 15, fontWeight: 600 }
 			 },
 			 shape: { borderRadius: 3 },

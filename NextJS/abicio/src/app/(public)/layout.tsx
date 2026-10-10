@@ -1,5 +1,5 @@
 "use client";
-import { APP_NAME, APP_TAGLINE, NAV_ITEMS } from "@/app/AbicioMaster";
+import { APP_NAME, APP_TAGLINE, AppIcon, NAV_ITEMS } from "@/app/AbicioMaster";
 import { AppThemeModeToggleButton } from "@/components/mui/apx/tsx/AppThemeModeProvider";
 import RecyclingOutlined from "@mui/icons-material/RecyclingOutlined";
 import { AppBar, Box, Button, Container, Stack, Toolbar, Typography } from "@mui/material";
@@ -7,7 +7,7 @@ import { alpha, useTheme } from "@mui/material/styles";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-
+import Image from "next/image";
 
 
 
@@ -23,13 +23,11 @@ export default function PublicLayout({ children }: Readonly<{ children: React.Re
 							  <Container maxWidth={ "lg" } disableGutters={ true }>
 									 <Toolbar sx={ { minHeight: { xs: 68, sm: 76 }, px: { xs: 2, sm: 3 }, gap: 2 } }>
 											<Box component={ Link } href={ "/" } gap={ 1 } sx={ { display: "flex", alignItems: "center", color: "inherit", textDecoration: "none", mr: { xs: "auto", md: 2 } } }>
-												  <Box sx={ { display: "grid", placeItems: "center", width: 48, height: 48, borderRadius: 2, bgcolor: "primary.main", color: "primary.contrastText" } }>
-														 <RecyclingOutlined fontSize={ "large" }/>
-												  </Box>
-												  <Box>
+												  <Image src={ AppIcon } alt={ APP_NAME } height={ 48 } width={ 48 }/>
+												  <Stack>
 														 <Typography variant={ "h5" }>{ APP_NAME }</Typography>
 														 <Typography variant={ "caption" } color={ "text.secondary" }>{ APP_TAGLINE }</Typography>
-												  </Box>
+												  </Stack>
 											</Box>
 											<Stack direction={ "row" } spacing={ 0.5 } sx={ { display: { xs: "none", sm: "flex" } } }>
 												  { items.map((item) =>

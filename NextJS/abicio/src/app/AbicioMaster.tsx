@@ -1,3 +1,4 @@
+import AppIcon from "@/app/android-chrome-512x512.png";
 import { DateTimeFormatter, Instant, ZoneId } from "@js-joda/core";
 import { Locale } from "@js-joda/locale_en";
 import CameraAltOutlined from "@mui/icons-material/CameraAltOutlined";
@@ -12,6 +13,7 @@ import React from "react";
 
 
 export {
+	  AppIcon,
 	  EcoOutlined, HistoryOutlined, RecyclingOutlined,
 	  ShieldOutlined, TravelExploreOutlined
 };
