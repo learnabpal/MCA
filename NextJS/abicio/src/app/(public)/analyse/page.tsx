@@ -1,7 +1,7 @@
 "use client";
 import { detectWaste } from "@/ai/WasteDetector";
 import { WASTE_COLOURS, WASTE_GUIDANCE, WasteDetection, WasteHistoryRecord } from "@/ai/WasteMaster";
-import { HISTORY_KEY, MAX_IMAGE_BYTES } from "@/app/(public)/layout";
+import { APP_NAME, HISTORY_KEY, MAX_IMAGE_BYTES } from "@/app/(public)/layout";
 import AddPhotoAlternateOutlined from "@mui/icons-material/AddPhotoAlternateOutlined";
 import CameraAltOutlined from "@mui/icons-material/CameraAltOutlined";
 import DeleteOutlineOutlined from "@mui/icons-material/DeleteOutlineOutlined";
@@ -63,13 +63,17 @@ export default function AnalysePage() {
 					detectWaste(image).then((result) => {
 						  setDetections(result);
 						  setStatus("complete");
-						  const record: WasteHistoryRecord = { id: `${ Date.now() }-${ Math.random().toString(36).slice(2, 8) }`, analysedAt: new Date().toISOString(), fileName: selectedFile.name, detections: result.map((item) => ({ label: item.label, confidence: item.confidence })) };
+						  const record: WasteHistoryRecord = {
+								 id: `${ Date.now() }-${ Math.random().toString(36).slice(2, 8) }`,
+								 analysedAt: new Date().toISOString(),
+								 fileName: selectedFile.name, detections: result.map((item) => ({ label: item.label, confidence: item.confidence }))
+						  };
 						  try {
 								 const existing = JSON.parse(window.localStorage.getItem(HISTORY_KEY) ?? "[]") as WasteHistoryRecord[];
 								 const history = Array.isArray(existing) ? existing : [];
 								 window.localStorage.setItem(HISTORY_KEY, JSON.stringify([ record, ...history ].slice(0, 50)));
 						  } catch (storageError) {
-								 console.warn("Abicio could not save analysis history.", storageError);
+								 console.warn(APP_NAME + " could not save analysis history.", storageError);
 						  }
 					}, (inferenceError: unknown) => {
 						  setStatus("idle");
@@ -97,7 +101,9 @@ export default function AnalysePage() {
 			 <Box>
 					<Typography variant={ "overline" } color={ "success.main" } sx={ { fontWeight: 900, letterSpacing: "0.12em" } }>{ "WASTE ANALYSIS" }</Typography>
 					<Typography variant={ "h2" } sx={ { mt: 0.5 } }>{ "Analyse a photograph" }</Typography>
-					<Typography color={ "text.secondary" } sx={ { mt: 1, maxWidth: 760, lineHeight: 1.7 } }>{ "Upload a photograph of one or more waste items. Abicio runs its detector in your browser and displays its predictions with practical handling guidance." }</Typography>
+					<Typography color={ "text.secondary" } sx={ { mt: 1, maxWidth: 760, lineHeight: 1.7 } }>
+						  { "Upload a photograph of one or more waste items. " }{ APP_NAME }{ " runs its detector in your browser and displays its predictions with practical handling guidance." }
+					</Typography>
 			 </Box>
 			 <input
 						ref={ fileInputRef } type={ "file" } accept={ "image/*" } hidden={ true }
@@ -113,25 +119,29 @@ export default function AnalysePage() {
 							  event.target.value = "";
 						} }
 			 />
-			 <Paper variant={ "outlined" }
-					  onDragEnter={ (event) => {
-							 event.preventDefault();
-							 setDragging(true);
-					  } }
-					  onDragOver={ (event) => {
-							 event.preventDefault();
-							 setDragging(true);
-					  } }
-					  onDragLeave={ (event) => {
-							 event.preventDefault();
-							 setDragging(false);
-					  } }
-					  onDrop={ (event) => {
-							 event.preventDefault();
-							 setDragging(false);
-							 acceptFile(event.dataTransfer.files?.[0]);
-					  } }
-					  sx={ { p: { xs: 2, sm: 3 }, borderStyle: "dashed", borderWidth: 2, borderColor: dragging ? "success.main" : "divider", bgcolor: dragging ? alpha(theme.palette.success.main, 0.08) : "background.paper", transition: "border-color 160ms ease, background-color 160ms ease" } }
+			 <Paper
+						variant={ "outlined" }
+						onDragEnter={ (event) => {
+							  event.preventDefault();
+							  setDragging(true);
+						} }
+						onDragOver={ (event) => {
+							  event.preventDefault();
+							  setDragging(true);
+						} }
+						onDragLeave={ (event) => {
+							  event.preventDefault();
+							  setDragging(false);
+						} }
+						onDrop={ (event) => {
+							  event.preventDefault();
+							  setDragging(false);
+							  acceptFile(event.dataTransfer.files?.[0]);
+						} }
+						sx={ {
+							  p: { xs: 2, sm: 3 }, borderStyle: "dashed", borderWidth: 2, borderColor: dragging ? "success.main" : "divider",
+							  bgcolor: dragging ? alpha(theme.palette.success.main, 0.08) : "background.paper", transition: "border-color 160ms ease, background-color 160ms ease"
+						} }
 			 >
 					<Stack spacing={ 2 } alignItems={ "center" } sx={ { py: { xs: 2, sm: 3 }, textAlign: "center" } }>
 						  <Box sx={ { display: "grid", placeItems: "center", width: 64, height: 64, borderRadius: 3, bgcolor: "rgba(76,175,80,0.14)", color: "success.main" } }>
@@ -225,23 +235,23 @@ export default function AnalysePage() {
 										 :
 										 <Stack spacing={ 2 }>
 												{ detections.map((item, index) => {
-													  const guidance = WASTE_GUIDANCE[item.label];
-													  const categoryColour = WASTE_COLOURS[guidance.category];
+													  const { category, destination, action, caution } = WASTE_GUIDANCE[item.label];
+													  const categoryColour = WASTE_COLOURS[category];
 													  return <Card key={ `${ item.classId }-${ index }` }>
 															 <CardContent sx={ { p: 2.5 } }>
 																	<Stack spacing={ 1.5 }>
 																		  <Stack direction={ { xs: "column", sm: "row" } } alignItems={ { xs: "flex-start", sm: "center" } } justifyContent={ "space-between" } spacing={ 1 }>
 																				 <Stack direction={ "row" } spacing={ 1 } alignItems={ "center" } flexWrap={ "wrap" }>
 																						<Typography variant={ "h6" } sx={ { textTransform: "capitalize" } }>{ item.label.replaceAll("-", " ") }</Typography>
-																						<Chip size={ "small" } color={ categoryColour } label={ guidance.category }/>
+																						<Chip size={ "small" } color={ categoryColour } label={ category }/>
 																				 </Stack>
 																				 <Chip variant={ "outlined" } label={ `${ Math.round(item.confidence * 100) }% confidence` }/>
 																		  </Stack>
 																		  <Divider/>
-																		  <Typography variant={ "subtitle1" }>{ guidance.destination }</Typography>
-																		  <Typography color={ "text.secondary" }>{ guidance.action }</Typography>
-																		  <Alert severity={ guidance.category === "Hazardous" ? "warning" : "info" } icon={ <RecyclingOutlined/> }>
-																				 { guidance.caution }</Alert></Stack></CardContent></Card>;
+																		  <Typography variant={ "subtitle1" }>{ destination }</Typography>
+																		  <Typography color={ "text.secondary" }>{ action }</Typography>
+																		  <Alert severity={ category === "Hazardous" ? "warning" : "info" } icon={ <RecyclingOutlined/> }>
+																				 { caution }</Alert></Stack></CardContent></Card>;
 												}) }
 										 </Stack>
 							  }
