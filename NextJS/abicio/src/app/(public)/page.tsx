@@ -1,5 +1,5 @@
 "use client";
-import { APP_NAME, EcoOutlined, FEATURES } from "@/app/AbicioMaster";
+import { APP_NAME, EcoOutlined, FEATURES, NAV_ITEMS } from "@/app/AbicioMaster";
 import ArrowForwardRounded from "@mui/icons-material/ArrowForwardRounded";
 import BiotechOutlined from "@mui/icons-material/BiotechOutlined";
 import SpaOutlined from "@mui/icons-material/SpaOutlined";
@@ -27,8 +27,8 @@ export default function HomePage() {
 								 { APP_NAME + " analyses a waste photograph, identifies visible items and offers practical next steps for segregation, reuse, recycling and responsible disposal." }
 						  </Typography>
 						  <Stack direction={ { xs: "column", sm: "row" } } spacing={ 1.5 }>
-								 <Button component={ Link } href={ "/analyse" } size={ "large" } endIcon={ <ArrowForwardRounded/> }>{ "Analyse Waste" }</Button>
-								 <Button component={ Link } href={ "/history" } size={ "large" } variant={ "outlined" } color={ "inherit" }>{ "View History" }</Button>
+								 <Button component={ Link } href={ NAV_ITEMS.analyse.href } size={ "large" } endIcon={ <ArrowForwardRounded/> }>{ "Analyse Waste" }</Button>
+								 <Button component={ Link } href={ NAV_ITEMS.history.href } size={ "large" } variant={ "outlined" } color={ "inherit" }>{ "View History" }</Button>
 						  </Stack>
 						  <Typography variant={ "caption" } color={ "text.secondary" }>
 								 { "Predictions are estimates. Confirm local collection and recycling requirements before disposal." }
@@ -80,7 +80,7 @@ export default function HomePage() {
 										<Typography variant={ "h5" }>{ "Browser - based AI inference" }</Typography>
 										<Typography color={ "text.secondary" } sx={ { mt: 0.5 } }>{ "The waste detector runs in the browser with ONNX Runtime Web. Photos do not need to be uploaded to a separate Python inference server." }</Typography>
 								 </Box>
-								 <Button component={ Link } href={ "/analyse" } endIcon={ <ArrowForwardRounded/> } sx={ { flexShrink: 0 } }>{ "Try " + APP_NAME }</Button>
+								 <Button component={ Link } href={ NAV_ITEMS.analyse.href } endIcon={ <ArrowForwardRounded/> } sx={ { flexShrink: 0 } }>{ "Try " + APP_NAME }</Button>
 						  </Stack>
 					</CardContent>
 			 </Card>

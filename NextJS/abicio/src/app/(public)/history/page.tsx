@@ -1,6 +1,6 @@
 "use client";
 import { WasteHistoryRecord } from "@/ai/WasteMaster";
-import { formatTimestamp, HISTORY_KEY, HistoryOutlined } from "@/app/AbicioMaster";
+import { formatTimestamp, HISTORY_KEY, HistoryOutlined, NAV_ITEMS } from "@/app/AbicioMaster";
 import DeleteSweepOutlined from "@mui/icons-material/DeleteSweepOutlined";
 import { Alert, Box, Button, Card, CardContent, Chip, Stack, Typography } from "@mui/material";
 import Link from "next/link";
@@ -47,7 +47,7 @@ export default function HistoryPage() {
 									 </Box>
 									 <Typography variant={ "h5" }>{ "No analyses yet" }</Typography>
 									 <Typography color={ "text.secondary" } sx={ { maxWidth: 440 } }>{ "Your completed image analyses will appear here so you can review the detected waste categories later." }</Typography>
-									 <Button component={ Link } href={ "/analyse" }>{ "Analyse Waste" }</Button>
+									 <Button component={ Link } href={ NAV_ITEMS.analyse.href }>{ "Analyse Waste" }</Button>
 							  </Stack>
 						</CardContent>
 						</Card>
