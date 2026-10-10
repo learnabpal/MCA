@@ -1,5 +1,8 @@
-import * as ort from 'onnxruntime-web';
-import { WASTE_CLASSES } from './WasteTypes';
+import * as ort from "onnxruntime-web";
+import { WASTE_CLASSES } from "./WasteMaster";
+
+
+
 
 export const WASTE_MODEL_CONFIG = { modelUrl: '/models/WasteDetector.onnx', maxInputSide: 640, stride: 32, confidenceThreshold: 0.25, iouThreshold: 0.45, maxDetections: 100, classCount: WASTE_CLASSES.length } as const;
 

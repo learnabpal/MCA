@@ -4,7 +4,7 @@ This package contains four consolidated TypeScript files for browser-side waste 
 
 ## Files
 
-- `src/ai/WasteTypes.ts` — class labels and shared types.
+- `src/ai/WasteMaster.ts` — class labels and shared types.
 - `src/ai/WasteModel.ts` — model settings and cached ONNX Runtime session with WebGPU/WASM fallback.
 - `src/ai/WasteDetector.ts` — aspect-ratio-aware preprocessing for arbitrary source image dimensions, ONNX inference, YOLO output decoding, box-coordinate restoration and class-aware non-maximum suppression.
 - `src/ai/WasteRules.ts` — transparent rule-based guidance for the model's 12 labels.

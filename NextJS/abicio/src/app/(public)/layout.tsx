@@ -33,6 +33,8 @@ export const NAV_ITEMS = {
 
 export const APP_NAME = "Abicio";
 export const APP_TAGLINE = "Waste Intelligence";
+export const HISTORY_KEY = "abicio-analysis-history";
+export const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 
 
 export default function PublicLayout({ children }: Readonly<{ children: React.ReactNode }>) {

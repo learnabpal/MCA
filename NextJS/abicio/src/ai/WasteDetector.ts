@@ -1,6 +1,9 @@
-import * as ort from 'onnxruntime-web';
-import { loadWasteModel, WASTE_MODEL_CONFIG } from './WasteModel';
-import { WASTE_CLASSES, type WasteBox, type WasteClass, type WasteDetection } from './WasteTypes';
+import * as ort from "onnxruntime-web";
+import { WASTE_CLASSES, type WasteBox, type WasteClass, type WasteDetection } from "./WasteMaster";
+import { loadWasteModel, WASTE_MODEL_CONFIG } from "./WasteModel";
+
+
+
 
 export const detectWaste = (source: HTMLImageElement | HTMLCanvasElement | ImageBitmap): Promise<WasteDetection[]> => {
     if (typeof window === 'undefined') return Promise.reject(new Error('Abicio detection must run in the browser.'));
