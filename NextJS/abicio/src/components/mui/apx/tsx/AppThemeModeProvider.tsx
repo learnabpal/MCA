@@ -3,7 +3,7 @@
 import DarkModeOutlined from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlined from "@mui/icons-material/LightModeOutlined";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
-import { amber, blueGrey, common, deepOrange, green, lightBlue, lightGreen, teal } from "@mui/material/colors";
+import { amber, blueGrey, common, deepOrange, green, lightBlue, teal } from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import IconButton from "@mui/material/IconButton";
 import { alpha, createTheme, Theme, ThemeProvider } from "@mui/material/styles";
@@ -15,13 +15,11 @@ import React from "react";
 
 export type ThemeMode = "dark" | "light";
 
-type ThemeContextValue = { mode: ThemeMode; toggle: () => void };
 
-const AppThemeContext = React.createContext<ThemeContextValue | null>(null);
 
 const createAppTheme = (mode: ThemeMode): Theme => {
 	  const isDark = mode === "dark";
-	  const primary = isDark ? lightGreen[400] : green[800];
+	  const primary = isDark ? green[400] : green[800];
 	  const secondary = isDark ? teal[300] : teal[700];
 	  return createTheme({
 			 palette: {
@@ -34,10 +32,10 @@ const createAppTheme = (mode: ThemeMode): Theme => {
 					error: { main: isDark ? deepOrange[300] : deepOrange[700] },
 					background: { default: isDark ? common.black : blueGrey[50], paper: isDark ? blueGrey[900] : common.white },
 					text: { primary: isDark ? blueGrey[50] : blueGrey[900], secondary: isDark ? blueGrey[300] : blueGrey[700], disabled: blueGrey[500] },
-					divider: isDark ? alpha(lightGreen[400], 0.2) : alpha(green[800], 0.18)
+					divider: isDark ? alpha(green[400], 0.2) : alpha(green[800], 0.15)
 			 },
 			 typography: {
-					fontFamily: "\"Roboto\", \"Arial\", sans-serif",
+					fontFamily: `"Roboto", "Arial", sans-serif`,
 					fontSize: 13,
 					fontWeightLight: 300,
 					fontWeightRegular: 400,
@@ -54,13 +52,17 @@ const createAppTheme = (mode: ThemeMode): Theme => {
 			 shape: { borderRadius: 3 },
 			 components: {
 					MuiPaper: { defaultProps: { elevation: 0 }, styleOverrides: { root: { backgroundImage: "none" } } },
-					MuiCard: { defaultProps: { variant: "outlined" }, styleOverrides: { root: { borderColor: alpha(isDark ? lightGreen[400] : green[800], 0.18), borderRadius: 18 } } },
+					MuiCard: { defaultProps: { variant: "outlined" }, styleOverrides: { root: { borderColor: alpha(isDark ? green[400] : green[800], 0.18), borderRadius: 18 } } },
 					MuiButton: { defaultProps: { variant: "contained" }, styleOverrides: { root: { textTransform: "none", fontWeight: 700, borderRadius: 10, padding: "9px 18px" } } },
 					MuiOutlinedInput: { styleOverrides: { root: { borderRadius: 10 } } },
 					MuiChip: { styleOverrides: { root: { fontWeight: 700 } } }
 			 }
 	  });
 };
+
+type ThemeContextValue = { mode: ThemeMode; toggle: () => void };
+
+const AppThemeContext = React.createContext<ThemeContextValue | null>(null);
 
 export const useAppThemeMode = (): ThemeContextValue => {
 	  const context = React.useContext(AppThemeContext);
