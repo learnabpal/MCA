@@ -167,10 +167,10 @@ export default function AnalysePage() {
 										<Box sx={ { minWidth: 0 } }>
 											  <Typography variant={ "h6" } sx={ { overflowWrap: "anywhere" } }>{ selectedFile.name }</Typography>
 											  <Typography variant={ "body2" } color={ "text.secondary" }>
-													 { (selectedFile.size / (1024 * 1024)).toFixed(2) } MB{ imageDimensions === null ? "" : ` · ${ imageDimensions.width } × ${ imageDimensions.height }px` }
+													 { (selectedFile.size / (1024 * 1024)).toFixed(2) } { "MB" }{ imageDimensions === null ? "" : ` · ${ imageDimensions.width } × ${ imageDimensions.height }px` }
 											  </Typography>
 										</Box>
-										<Button variant={ "text" } color={ "inherit" } startIcon={ <DeleteOutlineOutlined/> } onClick={ clearImage }>Remove</Button>
+										<Button variant={ "text" } color={ "inherit" } startIcon={ <DeleteOutlineOutlined/> } onClick={ clearImage }>{ "Remove" }</Button>
 								 </Stack>
 								 <Box sx={ { position: "relative", width: "100%", maxWidth: 1000, mx: "auto", overflow: "hidden", borderRadius: 2, bgcolor: "action.hover" } }>
 										<Box component={ "img" } src={ previewUrl } alt={ "Selected waste for analysis" } sx={ { display: "block", width: "100%", height: "auto" } }/>
