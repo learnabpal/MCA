@@ -39,7 +39,7 @@ export const APP_NAME = "Abicio";
 export const APP_TAGLINE = "Waste Intelligence";
 export const HISTORY_KEY = "abicio-analysis-history";
 export const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
-export const DATE_FORMAT = DateTimeFormatter.ofPattern("d MMM yyyy, HH:mm", Locale.ENGLISH);
+export const DATE_FORMAT = DateTimeFormatter.ofPattern("d MMM yyyy, HH:mm").withLocale(Locale.ENGLISH);
 export const formatTimestamp = (at: string) => Instant.parse(at).atZone(ZoneId.systemDefault()).format(DATE_FORMAT);
 
 export const FEATURES = [
