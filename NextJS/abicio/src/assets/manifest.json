@@ -1,0 +1,466 @@
+{
+	  "APXBrowser": {
+			 "include": true,
+			 "paid": true,
+			 "images": {
+					"0": "Screenshot_20240730_191229_Moto_App_Launcher.png",
+					"1": "Screenshot_20240730_191234_Moto_App_Launcher.png"
+			 },
+			 "descriptions": {
+					"short": "A fast, private browser with powerful ad blocking and video speed control.",
+					"full": "Take back your Browse experience with APXBrowser, the fast and secure browser that puts your privacy first. In a world full of online tracking and data-stealing ads, APXBrowser acts as your personal shield. We've built a browser that lets you surf the web with confidence, knowing that your security is our top priority.\n\n**KEY FEATURES:**\n\n🛡️ **Powerful Ad Blocker:** Tired of disruptive pop-ups and video ads? Our integrated ad blocker automatically stops them in their tracks, leading to faster loading times and a cleaner, more focused Browse experience.\n\n🕵️ **Privacy by Design:** We believe your data is your own. APXBrowser includes a standard private mode that doesn't save your history or cookies, ensuring your Browse is confidential. We have a strict anti-tracking policy to protect you from online surveillance.\n\n⏯️ **Playback Speed Control:** Watch videos your way. With our built-in playback speed controls, you can easily speed up or slow down any online video to fit your schedule and pace.\n\nAPXBrowser is a commitment to a better, safer web. Download today and start Browse with peace of mind."
+			 }
+	  },
+	  "APXCoupled": {
+			 "include": true,
+			 "paid": true,
+			 "images": {
+					"0": "Screen_Shot_2024_10_30_at_12_38_27.png",
+					"1": "Screen_Shot_2024_10_30_at_12_38_42.png",
+					"2": "Screen_Shot_2024_10_30_at_12_39_50.png",
+					"3": "Screen_Shot_2024_10_30_at_12_40_26.png",
+					"4": "Screen_Shot_2024_10_30_at_12_41_08.png",
+					"5": "Screen_Shot_2024_10_30_at_12_48_58.png"
+			 },
+			 "descriptions": {
+					"short": "An app for couples to grow together, tracking from bucket lists to conflicts.",
+					"full": "Strengthen your relationship and create lasting memories with APXCoupled, the all-in-one app designed exclusively for couples. Go beyond standard messaging and build a deeper, more meaningful connection by keeping track of your shared journey, from daily thoughts to major life goals. APXCoupled provides the tools you need to understand each other better, resolve disagreements, and celebrate every moment.\n\n**KEY FEATURES:**\n\n* **Shared Bucket Lists:** Create and manage a joint list of dreams and adventures. From big trips to small goals, track what you both want to achieve together.\n* **Keynotes:** Store important details about each other, from favourite foods to small quirks. Show your partner how much you care by never forgetting the little things that matter most.\n* **Conflict & Resolution Log:** Openly address disagreements and work towards a solution. Log conflicts, discuss them calmly, and note your resolutions to build healthier communication habits.\n* **Important Dates:** Never forget an anniversary or special day again. Keep a calendar of your key milestones and get reminders for birthdays, celebrations, and other significant events.\n* **Menstrual Calculator:** A discreet and useful tool for tracking cycles, helping you both plan for a healthy and safe intimate life.\n* **Shared Journal:** A private space to write down your thoughts, feelings, and messages for each other. Use it to express gratitude, reflect on your relationship, and read each other's heartfelt words.\n* **Date Journal:** Document your shared experiences. Note down details of your dates—the good, the bad, and the beautiful—along with where you went, to help you plan for future outings.\n\nDownload APXCoupled today and start writing your love story, together."
+			 },
+			 "web": true
+	  },
+	  "APXDictionary": {
+			 "include": false,
+			 "images": {
+					"0": "Screenshot_20230901_140608.png",
+					"1": "Screenshot_20230901_140642.png"
+			 },
+			 "descriptions": {
+					"short": "",
+					"full": ""
+			 }
+	  },
+	  "APXFarmstead": {
+			 "include": true,
+			 "paid": true,
+			 "images": {
+					"0": "Screen_Shot_2025_12_23_at_11_54_10.png",
+					"1": "Screen_Shot_2025_12_23_at_11_42_16.png",
+					"2": "Screen_Shot_2025_12_23_at_11_42_22.png",
+					"3": "Screen_Shot_2025_12_23_at_11_42_31.png",
+					"4": "Screen_Shot_2025_12_23_at_11_42_37.png"
+			 },
+			 "descriptions": {
+					"short": "Grow crops, raise animals and run machines to build a thriving farm.",
+					"full": "Build, manage and expand your farm in **APXFarmstead**. Grow diverse crops, cultivate orchards and raise livestock. Use production machines and workshops that consume crop, tree and animal outputs to create processed goods and higher-value items. Progression is driven by harvest and production milestones, unlocking new seeds, animals and buildings as you reach cumulative targets.\n\n**KEY FEATURES:**\n\n- **Crop, Tree & Livestock Systems:** Plant many crop types, maintain orchards and rear animals; each category supplies distinct resources used across the farm.\n- **Processing Machines:** Operate specialised machines and workshops that take produce from crops, trees and livestock to craft processed goods and components.\n- **Harvest-Driven Unlocks:** New content—seeds, animals and buildings—becomes available when you meet cumulative harvest and production thresholds.\n- **Time-Based Production Cycles:** Production and processing follow measurable timers so you can plan and optimise workflows across the farm.\n- **Clear, Focused Interface:** High-contrast visuals and concise data views make it easy to monitor resources, timers and production status at a glance.\n\nAPXFarmstead centres on production chains and resource management: optimise inputs, scale processing, and expand your farm into a self-sustaining operation."
+			 },
+			 "web": true
+	  },
+	  "APXIntus": {
+			 "include": true,
+			 "paid": true,
+			 "images": {
+					"0": "Screen_Shot_2026_03_03_at_12_41_54.png",
+					"1": "Screen_Shot_2026_03_03_at_12_42_32.png",
+					"2": "Screen_Shot_2026_03_03_at_12_42_43.png",
+					"3": "Screen_Shot_2026_03_03_at_12_43_08.png",
+					"4": "Screen_Shot_2026_03_03_at_12_43_50.png",
+					"5": "Screen_Shot_2026_03_03_at_12_44_07.png",
+					"6": "Screen_Shot_2026_07_04_at_12_44_07.png",
+					"7": "Screen_Shot_2026_07_05_at_12_44_07.png"
+			 },
+			 "descriptions": {
+					"short": "A structured daily journal & tracker for sleep, mood, health & tasks.",
+					"full": "**APXIntus** is a structured journaling and personal tracking app designed to help you understand what’s happening inside your day — your thoughts, actions, priorities, habits, physical state and emotional patterns — in one clean, organised flow.\n\nIt combines reflective journaling with precise life tracking so you can connect daily events with sleep, mood, health rhythms and repeatable routines — without clutter, noise or unnecessary complexity.\n\nBy bringing everything into a single system, you can identify patterns, make meaningful adjustments, and build a long-term record of how your life actually unfolds.\n\n**KEY FEATURES:**\n\n✍️ **Integrated Journal Mode**  \nWrite freely when you need depth, or log concise entries when you need speed. Switch naturally between structured logs and longer reflections while keeping everything connected to the same day and context.\n\n🏷 **Categories for Everything**  \nOrganise entries under meaningful areas such as Home, Health, Food, Finance, Travel, Shopping, Utilities, Plants, Security and more — so retrieval stays effortless and your data remains structured.\n\n⭐ **Priority Marking**  \nHighlight what matters using a simple star-based system. Important entries stand out without turning the app into a complicated task manager.\n\n🔁 **Occurrences (Repeatable Tracking)**  \nAttach repeatable occurrences to any item — such as maintenance, subscriptions, cleaning cycles or periodic routines. Build historical continuity and make recurring tracking natural and frictionless.\n\n🌳 **Cascade Planning**  \nBreak large ideas into smaller connected steps using an intuitive hierarchical structure. Plan projects, organise thoughts, map decisions or decompose complex problems into manageable branches while preserving the relationships between every level.\n\n🧭 **Outlook Frameworks**  \nThink through important goals and decisions using proven structured frameworks including SMART, PESTLE and SWOT. Capture objectives, evaluate external influences, assess strengths and weaknesses, and keep every perspective organised under a single topic for deeper, more deliberate thinking.\n\n😊 **Mood & Emotional Logging**  \nTrack daily mood states such as Calm, Focused, Drained, Motivated, Anxious or Grounded. Link emotions to events and entries to understand what influences your mental state over time.\n\n🌙 **Detailed Sleep Tracking**  \nGo beyond duration. Log Lights Off and Lights On times, sleep quality, dreams and potential triggers. Identify patterns that affect rest and build better sleep habits.\n\n🩺 **Health & Cycle Tracking**  \nMaintain a discreet, organised record of important health metrics and body rhythms. Observe correlations between physical states, mood and daily activities.\n\n📊 **Insights & Overview**  \nAccess analytics to reveal repeating behaviours, emotional trends and lifestyle patterns. See what improves, what fluctuates and what needs attention — based on your own data.\n\n📅 **Date Navigation & Filtering**  \nMove easily across days, sort views such as Latest, and review your history with clarity.\n\nAPXIntus is built for those who want structure without overwhelm — a single private space where journaling, life tracking, emotional insight, strategic thinking and health awareness coexist seamlessly."
+			 },
+			 "web": true
+	  },
+	  "APXKingdom": {
+			 "include": true,
+			 "paid": true,
+			 "images": {
+					"0": "Screen_Shot_2025_06_15_at_12_43_28.png",
+					"1": "Screen_Shot_2025_06_15_at_12_44_32.png",
+					"2": "Screen_Shot_2025_06_15_at_12_44_38.png"
+			 },
+			 "descriptions": {
+					"short": "Build and expand your kingdom in this strategic game.",
+					"full": "Begin your journey to greatness in APXKingdom. Start with a small village and grow it into a powerful empire. The game is all about strategy: collecting resources, building your city, and creating a strong military.\n\nYour village needs resources to grow. Build **Woodcutters**, **Clay Pits**, **Iron Mines**, and **Farms** to produce the materials for new buildings and troops. Upgrade your **Warehouse** and **Granary** to store more of what you collect.\n\nConstruct key buildings like the **Palace** to manage your city, a **Market** for trading, and a **Wall** to defend your territory.\n\nTrain soldiers for both attack and defence. You will face computer-controlled villages that adapt to how you play, giving you a fresh challenge every time. There are no other players, so you can focus entirely on building your strategy and growing your empire.\n\nBegin your conquest today in APXKingdom."
+			 },
+			 "web": true
+	  },
+	  "APXLaunchpad": {
+			 "include": true,
+			 "paid": true,
+			 "images": {
+					"0": "Screen_Shot_2024_07_14_at_11_14_17.png",
+					"1": "Screen_Shot_2024_07_14_at_11_14_33.png",
+					"2": "Screen_Shot_2024_07_14_at_11_15_12.png",
+					"3": "Screen_Shot_2024_07_14_at_11_15_44.png",
+					"4": "Screen_Shot_2024_08_11_at_15_05_47.png",
+					"5": "Screen_Shot_2024_08_11_at_15_06_02.png"
+			 },
+			 "descriptions": {
+					"short": "A toolkit for entrepreneurs to plan, analyse and execute their dreams.",
+					"full": "Turn your business idea into a reality with APXLaunchpad, the all-in-one app designed to support entrepreneurs at every stage of their journey. From initial research to launch and beyond, our intuitive tools help you make data-driven decisions and stay on top of your business goals.\n\n**KEY FEATURES:**\n\n📈 **Competitor Analysis & Pricing Strategy:** Choose your industry, add your products or services, and research your competition. Enter existing business names and their prices to see how your offerings compare, helping you set a smart pricing strategy.\n\n📊 **Business Analytics:** Get a clear picture of your market. Our analytics tools provide insights into competitor pricing and market trends, helping you make informed decisions about your products and services.\n\n💰 **Capital & Expense Tracker:** Keep a precise record of your finances. Easily note down every capital expense and see a real-time summary of how much you've spent and where. This ensures you always know your exact financial position.\n\n🚀 **Milestone Management:** Stay on track and celebrate your progress. Create and monitor key milestones in your entrepreneurial journey, from arranging capital to launching your business. This feature keeps you organised and motivated.\n\nAPXLaunchpad is your co-pilot for success, providing the clarity and organisation needed to turn your vision into a thriving business."
+			 },
+			 "web": true
+	  },
+	  "APXMeum": {
+			 "include": false,
+			 "paid": true,
+			 "images": {
+					"0": "Screen_Shot_2024_08_31_at_11_23_43.png",
+					"1": "Screen_Shot_2024_08_31_at_11_26_42.png",
+					"2": "Screen_Shot_2024_08_31_at_11_27_48.png",
+					"3": "Screen_Shot_2024_08_31_at_11_28_15.png",
+					"4": "Screen_Shot_2024_08_31_at_11_28_37.png",
+					"5": "Screen_Shot_2024_08_31_at_11_29_00.png"
+			 },
+			 "descriptions": {
+					"short": "A personal tracker for sleep, mood, and health with a private journal.",
+					"full": "Gain a deeper understanding of yourself with APXMeum, the all-in-one personal tracking and journaling app. Designed to help you connect the dots between your physical health, emotional state, and daily habits, APXMeum provides a private and organised space to monitor your well-being. By tracking key aspects of your life, you can identify patterns, make positive changes, and embark on a journey of self-discovery.\n\n**KEY FEATURES:**\n\n😴 **Detailed Sleep Tracker:** Go beyond simple sleep duration. Log key metrics like your \"Lights Off\" and \"Lights On\" times, sleep quality, and even your dreams. Record any triggers that may affect your rest to build better sleep habits.\n\n😊 **Mood & Emotional Log:** Understand what drives your emotional state. Track your mood daily and link it to specific events or triggers. This feature helps you recognise patterns and gain control over your emotional well-being.\n\n🩺 **Health & Cycle Tracking:** Keep a discreet record of important health data. Monitor your cycles and other key metrics to understand your body's natural rhythms and how they correlate with other aspects of your life.\n\n✍️ **Integrated Journal:** A private space for your thoughts. Write daily entries to reflect on your experiences, connect your feelings to your tracked data, and document your journey.\n\nAPXMeum empowers you to take an active role in your health and happiness by providing a clear and comprehensive view of your personal life."
+			 },
+			 "web": true
+	  },
+	  "APXNews": {
+			 "include": true,
+			 "images": {
+					"0": "Screenshot_20230822_114301.png",
+					"1": "Screenshot_20230822_114306.png",
+					"2": "Screenshot_20230822_114311.png"
+			 },
+			 "descriptions": {
+					"short": "A news feed app fetching articles from a public API, with categories.",
+					"full": "APXNews provides a straightforward way to create your own news feed. This app's functionality depends on a freely available news API, allowing you to fetch the latest headlines in a simple, no-fuss interface. While the app is designed to work seamlessly, please be aware that its operation relies on the external API, and its availability and data may vary.\n\n**KEY FEATURES:**\n\n📰 **Customise Your Feed:** Take control of the news you see. Easily select the **Countries**, **Languages**, and **Categories** you're interested in to build a personal news feed that focuses on what matters to you.\n\n🔍 **Simple Search:** Find specific articles by inputting keywords. The search function allows you to quickly locate news on any topic.\n\nAPXNews is a simple tool for a focused news experience. Download today and get the headlines you want, when you want them."
+			 }
+	  },
+	  "APXPense": {
+			 "include": true,
+			 "paid": true,
+			 "images": {
+					"0": "Screenshot_20250723_103245_Moto_App_Launcher.png",
+					"1": "Screenshot_20250723_103256_Moto_App_Launcher.png",
+					"2": "Screenshot_20250723_103437_Moto_App_Launcher.png",
+					"3": "Screenshot_20250723_103902_Moto_App_Launcher.png",
+					"4": "Screenshot_20250723_103912_Moto_App_Launcher.png",
+					"5": "Screenshot_20250723_113123_Moto_App_Launcher.png"
+			 },
+			 "descriptions": {
+					"short": "A private expense tracker, keeping all your financial data on your device.",
+					"full": "Tired of finance apps that treat your personal data as a commodity? APXPense is the private expense tracker you’ve been waiting for. We believe your financial information is yours alone, and our app is built on a fundamental promise: zero data collection, zero tracking, and zero compromises on your privacy. Manage your money with confidence, knowing every detail is stored securely on your device and nowhere else.\n\n**YOUR PRIVACY, OUR PROMISE:**\n* 🚫 **No Data Tracking:** Your financial data is never collected, analysed, or sent to a server.\n* 🚫 **No Spam:** You will never receive unsolicited loan offers, credit card pitches, or other spam.\n* 🚫 **No AI Training:** Your personal spending habits are never used to train machine learning models.\n* 🚫 **No Phone Number Required:** You can use the app without sharing any personal contact information.\n\n**KEY FEATURES:**\n\n💸 **Effortless & Flexible Expense Tracking:** Log every debit and credit transaction with details like amount, bank, category, and remarks. The process is quick, simple, and you have the full flexibility to edit or modify any details at any time.\n\n📊 **Clear Financial Insights:** Visualise your spending with easy-to-read charts and a detailed timeline of your transactions. Track your progress against a monthly limit to help you reach your financial goals.\n\n🔐 **Full Data Ownership:** Your data is exclusively on your device. Use the powerful import and export functions to back up your records, or enable the auto-export feature for daily, worry-free backups.\n\nTake back control of your finances and your privacy. Download APXPense and experience true peace of mind."
+			 }
+	  },
+	  "APXPlayer": {
+			 "include": true,
+			 "paid": false,
+			 "images": {
+					"0": "Screenshot_20251228_163047_APXPlayer.png",
+					"1": "Screenshot_20251228_163053_APXPlayer.png",
+					"2": "Screenshot_20251228_163058_APXPlayer.png"
+			 },
+			 "descriptions": {
+					"short": "A clean audio and video player with speed control & intuitive gesture playback.",
+					"full": "**APXPlayer** is a simple, focused audio and video player designed around clarity and control. It avoids unnecessary features and visual clutter, delivering a straightforward media experience that stays out of the way and lets your content take centre stage.\n\nThe interface is clean and purposeful, making it easy to browse local storage, organise media, and control playback without distractions. Gesture-based interactions replace on-screen clutter, allowing natural control while watching or listening.\n\n**KEY FEATURES:**\n\n- **Audio & Video Playback:** Play local audio and video files directly from your device storage with a consistent, distraction-free interface.\n- **Playback Speed Control:** Adjust playback speed smoothly to suit different content types and personal preferences.\n- **Gesture-Based Volume Control:** Control volume using vertical swipe gestures for quick, precise adjustments during playback.\n- **Gesture-Based Seeking:** Seek forward or backward using horizontal swipe gestures for fast navigation through media timelines.\n- **Playback Behaviour Settings:** Configure repeat modes, seek steps, and playback behaviour without cluttering the main interface.\n- **Media Sorting & Browsing:** Sort media by name, date modified, size, or duration to locate files quickly.\n- **Subtitle Controls:** Adjust subtitle appearance and size to maintain readability without interrupting playback.\n\nAPXPlayer focuses on essential playback done right—clear controls, reliable performance, and an interface built entirely around your media."
+			 }
+	  },
+	  "APXPokindex": {
+			 "include": true,
+			 "images": {
+					"0": "Screenshot_20230826_102354.png",
+					"1": "Screenshot_20230826_102556.png",
+					"2": "Screenshot_20230826_102634.png",
+					"3": "Screenshot_20230826_102648.png",
+					"4": "Screenshot_20230826_102728.png",
+					"5": "Screenshot_20230826_102745.png"
+			 },
+			 "descriptions": {
+					"short": "Guide to your favourite pokestars.",
+					"full": "Get details of your favourite pokestars and their evolutions. Find out their stats, abilities, and more. Also, learn about their moves, types, and more."
+			 }
+	  },
+	  "APXTripp": {
+			 "include": true,
+			 "paid": true,
+			 "images": {
+					"0": "Screen_Shot_2024_06_15_at_13_28_08.png",
+					"1": "Screen_Shot_2024_06_15_at_13_28_21.png",
+					"2": "Screen_Shot_2024_06_15_at_13_28_25.png",
+					"3": "Screen_Shot_2024_06_15_at_13_28_30.png",
+					"4": "Screen_Shot_2024_06_15_at_13_28_34.png",
+					"5": "Screen_Shot_2024_06_15_at_13_51_02.png",
+					"6": "Screen_Shot_2024_06_15_at_13_51_14.png",
+					"7": "Screen_Shot_2024_06_15_at_13_51_30.png"
+			 },
+			 "descriptions": {
+					"short": "An all-in-one trip planner, managing shared expenses and building itineraries.",
+					"full": "Simplify your travel with APXTripp, the essential app for planning and managing every aspect of your group trips. Go beyond basic checklists and coordinate your entire adventure, from detailed itineraries to complex shared finances, all in one place. APXTripp ensures a smooth, stress-free journey for you and your travel companions.\n\n**KEY FEATURES:**\n\n🌍 **Detailed Itinerary Builder:** Create a comprehensive day-by-day plan for your trip. Add specific places, noting if they are an eatery, shop, or other point of interest. You can even set closing days, specify if photography is allowed, and add personal notes to each location.\n\n💰 **Collaborative Expense Management:** Take the hassle out of shared costs. APXTripp allows you to log all shared expenses and reimbursements, keeping a clear record of who paid for what. This feature ensures everyone stays on budget and splits costs fairly.\n\n🗓️ **Trip Planning & Estimation:** Plan your travel from start to finish. Set your trip dates and get a clear overview of your itinerary. Use the detailed estimation tool to budget for all aspects of your trip, including food, shopping, sightseeing, and accommodation, helping you stay on top of your finances.\n\nAPXTripp is designed to make group travel easy and fun. Start planning your next great adventure with a tool that keeps everything organised, so you can focus on making memories."
+			 },
+			 "web": true
+	  },
+	  "APXZoo": {
+			 "include": true,
+			 "paid": true,
+			 "images": {
+					"0": "Screen_Shot_2025_05_10_at_21_00_11.png",
+					"1": "Screen_Shot_2025_05_10_at_21_00_48.png",
+					"2": "Screen_Shot_2025_05_10_at_21_00_53.png",
+					"3": "Screen_Shot_2025_05_10_at_21_01_22.png"
+			 },
+			 "descriptions": {
+					"short": "Build and manage a zoo empire, purchasing animals and constructing buildings.",
+					"full": "Welcome to APXZoo, the ultimate web-based simulation game where you become the master architect of your own animal kingdom. From a humble beginning, you will design, build, and manage a world-class zoo, acquiring magnificent creatures and creating an unforgettable experience for visitors.\n\n**KEY FEATURES:**\n\n🌿 **Create Diverse Habitats:** Begin your journey by purchasing and setting up unique habitats for your animals. Acquire a variety of species from different biospheres, including the \"Deserts,\" \"Grasslands (Savanna & Prairie),\" and \"Mountains\". Your goal is to unlock new animals and nurture them to bring \"babies into this world\".\n\n🏗️ **Build and Expand:** The success of your zoo depends on its infrastructure. Construct essential buildings like a \"Ticket Counter,\" \"Parking Lot,\" and \"Food Court\" to support your operations and keep visitors happy.\n\n🔬 **Research for Progression:** As your zoo grows, you will unlock new opportunities. Certain rare habitats and advanced buildings require prerequisites, such as reaching a specific \"Level 10 Research Lab\" or a \"Level 2 Visitors' Centre\", to unlock new possibilities.\n\n💰 **Grow Your Business:** Make money to buy more animals and buildings, expanding your zoo into a thriving business. With meticulous planning and management, you can grow your empire and create a truly world-class attraction.\n\nEmbark on your journey today and build the ultimate animal sanctuary in APXZoo!"
+			 },
+			 "web": true
+	  },
+	  "ChargingPolice": {
+			 "include": true,
+			 "favourite": true,
+			 "images": {
+					"0": "Screenshot_20220930_105710.png"
+			 },
+			 "descriptions": {
+					"short": "Alerts you to unplug your phone at a set percentage for better battery life.",
+					"full": "Overcharging can degrade your battery over time. ChargingPolice is a simple and effective app designed to help you maintain your battery's health and make it last longer.\n\nThis app works by listening for changes in your device's battery percentage. Once your battery is connected to a charger and reaches a pre-set level, it triggers a notification to alert you. This alert will repeat until you disconnect the charger, providing a persistent and gentle reminder to prevent overcharging.\n\nYou can easily toggle the feature on or off and choose your preferred alert percentage from options including 80%, 85%, 90%, and 95%.\n\nWith ChargingPolice, you can take a proactive step to extend your battery's life with a simple, customisable tool that actively reminds you to unplug your device at the optimal time."
+			 }
+	  },
+	  "Cipherd": {
+			 "include": true,
+			 "images": {
+					"0": "Screenshot_20221009_163210.png",
+					"1": "Screenshot_20221009_163217.png",
+					"2": "Screenshot_20221009_163225.png",
+					"3": "Screenshot_20221009_163236.png"
+			 },
+			 "descriptions": {
+					"short": "A simple tool to encrypt and decrypt messages using various ciphers.",
+					"full": "Cipherd is a user-friendly tool for anyone interested in cryptography. It provides a simple, hands-on way to explore and understand the fundamentals of different ciphers.\n\n**FEATURES:**\n\n* **Substitution Ciphers:** Explore classic methods of substitution, including the \"CAESAR CIPHER,\" \"MONOALPHABETIC CIPHER,\" and \"PLAYFAIR CIPHER\". You can also test more complex ciphers like the \"HILL CIPHER\" and \"ONE-TIME PAD,\" as well as the unique \"PIGPEN CIPHER\".\n* **Transposition Ciphers:** Understand how transposition works with demonstrations of the \"RAIL FENCE\" and \"ROW COLUMN TRANSPOSITION\" methods.\n* **Interactive Encryption:** Use the app to \"ENCRYPT\" your own messages and \"DECRYPT\" them to see how each cipher works in action.\n\nCipherd is the perfect way to get started with the fascinating world of ciphers, providing a clear and simple demonstration of how these historical and modern encryption techniques function."
+			 }
+	  },
+	  "ComPrices": {
+			 "include": true,
+			 "images": {
+					"0": "Screenshot_20230514_114657.png",
+					"1": "Screenshot_20230514_114703.png",
+					"2": "Screenshot_20230514_114710.png",
+					"3": "Screenshot_20230514_114717.png",
+					"4": "Screenshot_20230514_114739.png",
+					"5": "Screenshot_20230514_114806.png"
+			 },
+			 "descriptions": {
+					"short": "A private, on-device tool for entrepreneurs to compare product prices.",
+					"full": "ComPrices is the essential tool for budding entrepreneurs and small business owners who want to stay ahead of the competition. This app allows you to build a comprehensive, private database of market intelligence right on your device. Easily track and compare product and service prices from competitors to make data-driven decisions and refine your business strategy.\n\n**FEATURES:**\n\n* **Customisable Market Research:** Create and manage a personal database of businesses and the products or services they offer, categorised by industry. Add specific details like price, quantity, and unit of measure (e.g., 'ml' or 'Kg') to maintain granular data for your business.\n* **Visualise Competition:** Use the analytics view to visually compare product prices from different businesses, giving you a clear understanding of your market position at a glance.\n* **Complete Privacy and Control:** Unlike cloud-based solutions, all your data in ComPrices is stored locally on your device. This ensures complete privacy and gives you full ownership of your sensitive competitive intelligence without ever needing an internet connection.\n\nGet started with ComPrices and turn market data into a competitive advantage."
+			 }
+	  },
+	  "Deari": {
+			 "include": true,
+			 "images": {
+					"0": "Screenshot_20230416_133000.png",
+					"1": "Screenshot_20230416_133007.png",
+					"2": "Screenshot_20230416_133027.png",
+					"3": "Screenshot_20230416_133432.png",
+					"4": "Screenshot_20230416_133451.png",
+					"5": "Screenshot_20230416_133511.png",
+					"6": "Screenshot_20230416_133516.png",
+					"7": "Screenshot_20230416_133543.png"
+			 },
+			 "descriptions": {
+					"short": "A private, on-device digital journal to log thoughts, moods, and activities.",
+					"full": "Deari is a secure and private journaling app designed for personal reflection and self-understanding. It provides a simple, yet powerful platform for you to record your daily experiences and track your emotional well-being, all stored exclusively on your device.\n\n**FEATURES:**\n\n* **Comprehensive Logging:** Easily create daily entries to \"Pour your heart's content\", documenting your thoughts and experiences in a simple interface.\n* **Mood and Activity Tracking:** Log your mood with a variety of emoticons and track specific events like your sleep patterns. The app provides a statistical \"Mood Summary\" and a \"Log Summary\" to give you insights into your habits and emotions over time.\n* **Search Your Memories:** Find specific entries by using the search feature, which allows you to look for content or dates.\n* **Ultimate Privacy:** Your entries are for your eyes only. Deari stores all your data securely on your device, ensuring complete privacy and control over your personal journal without relying on a cloud database.\n\nWith Deari, your private thoughts remain truly private, allowing you to reflect and grow with peace of mind."
+			 }
+	  },
+	  "ForHer": {
+			 "include": true,
+			 "images": {
+					"0": "Screenshot_20231027_143515.png",
+					"1": "Screenshot_20231027_143522.png",
+					"2": "Screenshot_20231027_143540.png"
+			 },
+			 "descriptions": {
+					"short": "A private health tracker for women to log menstrual cycles, sleep, and mood.",
+					"full": "ForHer is a secure and discreet health companion designed to help women track and understand their bodies. With a focus on privacy, all your sensitive health data is stored exclusively on your device, giving you complete control and peace of mind.\n\n**FEATURES:**\n\n* **Menstrual Cycle Tracking:** Easily track your menstrual cycles with a calendar overview. The app provides helpful predictions for your \"Probable next ovulation\", \"Probable next safe-periods\", and \"Probable next menses\" based on your input.\n* **Comprehensive Wellness Logging:** Log important daily metrics including your sleep, with fields for \"Lights Off\", \"Lights On\", \"Sleep Quality\", and even your \"Dream\". You can also log your daily moods based on a simplified model of six basic emotions.\n* **Data Privacy:** All your personal health information is stored directly on your device, ensuring your most private data remains completely private without relying on a cloud database.\n\nEmpower yourself with a deeper understanding of your health, without ever compromising your privacy."
+			 }
+	  },
+	  "ForHim": {
+			 "include": true,
+			 "images": {
+					"0": "Screenshot_20231027_143745.png",
+					"1": "Screenshot_20231027_143750.png",
+					"2": "Screenshot_20231027_143757.png"
+			 },
+			 "descriptions": {
+					"short": "A private health tracker for men to log libido, sleep, and mood.",
+					"full": "ForHim is a secure and discreet health companion designed to help men track and understand their bodies. With a focus on privacy, all your sensitive health data is stored exclusively on your device, giving you complete control and peace of mind.\n\n**FEATURES:**\n\n* **Libido level Tracking:** Easily track your libido level with a calendar overview. The app allows you to log specific metrics such as libido, erection, and ejaculation, and then provides averages for each, helping you understand your body's rhythms over time.\n* **Comprehensive Wellness Logging:** Log important daily metrics including your sleep, with fields for \"Lights Off,\" \"Lights On,\" \"Sleep Quality,\" and even your \"Dream\". You can also log your daily moods based on a simplified model of six basic emotions.\n* **Data Privacy:** All your personal health information is stored directly on your device. ForHim does not use a cloud database, ensuring your most private data remains completely private without relying on a cloud database.\n\nEmpower yourself with a deeper understanding of your health, without ever compromising your privacy."
+			 }
+	  },
+	  "Illumineation": {
+			 "include": true,
+			 "favourite": true,
+			 "images": {
+					"0": "Screenshot_20221024_181110.png",
+					"1": "Screenshot_20221024_181142.png",
+					"2": "Screenshot_20221024_181238.png"
+			 },
+			 "descriptions": {
+					"short": "Automatically adjusts brightness for a group of apps for better viewing.",
+					"full": "Finding the right balance for your screen's brightness can be a constant hassle. Illumineation gives you granular control over your device's brightness for a group of chosen apps. Instead of constantly adjusting the system-wide brightness, you can set a custom level that applies to all the apps you select.\n\n**FEATURES:**\n\n* **Group Brightness Control:** Take control by setting a precise \"Desired Brightness\" that is applied to your entire group of selected apps. This custom level will automatically activate when you open any app within that group, providing an optimal viewing experience tailored to your preference.\n* **Easy Configuration:** Simply select the apps you want to control from a list of all your installed applications. Use the intuitive toggle to activate or deactivate the custom brightness setting for any app at any time.\n* **Optimised Viewing Experience:** Illumineation ensures your display is always set to your preferred level for your chosen apps, providing a consistently comfortable viewing experience without manual adjustments.\n\nTake control of your screen and your comfort with Illumineation."
+			 }
+	  },
+	  "QuickTools": {
+			 "include": true,
+			 "favourite": true,
+			 "images": {
+					"1": "Screenshot_20230709_192107.png",
+					"2": "Screenshot_20230709_192111.png",
+					"3": "Screenshot_20230709_192115.png",
+					"4": "Screenshot_20230709_192134.png",
+					"0": "Screenshot_20250812_193122.png"
+			 },
+			 "descriptions": {
+					"short": "The ultimate all-in-one toolkit for finance, health, tech, and everyday life.",
+					"full": "Tired of downloading a separate app for every single calculation? Simplify your life with QuickTools, the most comprehensive and easy-to-use collection of calculators and converters designed for all your daily needs!\n\nWhether you're managing your finances, tracking your health goals, setting up home electronics, or just need a quick calculation, our powerful suite of tools is packed into one sleek, modern application. Say goodbye to clutter and hello to convenience!\n\nKEY FEATURES:\n\n💰 Powerful Financial Calculators\n\nEMI Calculator: Effortlessly plan your loan repayments.\nSIP & Deposit Calculators: Project your investment growth and savings interest.\nGST Calculator: Get quick and accurate tax calculations.\nUnit Price Comparator: Make smart shopping decisions by comparing price per unit.\n\n💪 Health & Fitness Tracking\n\nBMI Calculator: Instantly check your Body Mass Index.\nIdeal Body Weight: Determine your healthy weight range based on your profile.\n\n🛠️ Essential Tech & Media Utilities\n\nPower Load Calculator: Add up the wattage of your appliances to make an informed decision when buying a UPS or Inverter.\nDisplay Calculator: Convert a screen's diagonal size and aspect ratio into its actual height and width.\nQR Code Generator: Create custom QR Codes for URLs, text, and more in seconds.\nUnit Converter: A comprehensive tool to convert between various units.\nPlayback Speed Calculator: Find out the new duration of audio or video at different speeds.\n\n📅 Everyday Tools for Everyone\n\nDelta Calculator: Instantly find the difference between a previous price/number and the latest one.\nDate & Time Calculator: Calculate the duration between two points in time.\nPercentage Calculator: Handle any percentage calculation with ease.\n\nDownload QuickTools today and get all the calculators you'll ever need, right in your pocket!"
+			 }
+	  },
+	  "Remynd": {
+			 "include": true,
+			 "images": {
+					"0": "Screenshot_20240131_112246.png",
+					"1": "Screenshot_20240131_112406.png"
+			 },
+			 "descriptions": {
+					"short": "A private, on-device reminder app with predefined categories.",
+					"full": "Remynd is a simple yet powerful reminder app designed to help you manage your daily tasks and never miss a beat. With an emphasis on privacy, all your personal reminders and data are stored securely on your device, giving you complete peace of mind.\n\n**FEATURES:**\n\n* **Organised Reminders:** Easily create new reminders and assign them to a variety of predefined categories such as \"Office\", \"Grocery\", and \"Workout\". This helps you keep all your tasks neatly organised and easy to find.\n* **Detailed Notifications:** Each reminder can include a specific title, description, and an exact date and time, ensuring you receive all the necessary information precisely when you need it.\n* **Complete Privacy:** All your reminders and data are stored locally on your device. Remynd does not use any cloud database, so you have full control and ownership of your personal information.\n\nStay on top of your schedule and maintain your privacy with Remynd, your personal reminder tool."
+			 }
+	  },
+	  "SoundSync": {
+			 "include": true,
+			 "favourite": true,
+			 "images": {
+					"0": "Screenshot_20220930_105721.png"
+			 },
+			 "descriptions": {
+					"short": "Control a group of apps' volumes at once using your device's volume buttons.",
+					"full": "Tired of adjusting the volume of each app individually? SoundSync provides a solution by allowing you to control the audio for a group of your favourite apps all at once. By syncing their volumes, the app ensures your audio experience is always balanced and convenient.\n\n**FEATURES:**\n\n* **Group Volume Control:** Simply select the apps you want to control from a list of all your installed applications. The app will then link their volumes together, allowing you to control them simultaneously.\n* **Seamless Integration:** SoundSync works with your device's physical volume buttons. When you press them, the volume for the entire group of selected apps is adjusted in unison, providing an intuitive and familiar user experience.\n* **Simplified Audio Management:** Whether you're listening to music while using a messaging app or watching a video, you can manage all your audio sources with a single action, making it easier than ever to get the perfect sound mix.\n\nTake control of your audio experience with SoundSync and enjoy perfectly balanced sound across your favourite apps."
+			 }
+	  },
+	  "SquareCam": {
+			 "include": true,
+			 "images": {
+					"0": "Screenshot_20220930_105600.png",
+					"1": "Screenshot_20220930_105609.png",
+					"2": "Screenshot_20220930_105616.png",
+					"3": "Screenshot_20220930_105625.png",
+					"4": "Screenshot_20220930_105633.png",
+					"5": "Screenshot_20220930_105640.png"
+			 },
+			 "descriptions": {
+					"short": "A personal camera with handy settings, including video compression.",
+					"full": "SquareCam is a straightforward and efficient camera app designed to give you quick access to the most important controls. Whether you're capturing a photo or recording a video, its intuitive interface ensures you can adjust settings in an instant, without digging through menus.\n\n**FEATURES:**\n\n* **Quick Toggles:** Easily adjust essential settings with a single tap. Instantly switch between multiple aspect ratios like 16:9, 4:3, and 1:1. You can also quickly toggle location tagging and your camera's torch or flash mode.\n* **Unique Video Compression:** Our biggest USP is the ability to choose your video file size on the fly. With a single tap, you can switch between a \"Normal\" large file size for high quality, or a \"Compressed\" smaller file size, perfect for saving storage space or sharing quickly.\n* **Simplified Interface:** The clean and minimal design places all key controls, including the shutter and record buttons, within easy reach, so you never miss a moment.\n\nSquareCam is the perfect tool for users who value speed, convenience, and efficient file management in their personal camera."
+			 }
+	  },
+	  "Streameing": {
+			 "include": false,
+			 "images": {
+					"0": "Screenshot_20221110_155551.png",
+					"1": "Screenshot_20221110_155604.png",
+					"2": "Screenshot_20221110_155614.png",
+					"3": "Screenshot_20221110_155620.png",
+					"4": "Screenshot_20221110_155627.png"
+			 },
+			 "descriptions": {
+					"short": "",
+					"full": ""
+			 }
+	  },
+	  "Touchd": {
+			 "include": false,
+			 "images": {
+					"0": "Screenshot_20220930_112024.png",
+					"1": "Screenshot_20220930_112030.png",
+					"2": "Screenshot_20220930_112113.png",
+					"3": "Screenshot_20220930_112136.png",
+					"4": "Screenshot_20220930_112148.png"
+			 },
+			 "descriptions": {
+					"short": "",
+					"full": ""
+			 }
+	  },
+	  "Travelinerary": {
+			 "include": false,
+			 "images": {
+					"0": "Screenshot_20230404_163905.png",
+					"1": "Screenshot_20230404_163906.png",
+					"2": "Screenshot_20230404_164003.png",
+					"3": "Screenshot_20230404_165003.png",
+					"4": "Screenshot_20230404_165028.png",
+					"5": "Screenshot_20230404_165114.png",
+					"6": "Screenshot_20230404_165158.png",
+					"7": "Screenshot_20230404_205501.png"
+			 },
+			 "descriptions": {
+					"short": "",
+					"full": ""
+			 }
+	  },
+	  "Travexpenses": {
+			 "include": false,
+			 "images": {
+					"0": "Screenshot_20221011_221742.png",
+					"1": "Screenshot_20221011_221750.png",
+					"2": "Screenshot_20221011_221844.png",
+					"3": "Screenshot_20221011_221906.png",
+					"4": "Screenshot_20221011_221920.png",
+					"5": "Screenshot_20221011_221955.png",
+					"6": "Screenshot_20221011_222026.png",
+					"7": "Screenshot_20221011_222150.png",
+					"8": "Screenshot_20221011_222201.png"
+			 },
+			 "descriptions": {
+					"short": "",
+					"full": ""
+			 }
+	  },
+	  "Tripp": {
+			 "include": true,
+			 "images": {
+					"0": "Screenshot_20230808_151356.png",
+					"1": "Screenshot_20230808_151405.png",
+					"2": "Screenshot_20230808_151412.png",
+					"3": "Screenshot_20230808_151417.png",
+					"4": "Screenshot_20230808_151530.png",
+					"5": "Screenshot_20230808_151552.png"
+			 },
+			 "descriptions": {
+					"short": "A private, on-device trip planner to manage itineraries and shared expenses.",
+					"full": "Tripp is your all-in-one, private trip planning companion designed to simplify group travel. From coordinating daily activities to managing shared finances, Tripp provides a seamless experience while keeping all your travel data securely on your device.\n\n**FEATURES:**\n\n* **Detailed Itinerary Planning:** Create a comprehensive itinerary by setting trip dates and adding specific places to visit. You can easily add and manage places with details like their type and any personal notes.\n* **Collaborative Expense Management:** Effortlessly handle shared expenses with a dedicated tool that allows you to log all transactions, including reimbursements, so you always know who paid for what and who owes whom.\n* **Complete Data Privacy:** Your travel plans and financial records are for your eyes only. All information entered into Tripp is stored exclusively on your device, ensuring complete privacy and control without the need for a cloud database.\n\nPlan your next adventure with Tripp and enjoy a organised and worry-free travel experience."
+			 }
+	  },
+	  "UntechContacts": {
+			 "include": false,
+			 "images": {
+					"0": "Screenshot_20220930_105754.png",
+					"1": "Screenshot_20220930_105835.png",
+					"2": "Screenshot_20220930_105908.png",
+					"3": "Screenshot_20220930_105945.png",
+					"4": "Screenshot_20220930_105958.png",
+					"5": "Screenshot_20220930_110010.png"
+			 },
+			 "descriptions": {
+					"short": "",
+					"full": ""
+			 }
+	  },
+	  "VoicedThoughts": {
+			 "include": true,
+			 "images": {
+					"0": "Screenshot_20240109_123616.png",
+					"1": "Screenshot_20240109_123637.png",
+					"2": "Screenshot_20240115_124912.png",
+					"3": "Screenshot_20240115_124921.png"
+			 },
+			 "descriptions": {
+					"short": "A private voice recorder with the unique ability to add to existing recordings.",
+					"full": "VoicedThoughts is your personal, private voice recorder for capturing ideas, reminders, or fleeting thoughts whenever inspiration strikes. Designed with your privacy in mind, all your recordings are stored exclusively on your device, ensuring your voice notes remain confidential.\n\n**FEATURES:**\n\n* **Simple Recording:** Quickly create new voice notes with a clean and simple interface. With a single tap, you can start and stop recording, making it easy to capture your thoughts on the go.\n* **Unique Concatenation:** Our standout feature allows you to seamlessly add to an existing recording. You can continue an old voice note to create a single, continuous audio file, perfect for building on ideas or documenting ongoing projects over time.\n* **Total Privacy:** All your voice recordings are stored locally on your device. VoicedThoughts does not use a cloud database, so you have complete control over your data.\n* **Organised Library:** Easily manage and find your recordings from a clear, timestamped list, giving you instant access to your saved thoughts.\n\nWith VoicedThoughts, you can record, build, and reflect on your ideas with complete privacy and convenience."
+			 }
+	  }
+}
