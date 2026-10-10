@@ -1,5 +1,7 @@
 "use client";
 import { AppThemeModeToggleButton } from "@/components/mui/apx/tsx/AppThemeModeProvider";
+import { DateTimeFormatter, Instant, ZoneId } from "@js-joda/core";
+import { Locale } from "@js-joda/locale_en";
 import EcoOutlined from "@mui/icons-material/EnergySavingsLeafOutlined";
 import HistoryOutlined from "@mui/icons-material/HistoryOutlined";
 import RecyclingOutlined from "@mui/icons-material/RecyclingOutlined";
@@ -35,6 +37,8 @@ export const APP_NAME = "Abicio";
 export const APP_TAGLINE = "Waste Intelligence";
 export const HISTORY_KEY = "abicio-analysis-history";
 export const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
+export const DATE_FORMAT = DateTimeFormatter.ofPattern("d MMM yyyy, HH:mm", Locale.ENGLISH);
+export const formatTimestamp = (at: string) => Instant.parse(at).atZone(ZoneId.systemDefault()).format(DATE_FORMAT);
 
 
 export default function PublicLayout({ children }: Readonly<{ children: React.ReactNode }>) {
