@@ -28,7 +28,7 @@ export default function HomePage() {
 						  </Typography>
 						  <Stack direction={ { xs: "column", sm: "row" } } spacing={ 1.5 }>
 								 <Button component={ Link } href={ NAV_ITEMS.analyse.href } size={ "large" } endIcon={ <ArrowForwardRounded/> }>{ "Analyse Waste" }</Button>
-								 <Button component={ Link } href={ NAV_ITEMS.history.href } size={ "large" } variant={ "outlined" } color={ "inherit" }>{ "View History" }</Button>
+								 <Button component={ Link } href={ NAV_ITEMS.history.href } size={ "large" } variant={ "outlined" }>{ "View History" }</Button>
 						  </Stack>
 						  <Typography variant={ "caption" } color={ "text.secondary" }>
 								 { "Predictions are estimates. Confirm local collection and recycling requirements before disposal." }
@@ -42,7 +42,7 @@ export default function HomePage() {
 									 borderRadius: "50%", border: 1, borderColor: "success.main", color: "success.main", bgcolor: "action.hover"
 							  } }
 					>
-						  <SpaOutlined sx={ { fontSize: 112 } }/>
+						  <SpaOutlined sx={ { fontSize: 128 } }/>
 					</Box>
 			 </Box>
 			 <Box>
