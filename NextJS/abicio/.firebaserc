@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "apxmca"
+  },
+  "targets": {
+    "apxmca": {
+      "hosting": {
+        "abicio": [
+          "apparatusabicio"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

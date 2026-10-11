@@ -1,0 +1,19 @@
+{
+	  "hosting": [
+			 {
+					"target": "abicio",
+					"public": "dist",
+					"ignore": [
+						  "firebase.json",
+						  "**/.*"
+					],
+					"redirects": [
+						  {
+								 "source": "**",
+								 "destination": "https://abicio--apxmca.us-central1.hosted.app",
+								 "type": 301
+						  }
+					]
+			 }
+	  ]
+}
