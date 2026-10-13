@@ -108,8 +108,9 @@ Node *display(Node *head)
         return head;
 }
 
-void do_menu(Node *head)
+void do_menu()
 {
+        Node *head = nullptr;
         bool exit = false;
         while (true)
         {
@@ -157,7 +158,6 @@ void do_menu(Node *head)
 
 int main()
 {
-        Node *head = nullptr;
-        do_menu(head);
+        do_menu();
         return 0;
 }

@@ -142,8 +142,9 @@ Node *deduplicate(Node *head)
         return head;
 }
 
-void do_num_ops(Node *head)
+void do_num_ops()
 {
+        Node *head = nullptr;
         int num;
         cout << "Enter number: ";
         cin >> num;
@@ -166,7 +167,6 @@ void do_num_ops(Node *head)
 
 int main()
 {
-        Node *head = nullptr;
-        do_num_ops(head);
+        do_num_ops();
         return 0;
 }

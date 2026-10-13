@@ -65,10 +65,15 @@ void read_employees(Employee *head)
         }
 }
 
-int main()
+void do_employee()
 {
         Employee *head = nullptr;
         head = insert_employees(head);
         read_employees(head);
+}
+
+int main()
+{
+        do_employee();
         return 0;
 }
