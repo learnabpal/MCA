@@ -18,7 +18,9 @@ print(items[len(items) - 1])
 mixed_data_types = ["AP", 50, 5.8, False, "Kolkata"]
 
 # 6. Declare it_companies
-it_companies = ["Facebook", "Google", "Microsoft", "Apple", "IBM", "Oracle", "Amazon"]
+it_companies = [
+    "Facebook", "Google", "Microsoft", "Apple", "IBM", "Oracle", "Amazon"
+]
 
 # 7. Print the list
 print(it_companies)
@@ -78,18 +80,18 @@ it_companies.reverse()
 print(it_companies)
 
 # 18. Slice out the first 3 companies
-print(it_companies[:3])
+print(it_companies[: 3])
 
 # 19. Slice out the last 3 companies
-print(it_companies[len(it_companies) - 3:])
+print(it_companies[len(it_companies) - 3 :])
 
 # 20. Slice out the middle IT company or companies
 middle = len(it_companies) // 2
 
 if len(it_companies) % 2 == 0:
-    print(it_companies[middle - 1:middle + 1])
+    print(it_companies[middle - 1 : middle + 1])
 else:
-    print(it_companies[middle:middle + 1])
+    print(it_companies[middle : middle + 1])
 
 # 21. Remove the first IT company
 it_companies.pop(0)
@@ -99,7 +101,7 @@ print(it_companies)
 middle = len(it_companies) // 2
 
 if len(it_companies) % 2 == 0:
-    del it_companies[middle - 1:middle + 1]
+    del it_companies[middle - 1 : middle + 1]
 else:
     del it_companies[middle]
 
@@ -133,7 +135,6 @@ for index in range(len(full_stack)):
         break
 
 print(full_stack)
-
 
 # LEVEL 2
 
@@ -192,22 +193,23 @@ elif max_difference > min_difference:
 else:
     print("Both are equally far from the average")
 
-
 # 2. Find the middle country or countries
-countries = ["China", "Russia", "USA", "Finland", "Sweden", "Norway", "Denmark"]
+countries = [
+    "China", "Russia", "USA", "Finland", "Sweden", "Norway", "Denmark"
+]
 
 middle = len(countries) // 2
 
 if len(countries) % 2 == 0:
-    print(countries[middle - 1:middle + 1])
+    print(countries[middle - 1 : middle + 1])
 else:
-    print(countries[middle:middle + 1])
+    print(countries[middle : middle + 1])
 
 # 3. Divide the countries into two halves
 middle = (len(countries)) // 2
 
-first_half = countries[:middle]
-second_half = countries[middle:]
+first_half = countries[: middle]
+second_half = countries[middle :]
 
 print("First half:", first_half)
 print("Second half:", second_half)

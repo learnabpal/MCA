@@ -1,3 +1,4 @@
+import math
 import sys
 
 print(sys.version)
@@ -9,7 +10,7 @@ print(3 - 4)
 print(3 * 4)
 print(3 % 4)
 print(3 / 4)
-print(3 ** 4)
+print(3**4)
 print(3 // 4)
 
 print()
@@ -37,8 +38,8 @@ string_value = "Python"
 boolean_value = True
 list_value = [1, 2, 3]
 tuple_value = (1, 2, 3)
-set_value = {1, 2, 3}
-dictionary_value = {"name": "Arnab", "country": "India"}
+set_value = { 1, 2, 3 }
+dictionary_value = { "name": "Arnab", "country": "India"}
 
 print(integer_number)
 print(float_number)
@@ -50,11 +51,9 @@ print(tuple_value)
 print(set_value)
 print(dictionary_value)
 
-import math
-
 x1, y1 = 2, 3
 x2, y2 = 10, 8
 
-distance = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
 
 print(distance)

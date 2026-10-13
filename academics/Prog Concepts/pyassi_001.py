@@ -1,4 +1,6 @@
-print("# Q1. Accept an integer and determine whether it is positive, negative, or zero.")
+print(
+    "# Q1. Accept an integer and determine whether it is positive, negative, or zero."
+)
 
 number = int(input("Enter an integer: "))
 
@@ -8,7 +10,6 @@ elif number < 0:
     print("Negative")
 else:
     print("Zero")
-
 
 print("# Q2. Accept three numbers and find the largest using if-elif-else.")
 
@@ -25,16 +26,18 @@ else:
 
 print("Largest:", largest)
 
-
-print("# Q3. Accept an integer and print its multiplication table from 1 to 10 using a for loop.")
+print(
+    "# Q3. Accept an integer and print its multiplication table from 1 to 10 using a for loop."
+)
 
 number = int(input("Enter a number: "))
 
 for multiplier in range(1, 11):
     print(number, "×", multiplier, "=", number * multiplier)
 
-
-print("# Q4. Accept a positive integer n and calculate the sum of all even numbers between 1 and n.")
+print(
+    "# Q4. Accept a positive integer n and calculate the sum of all even numbers between 1 and n."
+)
 
 n = int(input("Enter a positive number: "))
 even_sum = 0
@@ -44,29 +47,31 @@ for number in range(2, n + 1, 2):
 
 print("Sum of even numbers:", even_sum)
 
-
 print("# Q5. Write a program to determine whether a given number is prime.")
 
 number = int(input("Enter a number: "))
 is_prime = True
 
-if number < 2:  is_prime = False
+if number < 2:
+    is_prime = False
 else:
     for d in range(2, int(number / 2) + 1):
         if number % d == 0:
             is_prime = False
             break
 
-if is_prime: print("Prime")
-else: print("Not Prime")
-
+if is_prime:
+    print("Prime")
+else:
+    print("Not Prime")
 
 print("# Q6. Accept two numbers and display all prime numbers between them.")
 
 start = int(input("Enter the starting number: "))
 end = int(input("Enter the ending number: "))
 
-if start > end: start, end = end, start
+if start > end:
+    start, end = end, start
 
 print("Prime numbers between", start, "and", end, ":")
 
@@ -83,8 +88,9 @@ for number in range(max(2, start), end + 1):
 
 print()
 
-
-print("# Q7. Generate the first n terms of the Fibonacci series using a loop and display their sum.")
+print(
+    "# Q7. Generate the first n terms of the Fibonacci series using a loop and display their sum."
+)
 
 n = int(input("Enter the number of Fibonacci terms: "))
 
@@ -104,7 +110,6 @@ for term in range(n):
 print()
 print("Sum:", fibonacci_sum)
 
-
 print("# Q8. Print the following patterns for n rows.")
 
 n = int(input("Enter the number of rows: "))
@@ -116,9 +121,9 @@ n = int(input("Enter the number of rows: "))
 # ****
 # *****
 for row in range(n):
-  for col in range(row+1):
-    print('*', end=' ')
-  print()
+    for col in range(row + 1):
+        print('*', end=' ')
+    print()
 
 # Pattern 2:
 # 1
@@ -127,9 +132,9 @@ for row in range(n):
 # 4444
 # 55555
 for row in range(n):
-  for col in range(row+1):
-    print(row+1, end=' ')
-  print()
+    for col in range(row + 1):
+        print(row + 1, end=' ')
+    print()
 
 # Pattern 3:
 # 1
@@ -138,9 +143,9 @@ for row in range(n):
 # 1234
 # 12345
 for row in range(n):
-  for col in range(row+1):
-    print(col+1, end=' ')
-  print()
+    for col in range(row + 1):
+        print(col + 1, end=' ')
+    print()
 
 # Pattern 4:
 # 1
@@ -148,13 +153,12 @@ for row in range(n):
 # 456
 # 78910
 # ...
-x=1
+x = 1
 for row in range(n):
-  for col in range(row+1):
-    print(x, end=' ')
-    x+=1
-  print()
-
+    for col in range(row + 1):
+        print(x, end=' ')
+        x += 1
+    print()
 
 print("# Q9. Display multiplication tables from 1 to 10 using nested loops.")
 
@@ -162,7 +166,6 @@ for table in range(1, 11):
     print("\nMultiplication table of", table)
     for m in range(1, 11):
         print(table, "×", m, "=", table * m)
-
 
 print("# Q10. Menu-driven program.")
 
@@ -185,18 +188,23 @@ while True:
     if choice == 1:
         number = int(input("Enter a number: "))
         is_prime = True
-        if number < 2: is_prime = False
+        if number < 2:
+            is_prime = False
         else:
             for d in range(2, int(number / 2) + 1):
                 if number % d == 0:
                     is_prime = False
                     break
-        if is_prime: print("Prime")
-        else: print("Not Prime")
+        if is_prime:
+            print("Prime")
+        else:
+            print("Not Prime")
     elif choice == 2:
         number = int(input("Enter a number: "))
-        if number % 2 == 0: print("Even")
-        else: print("Odd")
+        if number % 2 == 0:
+            print("Even")
+        else:
+            print("Odd")
     elif choice == 3:
         number = int(input("Enter a number: "))
         if number < 0:
