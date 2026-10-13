@@ -98,12 +98,30 @@ void occurrence(Node *head, int value)
 
 Node *sort(Node *head)
 {
+        Node *curr_node, *next_node;
+        curr_node = head;
+        while (curr_node != nullptr)
+        {
+                next_node = curr_node;
+                while (next_node != nullptr)
+                {
+                        if (curr_node->data > next_node->data)
+                        {
+                                int temp = curr_node->data;
+                                curr_node->data = next_node->data;
+                                next_node->data = temp;
+                        }
+                        next_node = next_node->next;
+                }
+                curr_node = curr_node->next;
+        }
+        return head;
 }
 
 int main()
 {
         Node *head = nullptr;
-        int num = 159753;
+        int num = 321598753;
         while (num > 0)
         {
                 head = insert_start(head, num % 10);
@@ -114,5 +132,7 @@ int main()
         nth_from_end(head, 2, 5);
         min_max(head);
         occurrence(head, 3);
+        head = sort(head);
+        display(head);
         return 0;
 }
