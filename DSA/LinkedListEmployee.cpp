@@ -51,7 +51,7 @@ void read_employees(Employee *head)
 {
         if (head == nullptr)
         {
-                cout << "EMPTY LIST";
+                cout << "No employees found";
                 return;
         }
         cout << "EMPLOYEES LIST\n";
