@@ -117,6 +117,30 @@ Node *sort(Node *head)
         }
         return head;
 }
+Node *deduplicate(Node *head)
+{
+        Node *curr_node, *next_node;
+        curr_node = head;
+        while (curr_node != nullptr)
+        {
+                next_node = curr_node;
+                while (next_node != nullptr)
+                {
+                        if (curr_node->data == next_node->data)
+                        {
+                                curr_node->next = next_node->next;
+                                delete next_node;
+                                next_node = curr_node->next;
+                        }
+                        else
+                        {
+                                next_node = next_node->next;
+                        }
+                }
+                curr_node = curr_node->next;
+        }
+        return head;
+}
 
 int main()
 {
@@ -133,6 +157,8 @@ int main()
         min_max(head);
         occurrence(head, 3);
         head = sort(head);
+        display(head);
+        head = deduplicate(head);
         display(head);
         return 0;
 }
