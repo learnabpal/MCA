@@ -27,6 +27,7 @@ Employee *insert_employees(Employee *head)
                 }
                 cout << "Enter employee id: ";
                 cin >> emp->id;
+                cin.ignore();
                 cout << "Enter employee name: ";
                 getline(cin, emp->name);
                 cout << "Enter employee salary: ";
@@ -48,6 +49,13 @@ Employee *insert_employees(Employee *head)
 
 void read_employees(Employee *head)
 {
+        if (head == nullptr)
+        {
+                cout << "EMPTY LIST";
+                return;
+        }
+        cout << "EMPLOYEES LIST\n";
+        cout << "#\tID\tNAME\tSALARY\n";
         Employee *temp = head;
         int i = 1;
         while (temp != nullptr)
