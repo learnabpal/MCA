@@ -62,8 +62,9 @@ void nth_from_end(Node *head, int nth, int len)
         {
                 temp = temp->next;
         }
-        cout << temp->data << endl;
+        cout << nth << "-th from end: " << temp->data << endl;
 }
+
 void min_max(Node *head)
 {
         int min, max;
@@ -81,6 +82,7 @@ void min_max(Node *head)
         cout << "Min: " << min << endl;
         cout << "Max: " << max << endl;
 }
+
 void occurrence(Node *head, int value)
 {
         int count = 0;
@@ -94,10 +96,14 @@ void occurrence(Node *head, int value)
         cout << "Occurrence of " << value << ": " << count << " times" << endl;
 }
 
+Node *sort(Node *head)
+{
+}
+
 int main()
 {
         Node *head = nullptr;
-        int num = 12345;
+        int num = 159753;
         while (num > 0)
         {
                 head = insert_start(head, num % 10);
