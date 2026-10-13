@@ -11,7 +11,7 @@ struct Employee
         Employee *next;
 };
 
-Employee *insert_at_end(Employee *head)
+Employee *insert_employees(Employee *head)
 {
         int count;
         cout << "Enter number of employees: ";
@@ -28,7 +28,7 @@ Employee *insert_at_end(Employee *head)
                 cout << "Enter employee id: ";
                 cin >> emp->id;
                 cout << "Enter employee name: ";
-                cin >> emp->name;
+                getline(cin, emp->name);
                 cout << "Enter employee salary: ";
                 cin >> emp->salary;
                 if (head == nullptr)
@@ -38,13 +38,29 @@ Employee *insert_at_end(Employee *head)
                 }
                 else
                 {
+                        tail->next = emp;
+                        tail = emp;
+                        tail->next = nullptr;
                 }
         }
-
         return head;
+}
+
+void read_employees(Employee *head)
+{
+        Employee *temp = head;
+        int i = 1;
+        while (temp != nullptr)
+        {
+                cout << i++ << ".\t" << temp->id << "\t" << temp->name << "\t" << temp->salary << endl;
+                temp = temp->next;
+        }
 }
 
 int main()
 {
+        Employee *head = nullptr;
+        head = insert_employees(head);
+        read_employees(head);
         return 0;
 }
