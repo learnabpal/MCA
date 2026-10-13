@@ -23,7 +23,6 @@ Node *insertAtStart(Node *head, int data)
 }
 Node *insertAtEnd(Node *head, int data)
 {
-        Node *temp;
         Node *nn = new Node;
         if (nn == nullptr)
         {
@@ -38,6 +37,7 @@ Node *insertAtEnd(Node *head, int data)
         }
         else
         {
+                Node *temp;
                 temp = head;
                 while (temp->next != nullptr)
                 {
@@ -50,12 +50,12 @@ Node *insertAtEnd(Node *head, int data)
 }
 Node *deleteAtStart(Node *head)
 {
-        Node *temp;
         if (head == nullptr)
         {
                 cout << "EMPTY LIST";
                 return head;
         }
+        Node *temp;
         temp = head;
         head = temp->next;
         cout << "Deleted " << temp->data << endl;
