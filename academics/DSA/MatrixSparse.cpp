@@ -53,7 +53,7 @@ void represent_sparse(int M[][MAX], int r, int c)
         }
 }
 
-int main()
+void do_matrix_sparse()
 {
         int r, c;
         int M[MAX][MAX];
@@ -86,6 +86,10 @@ int main()
 
         cout << "Representing sparse matrix: " << endl;
         represent_sparse(M, r, c);
+}
 
+int main()
+{
+        do_matrix_sparse();
         return 0;
 }

@@ -11,7 +11,7 @@ struct Student
         float cgpa;
 };
 
-int main()
+void do_student_struct()
 {
         Student students[MAX];
         int count;
@@ -49,6 +49,10 @@ int main()
         }
 
         cout << "Student with the highest CGPA is: " << max_name << " (CGPA: " << max_cgpa << ")" << endl;
+}
 
+int main()
+{
+        do_student_struct();
         return 0;
 }

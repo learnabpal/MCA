@@ -208,7 +208,7 @@ void match_parentheses(string expression)
         }
 }
 
-int main()
+void do_paren()
 {
         string expr = "";
         Stack stack;
@@ -220,6 +220,10 @@ int main()
         postfix(expr, &stack);
         cout << endl;
         match_parentheses(expr);
+}
 
+int main()
+{
+        do_paren();
         return 0;
 }

@@ -67,7 +67,7 @@ void display_array(int arr[], int size)
         cout << endl;
 }
 
-int main()
+void do_array_ops()
 {
         cout << "Enter size of array: ";
         int size;
@@ -100,6 +100,10 @@ int main()
         cout << "Deleted element: " << del_el << endl;
         cout << "Array after deletion: ";
         display_array(arr, size);
+}
 
+int main()
+{
+        do_array_ops();
         return 0;
 }

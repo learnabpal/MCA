@@ -108,7 +108,7 @@ Node *display(Node *head)
         return head;
 }
 
-void do_menu()
+void do_linked_list_menu()
 {
         Node *head = nullptr;
         bool exit = false;
@@ -158,6 +158,6 @@ void do_menu()
 
 int main()
 {
-        do_menu();
+        do_linked_list_menu();
         return 0;
 }

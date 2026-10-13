@@ -3,24 +3,24 @@ using namespace std;
 
 const int MAX = 10;
 
-void input_matrix(int M[][MAX], int& r, int& c, int matrix_number)
+void input_matrix(int M[][MAX], int &r, int &c, int matrix_number)
 {
-    cout << "Enter rows and columns of matrix " << matrix_number << " (maximum " << MAX << "):" << endl;
-    cin >> r >> c;
-    while (r < 1 || r > MAX || c < 1 || c > MAX)
-    {
-        cout << "Rows and columns must be between 1 and " << MAX << ". Enter again:" << endl;
+        cout << "Enter rows and columns of matrix " << matrix_number << " (maximum " << MAX << "):" << endl;
         cin >> r >> c;
-    }
-
-    cout << "Enter elements of matrix " << matrix_number << endl;
-    for (int i = 0; i < r; i++)
-    {
-        for (int j = 0; j < c; j++)
+        while (r < 1 || r > MAX || c < 1 || c > MAX)
         {
-            cin >> M[i][j];
+                cout << "Rows and columns must be between 1 and " << MAX << ". Enter again:" << endl;
+                cin >> r >> c;
         }
-    }
+
+        cout << "Enter elements of matrix " << matrix_number << endl;
+        for (int i = 0; i < r; i++)
+        {
+                for (int j = 0; j < c; j++)
+                {
+                        cin >> M[i][j];
+                }
+        }
 }
 
 void display_matrix(int M[][MAX], int r, int c)
@@ -94,7 +94,7 @@ void repr_column_major(int M[][MAX], int C[], int r, int c)
         cout << endl;
 }
 
-int main()
+void do_matrix_normal()
 {
         int r1, c1, r2, c2;
         int A[MAX][MAX], B[MAX][MAX];
@@ -129,6 +129,10 @@ int main()
         {
                 display_matrix(MUL, r1, c2);
         }
+}
 
+int main()
+{
+        do_matrix_normal();
         return 0;
 }

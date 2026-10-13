@@ -20,8 +20,7 @@ long int factorial_iterative(int n)
         return result;
 }
 
-int main()
-{
+void do_factorial(){
         int number;
         cout << "Enter a number: ";
         cin >> number;
@@ -34,6 +33,10 @@ int main()
         {
                 cout << "Factorial of " << number << " is: " << factorial_recursive(number) << endl;
         }
+}
 
+int main()
+{
+        do_factorial();
         return 0;
 }

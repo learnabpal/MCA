@@ -91,7 +91,7 @@ void display_menu(string choices_sans_exit[], int size, function<void(int)> acti
         } while (choice >= 1 && choice <= size);
 }
 
-int main()
+void do_stack_with_array()
 {
         Stack stack;
         string choices[] = {"Push", "Pop", "Peek", "Display"};
@@ -115,5 +115,10 @@ int main()
                                         stack.display();
                                         break;
                         } });
+}
+
+int main()
+{
+        do_stack_with_array();
         return 0;
 }
