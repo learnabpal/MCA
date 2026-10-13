@@ -142,10 +142,12 @@ Node *deduplicate(Node *head)
         return head;
 }
 
-int main()
+void do_num_ops(Node *head)
 {
-        Node *head = nullptr;
-        int num = 321598753;
+        int num;
+        cout << "Enter number: ";
+        cin >> num;
+        num = abs(num);
         while (num > 0)
         {
                 head = insert_start(head, num % 10);
@@ -160,5 +162,11 @@ int main()
         display(head);
         head = deduplicate(head);
         display(head);
+}
+
+int main()
+{
+        Node *head = nullptr;
+        do_num_ops(head);
         return 0;
 }
