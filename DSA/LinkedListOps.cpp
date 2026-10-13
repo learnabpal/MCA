@@ -8,25 +8,7 @@ struct Node
         Node *next;
 };
 
-void display(Node *head)
-{
-        if (head == nullptr)
-        {
-                cout << "EMPTY LIST";
-                return;
-        }
-        Node *temp = head;
-        cout << "Display ";
-        while (temp != nullptr)
-        {
-                cout << temp->data << " ";
-                temp = temp->next;
-        }
-        cout << endl;
-        return;
-}
-
-Node *insert_start(Node *head, int data)
+Node *insertAtStart(Node *head, int data)
 {
         Node *nn = new Node;
         if (nn == nullptr)
@@ -39,126 +21,143 @@ Node *insert_start(Node *head, int data)
         head = nn;
         return head;
 }
-
-void sum_and_mean(Node *head, int len)
+Node *insertAtEnd(Node *head, int data)
 {
-        int sum, mean = 0;
-        Node *temp = head;
-        while (temp != nullptr)
+        Node *nn = new Node;
+        if (nn == nullptr)
         {
-                sum += temp->data;
-                temp = temp->next;
+                cout << "MEMORY OVERFLOW";
+                return head;
         }
-        mean = sum / len;
-        cout << "Sum: " << sum << endl;
-        cout << "Mean: " << mean << endl;
-}
-
-void nth_from_end(Node *head, int nth, int len)
-{
-        int x = len - nth;
-        Node *temp = head;
-        for (int i = 0; i < x; i++)
+        nn->data = data;
+        if (head == nullptr)
         {
-                temp = temp->next;
+                nn->next = head;
+                head = nn;
         }
-        cout << nth << "-th from end: " << temp->data << endl;
-}
-
-void min_max(Node *head)
-{
-        int min, max;
-        Node *temp = head;
-        min = temp->data;
-        max = temp->data;
-        while (temp != nullptr)
+        else
         {
-                if (temp->data > max)
-                        max = temp->data;
-                if (temp->data < min)
-                        min = temp->data;
-                temp = temp->next;
-        }
-        cout << "Min: " << min << endl;
-        cout << "Max: " << max << endl;
-}
-
-void occurrence(Node *head, int value)
-{
-        int count = 0;
-        Node *temp = head;
-        while (temp != nullptr)
-        {
-                if (temp->data == value)
-                        count++;
-                temp = temp->next;
-        }
-        cout << "Occurrence of " << value << ": " << count << " times" << endl;
-}
-
-Node *sort(Node *head)
-{
-        Node *curr_node, *next_node;
-        curr_node = head;
-        while (curr_node != nullptr)
-        {
-                next_node = curr_node;
-                while (next_node != nullptr)
+                Node *temp;
+                temp = head;
+                while (temp->next != nullptr)
                 {
-                        if (curr_node->data > next_node->data)
-                        {
-                                int temp = curr_node->data;
-                                curr_node->data = next_node->data;
-                                next_node->data = temp;
-                        }
-                        next_node = next_node->next;
+                        temp = temp->next;
                 }
-                curr_node = curr_node->next;
+                temp->next = nn;
+                nn->next = nullptr;
         }
         return head;
 }
-Node *deduplicate(Node *head)
+Node *deleteAtStart(Node *head)
 {
-        Node *curr_node, *next_node;
-        curr_node = head;
-        while (curr_node != nullptr)
+        if (head == nullptr)
         {
-                next_node = curr_node;
-                while (next_node != nullptr)
+                cout << "EMPTY LIST";
+                return head;
+        }
+        Node *temp;
+        temp = head;
+        head = temp->next;
+        cout << "Deleted " << temp->data << endl;
+        return head;
+}
+Node *deleteAtEnd(Node *head)
+{
+        if (head == nullptr)
+        {
+                cout << "EMPTY LIST";
+                return head;
+        }
+        if (head->next == nullptr)
+        {
+                cout << "Only element deleted " << head->data << endl;
+                head = nullptr;
+                delete head;
+        }
+        else
+        {
+                Node *temp;
+                Node *backup;
+                temp = head;
+                while (temp->next != nullptr)
                 {
-                        if (curr_node->data == next_node->data)
-                        {
-                                curr_node->next = next_node->next;
-                                delete next_node;
-                                next_node = curr_node->next;
-                        }
-                        else
-                        {
-                                next_node = next_node->next;
-                        }
+                        backup = temp;
+                        temp = temp->next;
                 }
-                curr_node = curr_node->next;
+                cout << "Element deleted " << temp->data << endl;
+                backup->next = nullptr;
+                delete temp;
         }
         return head;
+}
+Node *display(Node *head)
+{
+        if (head == nullptr)
+        {
+                cout << "EMPTY LIST";
+                return head;
+        }
+        Node *temp = head;
+        cout << "Display ";
+        while (temp != nullptr)
+        {
+                cout << temp->data << " ";
+                temp = temp->next;
+        }
+        cout << endl;
+        return head;
+}
+
+void do_menu(Node *head)
+{
+        bool exit = false;
+        while (true)
+        {
+                cout << "Enter 1 for insert @ start" << endl;
+                cout << "Enter 2 for insert @ end" << endl;
+                cout << "Enter 3 for delete @ start" << endl;
+                cout << "Enter 4 for delete @ end" << endl;
+                cout << "Enter any other number to exit" << endl;
+                cout << "Pick a choice: ";
+                int choice, data;
+                cin >> choice;
+                switch (choice)
+                {
+                case 1:
+                        cout << "Enter number: ";
+                        cin >> data;
+                        head = insertAtStart(head, data);
+                        display(head);
+                        break;
+                case 2:
+                        cout << "Enter number: ";
+                        cin >> data;
+                        head = insertAtEnd(head, data);
+                        display(head);
+                        break;
+                case 3:
+                        head = deleteAtStart(head);
+                        display(head);
+                        break;
+                case 4:
+                        head = deleteAtEnd(head);
+                        display(head);
+                        break;
+                default:
+                        exit = true;
+                        break;
+                }
+                cout << endl;
+                if (exit)
+                {
+                        break;
+                }
+        }
 }
 
 int main()
 {
         Node *head = nullptr;
-        int num = 321598753;
-        while (num > 0)
-        {
-                head = insert_start(head, num % 10);
-                num = num / 10;
-        }
-        display(head);
-        sum_and_mean(head, 5);
-        nth_from_end(head, 2, 5);
-        min_max(head);
-        occurrence(head, 3);
-        head = sort(head);
-        display(head);
-        head = deduplicate(head);
-        display(head);
+        do_menu(head);
         return 0;
 }
