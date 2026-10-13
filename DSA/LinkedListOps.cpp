@@ -40,6 +40,60 @@ Node *insert_start(Node *head, int data)
         return head;
 }
 
+void sum_and_mean(Node *head, int len)
+{
+        int sum, mean = 0;
+        Node *temp = head;
+        while (temp != nullptr)
+        {
+                sum += temp->data;
+                temp = temp->next;
+        }
+        mean = sum / len;
+        cout << "Sum: " << sum << endl;
+        cout << "Mean: " << mean << endl;
+}
+
+void nth_from_end(Node *head, int nth, int len)
+{
+        int x = len - nth;
+        Node *temp = head;
+        for (int i = 0; i < x; i++)
+        {
+                temp = temp->next;
+        }
+        cout << temp->data << endl;
+}
+void min_max(Node *head)
+{
+        int min, max;
+        Node *temp = head;
+        min = temp->data;
+        max = temp->data;
+        while (temp != nullptr)
+        {
+                if (temp->data > max)
+                        max = temp->data;
+                if (temp->data < min)
+                        min = temp->data;
+                temp = temp->next;
+        }
+        cout << "Min: " << min << endl;
+        cout << "Max: " << max << endl;
+}
+void occurrence(Node *head, int value)
+{
+        int count = 0;
+        Node *temp = head;
+        while (temp != nullptr)
+        {
+                if (temp->data == value)
+                        count++;
+                temp = temp->next;
+        }
+        cout << "Occurrence of " << value << ": " << count << " times" << endl;
+}
+
 int main()
 {
         Node *head = nullptr;
@@ -50,5 +104,9 @@ int main()
                 num = num / 10;
         }
         display(head);
+        sum_and_mean(head, 5);
+        nth_from_end(head, 2, 5);
+        min_max(head);
+        occurrence(head, 3);
         return 0;
 }
