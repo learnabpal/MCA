@@ -16,7 +16,7 @@ Employee *insert_employees(Employee *head)
         int count;
         cout << "Enter number of employees: ";
         cin >> count;
-        Employee *cursor, *tail = head;
+        Employee *tail = head;
         for (int i = 1; i <= count; i++)
         {
                 Employee *emp = new Employee;
