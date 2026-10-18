@@ -62,13 +62,11 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 						  <Stack spacing={ 1.5 }>
 								 { Object.entries(downloads).map(([ id, download ]) => (
 											<Card key={ id } variant={ "outlined" }>
-												  <CardActionArea>
+												  <CardActionArea component={ "a" } href={ download.url } target={ "_blank" } rel={ "noopener noreferrer" } download>
 														 <CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
 																<FileIcon color={ "action" }/>
 																<Typography sx={ { fontWeight: 600, flex: 1 } }>{ download.title }</Typography>
-																<IconButton component={ "a" } href={ download.url } target={ "_blank" } rel={ "noopener noreferrer" } download sx={ { m: 0 } }>
-																	  <DownloadIcon/>
-																</IconButton>
+																<DownloadIcon color={ "action" }/>
 														 </CardContent>
 												  </CardActionArea>
 											</Card>
