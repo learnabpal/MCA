@@ -1,72 +1,51 @@
 "use client";
-import { APP_NAME, EcoOutlined, NAV_ITEMS } from "@/app/AthenaeumMaster";
+
+import { APP_NAME, BGC_HEX, NAV_ITEMS } from "@/app/AthenaeumMaster";
 import ArrowForwardRounded from "@mui/icons-material/ArrowForwardRounded";
-import BiotechOutlined from "@mui/icons-material/BiotechOutlined";
-import SpaOutlined from "@mui/icons-material/SpaOutlined";
-import { Box, Button, Card, CardContent, Chip, Grid, Stack, Typography } from "@mui/material";
+import GitHub from "@mui/icons-material/GitHub";
+import MenuBookOutlined from "@mui/icons-material/MenuBookOutlined";
+import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
 
 
 
 export default function HomePage() {
-	  return <Stack spacing={ { xs: 4, md: 6 } }>
-			 <Box sx={ { position: "relative", overflow: "hidden", p: { xs: 3, sm: 5, md: 7 }, borderRadius: 5, border: 1, borderColor: "divider", background: "radial-gradient(circle at 88% 12%, rgba(129,199,132,0.18), transparent 36%), linear-gradient(135deg, rgba(76,175,80,0.12), rgba(0,150,136,0.05))" } }>
-					<Stack spacing={ 3 } sx={ { position: "relative", zIndex: 1, maxWidth: 760 } }>
-						  <Chip
-									 icon={ <EcoOutlined/> } label={ "AI-ASSISTED WASTE INTELLIGENCE" } color={ "success" } variant={ "outlined" }
-									 sx={ { p: 1, alignSelf: "flex-start", fontWeight: 800, letterSpacing: "0.04em" } }
-						  />
-						  <Typography variant={ "h1" } sx={ { fontSize: { xs: 36, sm: 48, md: 60 }, lineHeight: 1.05 } }>
-								 { "Make better decisions about " }
-								 <Box component={ "span" } sx={ { color: "success.main" } }>
-										{ "every piece of waste." }
-								 </Box>
+	  return <Stack spacing={ { xs: 4, md: 5 } }>
+			 <Box sx={ { position: "relative", overflow: "hidden", p: { xs: 3, sm: 5, md: 7 }, borderRadius: 4, border: 1, borderColor: "divider", background: `radial-gradient(ellipse at top right, ${ BGC_HEX }99 0%, #000000 50%)`, color: "#ffffff", minHeight: { xs: 300, md: 360 }, display: "flex", alignItems: "center" } }>
+					<Stack spacing={ 2.5 } maxWidth={ "md" } sx={ { position: "relative", zIndex: 1 } }>
+						  <Typography variant={ "overline" } sx={ { fontWeight: 800, letterSpacing: "0.16em", color: "rgba(255,255,255,0.72)" } }>{ APP_NAME }</Typography>
+						  <Typography variant={ "h1" } sx={ { fontSize: { xs: 36, sm: 48, md: 60 }, lineHeight: 1.1, letterSpacing: "-0.035em" } }>
+								 { "Your MCA studies, organised in one place." }
 						  </Typography>
-						  <Typography variant={ "h6" } color={ "text.secondary" } sx={ { fontWeight: 400, maxWidth: 640, lineHeight: 1.7 } }>
-								 { APP_NAME + " analyses a waste photograph, identifies visible items and offers practical next steps for segregation, reuse, recycling and responsible disposal." }
-						  </Typography>
-						  <Stack direction={ { xs: "column", sm: "row" } } spacing={ 1.5 }>
-								 <Button component={ Link } href={ NAV_ITEMS.analyse.href } size={ "large" } endIcon={ <ArrowForwardRounded/> }>{ "Analyse Waste" }</Button>
-								 <Button component={ Link } href={ NAV_ITEMS.history.href } size={ "large" } variant={ "outlined" }>{ "View History" }</Button>
-						  </Stack>
-						  <Typography variant={ "caption" } color={ "text.secondary" }>
-								 { "Predictions are estimates. Confirm local collection and recycling requirements before disposal." }
+						  <Typography variant={ "h6" } sx={ { lineHeight: 1.8, color: "rgba(255,255,255,0.78)", maxWidth: 680 } }>
+								 { "Explore subject-wise study material, read individual topics, access subject-level downloads, and find the source code for the MCA monorepo." }
 						  </Typography>
 					</Stack>
-					<Box
-							  sx={ {
-									 display: { xs: "none", md: "grid" }, placeItems: "center",
-									 position: "absolute", right: 42, top: "50%", transform: "translateY(-50%)",
-									 width: 210, height: 210,
-									 borderRadius: "50%", border: 1, borderColor: "success.main", color: "success.main", bgcolor: "action.hover"
-							  } }
-					>
-						  <SpaOutlined sx={ { fontSize: 128 } }/>
-					</Box>
 			 </Box>
 			 <Box>
-					<Stack spacing={ 1 } sx={ { mb: 2.5 } }>
-						  <Typography variant={ "overline" } color={ "success.main" } sx={ { fontWeight: 900, letterSpacing: "0.12em" } }>{ "THE WORKFLOW" }</Typography>
-						  <Typography variant={ "h3" }>{ "From photograph to action" }</Typography>
-						  <Typography color={ "text.secondary" } sx={ { maxWidth: 720 } }>
-								 { "Computer vision identifies what may be present; a separate rule-based layer turns those labels into understandable guidance." }
-						  </Typography>
-					</Stack>
+					<Typography variant={ "h5" } sx={ { mb: 1 } }>{ "Explore " + APP_NAME }</Typography>
+					<Typography color={ "text.secondary" } sx={ { mb: 3 } }>{ "Choose where you want to begin." }</Typography>
+					<Grid container spacing={ 2 }>
+						  { Object.entries(NAV_ITEMS).filter(([ key ]) => key !== "home").map(([ key, item ]) => (
+									 <Grid key={ key } size={ { xs: 12, sm: 6 } } sx={ { flexGrow: 1 } }>
+											<Card variant={ "outlined" } sx={ { height: "100%", bgcolor: "background.paper", transition: "border-color 180ms ease", "&:hover": { borderColor: "primary.main" } } }>
+												  <CardActionArea component={ Link } href={ item.href } sx={ { height: "100%" } }>
+														 <CardContent sx={ { p: { xs: 2.5, md: 3 }, minHeight: 155 } }>
+																<Stack direction={ "row" } alignItems={ "flex-start" } justifyContent={ "space-between" } spacing={ 2 }>
+																	  <Box sx={ { display: "grid", placeItems: "center", width: 46, height: 46, borderRadius: 2, bgcolor: "action.hover", flexShrink: 0 } }>
+																			 { item.icon }
+																	  </Box>
+																	  <ArrowForwardRounded sx={ { mt: 1, color: "text.secondary" } }/>
+																</Stack>
+																<Typography variant={ "h6" } sx={ { mt: 2 } }>{ item.label }</Typography>
+																<Typography variant={ "body2" } color={ "text.secondary" } sx={ { mt: 0.75, lineHeight: 1.7 } }>{ item.desc }</Typography>
+														 </CardContent>
+												  </CardActionArea>
+											</Card>
+									 </Grid>
+						  )) }
+					</Grid>
 			 </Box>
-			 <Card>
-					<CardContent sx={ { p: { xs: 2.5, md: 3.5 } } }>
-						  <Stack direction={ { xs: "column", md: "row" } } spacing={ 2 } alignItems={ { xs: "flex-start", md: "center" } }>
-								 <Box sx={ { display: "grid", placeItems: "center", width: 52, height: 52, borderRadius: 2, bgcolor: "rgba(0,150,136,0.14)", color: "secondary.main", flexShrink: 0 } }>
-										<BiotechOutlined sx={ { fontSize: 30 } }/>
-								 </Box>
-								 <Box sx={ { flex: 1 } }>
-										<Typography variant={ "h5" }>{ "Browser-based AI inference" }</Typography>
-										<Typography color={ "text.secondary" } sx={ { mt: 0.5 } }>{ "The waste detector runs in the browser with ONNX Runtime Web. Photos do not need to be uploaded to a separate Python inference server." }</Typography>
-								 </Box>
-								 <Button component={ Link } href={ NAV_ITEMS.analyse.href } endIcon={ <ArrowForwardRounded/> } sx={ { flexShrink: 0 } }>{ "Try " + APP_NAME }</Button>
-						  </Stack>
-					</CardContent>
-			 </Card>
 	  </Stack>;
 }

@@ -13,11 +13,11 @@ import React from "react";
 
 
 
-function Branding({ showAppName = true }) {
+function Branding({ showAppName = true, showAppLogo = true }) {
 	  return (
 				 <Box component={ Link } href={ "/" } gap={ 1 } sx={ { whiteSpace: "nowrap", display: "flex", alignItems: "center", color: "inherit", textDecoration: "none" } }>
-						<Image src={ AppIcon } alt={ DEV_NAME + " " + BGC_NAME } height={ 48 } style={ { borderRadius: 6 } }/>
-						{ showAppName && <Stack>
+						{ showAppLogo && <Image src={ AppIcon } alt={ DEV_NAME + " " + BGC_NAME } height={ 48 } style={ { borderRadius: 6 } }/> }
+						{ showAppName && <Stack color={ "primary.main" }>
 							  <Typography variant={ "h5" }>{ APP_NAME }</Typography>
 							  <Typography variant={ "caption" } color={ "text.secondary" }>{ APP_TAGLINE }</Typography>
 						</Stack> }
@@ -55,7 +55,7 @@ export default function PublicLayout({ children }: Readonly<{ children: React.Re
 								  PaperProps={ { sx: { width: { xs: "85vw", sm: 320 }, maxWidth: 360, bgcolor: "background.paper", borderRight: 1, borderColor: "divider" } } }
 						>
 							  <Stack direction={ "row" } alignItems={ "center" } justifyContent={ "space-between" } sx={ { px: 2, py: 2 } }>
-									 <Branding/>
+									 <Branding showAppLogo={ false }/>
 									 <IconButton aria-label={ "Close navigation menu" } onClick={ () => setMenuOpen(false) } color={ "inherit" }>
 											<CloseOutlined/>
 									 </IconButton>
@@ -88,9 +88,9 @@ export default function PublicLayout({ children }: Readonly<{ children: React.Re
 									 )) }
 							  </List>
 						</Drawer>
-						<Container component={ "main" } maxWidth={ "lg" } sx={ { py: { xs: 3, md: 5 }, px: { xs: 2, sm: 3 } } }>
+						<Stack component={ "main" } maxWidth={ "lg" } minHeight={ "85vh" } sx={ { py: { xs: 3, md: 5 }, px: { xs: 2, sm: 3 } } }>
 							  { children }
-						</Container>
+						</Stack>
 						<Box component={ "footer" } sx={ { py: 3, borderTop: 1, borderColor: "divider" } }>
 							  <Stack sx={ { justifyContent: "center", alignItems: "center", gap: 1 } }>
 									 <Branding showAppName={ false }/>
