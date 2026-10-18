@@ -41,7 +41,7 @@ export default function PublicLayout({ children }: Readonly<{ children: React.Re
 									 <Toolbar sx={ { minHeight: 64, px: 2, py: 1, gap: 2 } }>
 											<Branding/>
 											<Box sx={ { flexGrow: 1 } }/>
-											<AppThemeModeToggleButton/>
+											{/* <AppThemeModeToggleButton/> */ }
 											<IconButton aria-label={ "Open navigation menu" } onClick={ () => setMenuOpen(true) } color={ "inherit" }>
 												  <MenuOutlined/>
 											</IconButton>

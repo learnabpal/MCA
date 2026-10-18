@@ -1,8 +1,7 @@
 "use client";
 
-import { NAV_ITEMS, SUB_MAP, SUBS } from "@/app/AthenaeumMaster";
-import ArrowForwardRounded from "@mui/icons-material/ArrowForwardRounded";
-import { Box, Button, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
+import { ArrowForwardRoundedIcon, SUB_MAP, SUBS } from "@/app/AthenaeumMaster";
+import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
 
@@ -27,7 +26,7 @@ export default function SubjectsPage() {
 																	<CardContent sx={ { p: 2.5 } }>
 																		  <Stack direction={ "row" } alignItems={ "center" } spacing={ 2 } justifyContent={ "space-between" }>
 																				 <Typography variant={ "h6" }>{ SUB_MAP[sub] }</Typography>
-																				 <ArrowForwardRounded fontSize={ "small" } color={ "action" }/>
+																				 <ArrowForwardRoundedIcon fontSize={ "small" } color={ "action" }/>
 																		  </Stack>
 																	</CardContent>
 															 </CardActionArea>

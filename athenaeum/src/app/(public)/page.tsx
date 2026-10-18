@@ -1,9 +1,6 @@
 "use client";
 
-import { APP_NAME, BGC_HEX, NAV_ITEMS } from "@/app/AthenaeumMaster";
-import ArrowForwardRounded from "@mui/icons-material/ArrowForwardRounded";
-import GitHub from "@mui/icons-material/GitHub";
-import MenuBookOutlined from "@mui/icons-material/MenuBookOutlined";
+import { APP_NAME, BGC_HEX, NAV_ITEMS, ArrowForwardRoundedIcon } from "@/app/AthenaeumMaster";
 import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
@@ -36,7 +33,7 @@ export default function HomePage() {
 																	  <Box sx={ { display: "grid", placeItems: "center", width: 46, height: 46, borderRadius: 2, bgcolor: "action.hover", flexShrink: 0 } }>
 																			 { item.icon }
 																	  </Box>
-																	  <ArrowForwardRounded sx={ { mt: 1, color: "text.secondary" } }/>
+																	  <ArrowForwardRoundedIcon sx={ { mt: 1, color: "text.secondary" } }/>
 																</Stack>
 																<Typography variant={ "h6" } sx={ { mt: 2 } }>{ item.label }</Typography>
 																<Typography variant={ "body2" } color={ "text.secondary" } sx={ { mt: 0.75, lineHeight: 1.7 } }>{ item.desc }</Typography>

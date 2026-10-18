@@ -3,11 +3,7 @@
 import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
 import { use } from "react";
 import React from "react";
-import { NAV_ITEMS, SUB_MAP, type AthContent, type AthDownload, type SubKey } from "@/app/AthenaeumMaster";
-import ArrowBackRounded from "@mui/icons-material/ArrowBackRounded";
-import DownloadOutlined from "@mui/icons-material/DownloadOutlined";
-import MenuBookOutlined from "@mui/icons-material/MenuBookOutlined";
-import PictureAsPdfOutlined from "@mui/icons-material/PictureAsPdfOutlined";
+import { NAV_ITEMS, SUB_MAP, type AthContent, type AthDownload, type SubKey, MenuBookOutlinedIcon, PictureAsPdfOutlinedIcon, DownloadIcon, ArrowBackRoundedIcon, ArrowForwardRoundedIcon } from "@/app/AthenaeumMaster";
 import { Alert, Box, Button, Card, CardActionArea, CardContent, Chip, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -54,7 +50,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 	  if ( ! subjectName) return <Alert severity={ "warning" }>{ "Subject not found." }</Alert>;
 	  
 	  return <Stack spacing={ 3 }>
-			 <Button component={ Link } href={ NAV_ITEMS.subjects.href } startIcon={ <ArrowBackRounded/> } sx={ { alignSelf: "flex-start" } }>{ "All Subjects" }</Button>
+			 <Button component={ Link } variant={ "text" } href={ NAV_ITEMS.subjects.href } startIcon={ <ArrowBackRoundedIcon/> } sx={ { alignSelf: "flex-start" } }>{ "All Subjects" }</Button>
 			 <Box>
 					<Typography variant={ "h3" } sx={ { fontWeight: 800, mb: 1 } }>{ subjectName }</Typography>
 					<Typography color={ "text.secondary" }>{ "Available topics and subject resources." }</Typography>
@@ -65,11 +61,11 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 						  <Stack spacing={ 1.5 }>
 								 { Object.entries(downloads).map(([ id, download ]) => <Card key={ id } variant={ "outlined" }>
 										<CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
-											  <PictureAsPdfOutlined color={ "action" }/>
+											  <PictureAsPdfOutlinedIcon color={ "action" }/>
 											  <Box sx={ { flex: 1, minWidth: 0 } }>
 													 <Typography sx={ { fontWeight: 650 } }>{ download.title }</Typography>
 											  </Box>
-											  <Button component={ "a" } href={ download.url } target={ "_blank" } rel={ "noopener noreferrer" } download endIcon={ <DownloadOutlined/> }>{ "Download" }</Button>
+											  <Button component={ "a" } href={ download.url } target={ "_blank" } rel={ "noopener noreferrer" } download endIcon={ <DownloadIcon/> }>{ "Download" }</Button>
 										</CardContent>
 								 </Card>) }
 						  </Stack>
@@ -80,9 +76,9 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 								 { Object.entries(topics).map(([ id, title ]) => <Card key={ id } variant={ "outlined" }>
 										<CardActionArea onClick={ () => openTopic(id) }>
 											  <CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
-													 <MenuBookOutlined color={ "action" }/>
+													 <MenuBookOutlinedIcon color={ "action" }/>
 													 <Typography sx={ { flex: 1, fontWeight: 600 } }>{ title }</Typography>
-													 <ArrowBackRounded sx={ { transform: "rotate(180deg)" } } color={ "action" }/>
+													 <ArrowForwardRoundedIcon color={ "action" }/>
 											  </CardContent>
 										</CardActionArea>
 								 </Card>) }

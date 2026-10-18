@@ -1,7 +1,6 @@
 "use client";
 
-import { GITHUB_REPOSITORY_URL } from "@/app/AthenaeumMaster";
-import GitHub from "@mui/icons-material/GitHub";
+import { GITHUB_REPOSITORY_URL, GitHubIcon } from "@/app/AthenaeumMaster";
 import OpenInNewRounded from "@mui/icons-material/OpenInNewRounded";
 import { Box, Button, Card, CardContent, Stack, Typography } from "@mui/material";
 
@@ -17,7 +16,7 @@ export default function GitHubPage() {
 			 <Card variant={ "outlined" }>
 					<CardContent sx={ { p: { xs: 2.5, md: 4 } } }>
 						  <Stack spacing={ 2 } alignItems={ "flex-start" }>
-								 <GitHub sx={ { fontSize: 44 } }/>
+								 <GitHubIcon sx={ { fontSize: 44 } }/>
 								 <Typography variant={ "h5" } sx={ { fontWeight: 750 } }>{ "MCA Monorepo" }</Typography>
 								 <Typography color={ "text.secondary" }>{ "Browse the source code and project files in the repository." }</Typography>
 								 <Button variant={ "contained" } href={ GITHUB_REPOSITORY_URL } target={ "_blank" } rel={ "noopener noreferrer" } endIcon={ <OpenInNewRounded/> }>{ "Open Repository" }</Button>

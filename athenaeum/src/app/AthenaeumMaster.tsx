@@ -1,14 +1,12 @@
 import AppIcon from "@/app/bgc_apxdgtl.png";
 import { DateTimeFormatter, Instant, ZoneId } from "@js-joda/core";
 import { Locale } from "@js-joda/locale_en";
-import EcoOutlined from "@mui/icons-material/EnergySavingsLeafOutlined";
-import GitHub from "@mui/icons-material/GitHub";
-import HistoryOutlined from "@mui/icons-material/HistoryOutlined";
-import MenuBookOutlined from "@mui/icons-material/MenuBookOutlined";
-import PictureAsPdfOutlined from "@mui/icons-material/PictureAsPdfOutlined";
-import RecyclingOutlined from "@mui/icons-material/RecyclingOutlined";
-import ShieldOutlined from "@mui/icons-material/ShieldOutlined";
-import TravelExploreOutlined from "@mui/icons-material/TravelExploreOutlined";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import HomeIcon from "@mui/icons-material/Home";
+import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
+import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import React from "react";
 
 
@@ -55,20 +53,17 @@ export type AthDownload = {
 	  url: string
 };
 
+import DownloadIcon from "@mui/icons-material/Download";
 
-export { GitHub, MenuBookOutlined, PictureAsPdfOutlined };
+
+
+
 export {
-	  AppIcon,
-	  EcoOutlined, HistoryOutlined, RecyclingOutlined,
-	  ShieldOutlined, TravelExploreOutlined
+	  GitHubIcon, MenuBookOutlinedIcon, PictureAsPdfOutlinedIcon, DownloadIcon,
+	  ArrowBackRoundedIcon, ArrowForwardRoundedIcon,
+	  AppIcon
 };
 
-
-export const NAV_ITEMS = {
-	  home: { label: "Home", href: "/", icon: <MenuBookOutlined fontSize={ "small" }/>, desc: "Return to the Athenaeum homepage." },
-	  subjects: { label: "Subjects", href: "/subjects", icon: <MenuBookOutlined fontSize={ "small" }/>, desc: "Browse subjects by semester and access their topics and available downloads." },
-	  github: { label: "GitHub", href: "/github", icon: <GitHub fontSize={ "small" }/>, desc: "Explore the MCA monorepo and all its project files." }
-} as const;
 
 export const APP_NAME = "Athenaeum";
 export const APP_TAGLINE = "MCA Mate";
@@ -80,3 +75,10 @@ export const HISTORY_KEY = "athenaeum-local-history";
 export const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
 export const DATE_FORMAT = DateTimeFormatter.ofPattern("d MMM yyyy, HH:mm").withLocale(Locale.ENGLISH);
 export const formatTimestamp = (at: string) => Instant.parse(at).atZone(ZoneId.systemDefault()).format(DATE_FORMAT);
+
+
+export const NAV_ITEMS = {
+	  home: { label: "Home", href: "/", icon: <HomeIcon fontSize={ "small" }/>, desc: `Return to the ${ APP_NAME } homepage.` },
+	  subjects: { label: "Subjects", href: "/subjects", icon: <MenuBookOutlinedIcon fontSize={ "small" }/>, desc: "Browse subjects by semester and access their topics and available downloads." },
+	  github: { label: "GitHub", href: "/github", icon: <GitHubIcon fontSize={ "small" }/>, desc: "Explore the MCA monorepo and all its project files." }
+} as const;
