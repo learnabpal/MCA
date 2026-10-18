@@ -3,9 +3,12 @@ import { DateTimeFormatter, Instant, ZoneId } from "@js-joda/core";
 import { Locale } from "@js-joda/locale_en";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import FileIcon from "@mui/icons-material/Description";
+import DownloadIcon from "@mui/icons-material/Download";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
-import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
+import MenuBookOutlinedIcon from "@mui/icons-material/MenuBook";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import React from "react";
 
@@ -53,13 +56,9 @@ export type AthDownload = {
 	  url: string
 };
 
-import DownloadIcon from "@mui/icons-material/Download";
-
-
-
 
 export {
-	  GitHubIcon, MenuBookOutlinedIcon, PictureAsPdfOutlinedIcon, DownloadIcon,
+	  GitHubIcon, MenuBookOutlinedIcon, PictureAsPdfOutlinedIcon, DownloadIcon, FullscreenIcon, FileIcon,
 	  ArrowBackRoundedIcon, ArrowForwardRoundedIcon,
 	  AppIcon
 };
