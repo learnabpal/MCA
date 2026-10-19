@@ -4,7 +4,7 @@ import React, { use, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
 import { NAV_ITEMS, SUB_MAP, type AthContent, type AthDownload, type AthRtdbMap, type SubKey, MenuBookOutlinedIcon, DownloadIcon, ArrowBackRoundedIcon, ArrowForwardRoundedIcon, FullscreenIcon, FileIcon } from "@/app/AthenaeumMaster";
-import { Alert, Box, Button, Card, CardActionArea, CardContent, Chip, IconButton, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardActionArea, CardContent, Chip, Divider, Grid, IconButton, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { gruvboxDark as ColourScheme } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -67,19 +67,21 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 			 { loading ? <Typography color={ "text.secondary" }>{ "Loading..." }</Typography> : <>
 					{ Object.keys(downloads).length > 0 && <Box>
 						  <Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Downloads" }</Typography>
-						  <Stack spacing={ 1.5 }>
+						  <Grid container spacing={ 2 }>
 								 { Object.entries(downloads).map(([ id, download ]) => (
-											<Card key={ id } variant={ "outlined" }>
-												  <CardActionArea component={ "a" } href={ download.url } target={ "_blank" } rel={ "noopener noreferrer" } download>
-														 <CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
-																<FileIcon color={ "action" }/>
-																<Typography sx={ { fontWeight: 600, flex: 1 } }>{ download.title }</Typography>
-																<DownloadIcon color={ "action" }/>
-														 </CardContent>
-												  </CardActionArea>
-											</Card>
+											<Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
+												  <Card variant={ "outlined" } sx={ { height: "100%" } }>
+														 <CardActionArea component={ "a" } href={ download.url } target={ "_blank" } rel={ "noopener noreferrer" } download sx={ { height: "100%" } }>
+																<CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
+																	  <FileIcon color={ "action" }/>
+																	  <Typography sx={ { fontWeight: 600, flex: 1 } }>{ download.title }</Typography>
+																	  <DownloadIcon color={ "action" }/>
+																</CardContent>
+														 </CardActionArea>
+												  </Card>
+											</Grid>
 								 )) }
-						  </Stack>
+						  </Grid>
 					</Box> }
 					<Box>
 						  <Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Tags" }</Typography>
@@ -101,29 +103,32 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 					</Box>
 					<Box>
 						  <Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Content" }</Typography>
-						  { filteredContents.length > 0 ? <Stack spacing={ 1.5 }>
+						  { filteredContents.length > 0 ? <Grid container spacing={ 2 }>
 								 { filteredContents.map(({ id, title, content }) => (
-											<Card key={ id } variant={ "outlined" } sx={ { borderColor: selectedContent?.title === content.title ? "primary.main" : "divider" } }>
-												  <CardActionArea onClick={ () => {
-														 const cacheKey = `athenaeum-content-${ subject }-${ id }`;
-														 const cached = localStorage.getItem(cacheKey);
-														 const selected = cached ? JSON.parse(cached) as AthContent : content;
-														 if ( ! cached) localStorage.setItem(cacheKey, JSON.stringify(selected));
-														 setSelectedContent(selected);
-												  } }>
-														 <CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
-																<MenuBookOutlinedIcon color={ "action" }/>
-																<Typography sx={ { flex: 1, fontWeight: 600 } }>{ title }</Typography>
-																<FullscreenIcon color={ "action" }/>
-														 </CardContent>
-												  </CardActionArea>
-											</Card>
+											<Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
+												  <Card variant={ "outlined" } sx={ { height: "100%", borderColor: selectedContent?.title === content.title ? "primary.main" : "divider" } }>
+														 <CardActionArea onClick={ () => {
+																const cacheKey = `athenaeum-content-${ subject }-${ id }`;
+																const cached = localStorage.getItem(cacheKey);
+																const selected = cached ? JSON.parse(cached) as AthContent : content;
+																if ( ! cached) localStorage.setItem(cacheKey, JSON.stringify(selected));
+																setSelectedContent(selected);
+														 } } sx={ { height: "100%" } }>
+																<CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
+																	  <MenuBookOutlinedIcon color={ "action" }/>
+																	  <Typography sx={ { flex: 1, fontWeight: 600 } }>{ title }</Typography>
+																	  <FullscreenIcon color={ "action" }/>
+																</CardContent>
+														 </CardActionArea>
+												  </Card>
+											</Grid>
 								 )) }
-						  </Stack> : <Typography color={ "text.secondary" }>{ "No content is available for this selection." }</Typography> }
+						  </Grid> : <Typography color={ "text.secondary" }>{ "No content is available for this selection." }</Typography> }
 					</Box>
 					{ selectedContent && <Card variant={ "outlined" }>
 						  <CardContent sx={ { p: { xs: 2, md: 3 } } }>
-								 <Typography variant={ "h5" } sx={ { mb: 2, color: ColourScheme.keyword } }>{ selectedContent.title }</Typography>
+								 <Typography variant={ "h5" } sx={ { mb: 2, color: ColourScheme.keyword.color } }>{ selectedContent.title }</Typography>
+								 <Box sx={ { height: 2, width: "100%", backgroundColor: ColourScheme.keyword.color, borderRadius: 1 } }/>
 								 {/* <ReactMarkdown>{ selectedContent.content }</ReactMarkdown> */ }
 								 <ReactMarkdown
 											children={ selectedContent.content }
