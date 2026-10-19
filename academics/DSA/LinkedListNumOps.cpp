@@ -41,7 +41,7 @@ Node *insert_start(Node *head, int data)
 
 void sum_and_mean(Node *head, int len)
 {
-        int sum, mean = 0;
+        int sum = 0, mean = 0;
         Node *temp = head;
         while (temp != nullptr)
         {
