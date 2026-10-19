@@ -149,16 +149,21 @@ void do_num_ops()
         cout << "Enter number: ";
         cin >> num;
         num = abs(num);
+        int len = 0;
         while (num > 0)
         {
                 head = insert_start(head, num % 10);
                 num = num / 10;
+                len++;
         }
         display(head);
-        sum_and_mean(head, 5);
-        nth_from_end(head, 2, 5);
+        sum_and_mean(head, len);
+        nth_from_end(head, 2, len);
         min_max(head);
-        occurrence(head, 3);
+        int occ_val;
+        cout << "Enter value to find occurrence: ";
+        cin >> occ_val;
+        occurrence(head, occ_val);
         head = sort(head);
         display(head);
         head = deduplicate(head);
