@@ -23,7 +23,6 @@ void display(Node *head)
                 temp = temp->next;
         }
         cout << endl;
-        return;
 }
 
 Node *insert_start(Node *head, int data)
