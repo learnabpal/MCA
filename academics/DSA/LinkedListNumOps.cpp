@@ -53,8 +53,11 @@ void sum_and_mean(Node *head, int len)
         cout << "Mean: " << mean << endl;
 }
 
-void nth_from_end(Node *head, int nth, int len)
+void nth_from_end(Node *head, int len)
 {
+        int nth;
+        cout << "Enter nth: ";
+        cin >> nth;
         int x = len - nth;
         Node *temp = head;
         for (int i = 0; i < x; i++)
@@ -82,8 +85,11 @@ void min_max(Node *head)
         cout << "Max: " << max << endl;
 }
 
-void occurrence(Node *head, int value)
+void occurrence(Node *head)
 {
+        int value;
+        cout << "Enter value to find occurrence: ";
+        cin >> value;
         int count = 0;
         Node *temp = head;
         while (temp != nullptr)
@@ -157,12 +163,9 @@ void do_num_ops()
         }
         display(head);
         sum_and_mean(head, len);
-        nth_from_end(head, 2, len);
+        nth_from_end(head, len);
         min_max(head);
-        int occ_val;
-        cout << "Enter value to find occurrence: ";
-        cin >> occ_val;
-        occurrence(head, occ_val);
+        occurrence(head);
         head = sort(head);
         display(head);
         head = deduplicate(head);
