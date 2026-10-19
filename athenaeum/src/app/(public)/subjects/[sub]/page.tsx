@@ -1,13 +1,21 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
 import { NAV_ITEMS, SUB_MAP, type AthContent, type AthDownload, type AthRtdbMap, type SubKey, MenuBookOutlinedIcon, DownloadIcon, ArrowBackRoundedIcon, ArrowForwardRoundedIcon, FullscreenIcon, FileIcon } from "@/app/AthenaeumMaster";
 import { Alert, Box, Button, Card, CardActionArea, CardContent, Chip, IconButton, Stack, Typography } from "@mui/material";
 import Link from "next/link";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { gruvboxDark as ColourScheme } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 
+
+
+const markdownHeading = (Tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "strong") =>
+		  ({ node, ...props }: React.ComponentProps<"h1"> & { node?: unknown }) => (
+					 <Tag { ...props } style={ { ...ColourScheme.keyword, margin: "1.2em 0 0.5em", ...props.style } }/>
+		  );
 
 
 export default function SubjectPage({ params }: { params: Promise<{ sub: string }> }) {
@@ -53,12 +61,12 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 					{ "All Subjects" }
 			 </Button>
 			 <Box>
-					<Typography variant={ "h3" } sx={ { fontWeight: 800, mb: 1 } }>{ subjectName }</Typography>
+					<Typography variant={ "h3" } sx={ { mb: 1 } }>{ subjectName }</Typography>
 					<Typography color={ "text.secondary" }>{ "Browse the available content and subject resources." }</Typography>
 			 </Box>
 			 { loading ? <Typography color={ "text.secondary" }>{ "Loading..." }</Typography> : <>
 					{ Object.keys(downloads).length > 0 && <Box>
-						  <Typography variant={ "h5" } sx={ { fontWeight: 700, mb: 2 } }>{ "Downloads" }</Typography>
+						  <Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Downloads" }</Typography>
 						  <Stack spacing={ 1.5 }>
 								 { Object.entries(downloads).map(([ id, download ]) => (
 											<Card key={ id } variant={ "outlined" }>
@@ -74,7 +82,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 						  </Stack>
 					</Box> }
 					<Box>
-						  <Typography variant={ "h5" } sx={ { fontWeight: 700, mb: 2 } }>{ "Tags" }</Typography>
+						  <Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Tags" }</Typography>
 						  { availableTags.length > 0 ? <Stack direction={ "row" } spacing={ 1 } useFlexGap flexWrap={ "wrap" }>
 								 { availableTags.map((tag) => (
 											<Chip
@@ -92,7 +100,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 						  </Stack> : <Typography color={ "text.secondary" }>{ "No tags are available." }</Typography> }
 					</Box>
 					<Box>
-						  <Typography variant={ "h5" } sx={ { fontWeight: 700, mb: 2 } }>{ "Content" }</Typography>
+						  <Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Content" }</Typography>
 						  { filteredContents.length > 0 ? <Stack spacing={ 1.5 }>
 								 { filteredContents.map(({ id, title, content }) => (
 											<Card key={ id } variant={ "outlined" } sx={ { borderColor: selectedContent?.title === content.title ? "primary.main" : "divider" } }>
@@ -115,22 +123,51 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 					</Box>
 					{ selectedContent && <Card variant={ "outlined" }>
 						  <CardContent sx={ { p: { xs: 2, md: 3 } } }>
-								 <Typography variant={ "h5" } sx={ { fontWeight: 750, mb: 2 } }>{ selectedContent.title }</Typography>
-								 <Box
-											// sx={ {
-											// 	  overflowWrap: "anywhere", lineHeight: 1.85,
-											// 	  "& h1, & h2, & h3, & h4": { lineHeight: 1.3, mt: 3, mb: 1 },
-											// 	  "& p": { my: 1.5 },
-											// 	  "& ul, & ol": { pl: 3, my: 1.5 },
-											// 	  "& li": { mb: 0.75 },
-											// 	  "& pre": { p: 2, overflowX: "auto", borderRadius: 2, bgcolor: "background.default" },
-											// 	  "& code": { fontFamily: "monospace", overflowWrap: "anywhere" },
-											// 	  "& blockquote": { m: 0, my: 2, pl: 2, borderLeft: 3, borderColor: "divider", color: "text.secondary" },
-											// 	  "& a": { color: "primary.main" }
-											// } }
-								 >
-										<ReactMarkdown>{ selectedContent.content }</ReactMarkdown>
-								 </Box>
+								 <Typography variant={ "h5" } sx={ { mb: 2, color: ColourScheme.keyword } }>{ selectedContent.title }</Typography>
+								 {/* <ReactMarkdown>{ selectedContent.content }</ReactMarkdown> */ }
+								 <ReactMarkdown
+											children={ selectedContent.content }
+											components={ {
+												  h1: markdownHeading("h1"),
+												  h2: markdownHeading("h2"),
+												  h3: markdownHeading("h3"),
+												  h4: markdownHeading("h4"),
+												  h5: markdownHeading("h5"),
+												  h6: markdownHeading("h6"),
+												  strong: markdownHeading("strong"),
+												  code(props) {
+														 const { children, className, node, ...rest } = props;
+														 const match = /language-(\w+)/.exec(className || "");
+														 return match ? (
+																	<SyntaxHighlighter
+																			  { ...rest }
+																			  PreTag="div"
+																			  children={ String(children).replace(/\n$/, "") }
+																			  language={ match[1] }
+																			  style={ ColourScheme }
+																			  customStyle={ { fontWeight: "bold" } }
+																	/>
+														 ) : (
+																	<code
+																			  { ...rest }
+																			  className={ className }
+																			  style={ {
+																					 ...ColourScheme["code[class*=\"language-\"]"],
+																					 display: "inline",
+																					 whiteSpace: "normal",
+																					 fontWeight: "bold",
+																					 padding: "0.15em 0.35em",
+																					 // borderRadius: 4,
+																					 // fontSize: "0.875em",
+																					 ...rest.style
+																			  } }
+																	>
+																		  { children }
+																	</code>
+														 );
+												  }
+											} }
+								 />
 						  </CardContent>
 					</Card> }
 			 </> as any }
