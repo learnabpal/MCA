@@ -12,7 +12,7 @@ import { gruvboxDark as ColourScheme } from "react-syntax-highlighter/dist/esm/s
 
 
 
-const markdownHeading = (Tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "strong") =>
+const mdHighlighter = (Tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "strong") =>
 		  ({ node, ...props }: React.ComponentProps<"h1"> & { node?: unknown }) => (
 					 <Tag { ...props } style={ { ...ColourScheme.keyword, margin: "1.2em 0 0.5em", ...props.style } }/>
 		  );
@@ -133,13 +133,13 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 								 <ReactMarkdown
 											children={ selectedContent.content }
 											components={ {
-												  h1: markdownHeading("h1"),
-												  h2: markdownHeading("h2"),
-												  h3: markdownHeading("h3"),
-												  h4: markdownHeading("h4"),
-												  h5: markdownHeading("h5"),
-												  h6: markdownHeading("h6"),
-												  strong: markdownHeading("strong"),
+												  h1: mdHighlighter("h1"),
+												  h2: mdHighlighter("h2"),
+												  h3: mdHighlighter("h3"),
+												  h4: mdHighlighter("h4"),
+												  h5: mdHighlighter("h5"),
+												  h6: mdHighlighter("h6"),
+												  strong: mdHighlighter("strong"),
 												  code(props) {
 														 const { children, className, node, ...rest } = props;
 														 const match = /language-(\w+)/.exec(className || "");
