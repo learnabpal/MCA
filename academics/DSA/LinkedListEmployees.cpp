@@ -65,7 +65,7 @@ void read_employees(Employee *head)
         }
 }
 
-void do_employee()
+void do_employees()
 {
         Employee *head = nullptr;
         head = insert_employees(head);
@@ -74,6 +74,6 @@ void do_employee()
 
 int main()
 {
-        do_employee();
+        do_employees();
         return 0;
 }
