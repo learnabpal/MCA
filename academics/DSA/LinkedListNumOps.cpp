@@ -122,6 +122,7 @@ Node *sort(Node *head)
         }
         return head;
 }
+
 Node *deduplicate(Node *head)
 {
         Node *curr_node, *next_node;
