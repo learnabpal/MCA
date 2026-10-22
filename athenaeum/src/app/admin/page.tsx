@@ -16,7 +16,7 @@ function ContentForm({ onSubmit }: { onSubmit: (value: AthContent) => void }) {
 	  const [ tagsInput, setTagsInput ] = React.useState("");
 	  const [ title, setTitle ] = React.useState("");
 	  const [ content, setContent ] = React.useState("");
-	  const tags = tagsInput.split(",").map((tag) => tag.trim());
+	  const tags = tagsInput.split(",").map((tag) => tag.trim()).filter(Boolean);
 	  const validTags = tagsInput.trim().length > 0 && tags.every(Boolean) && new Set(tags).size === tags.length;
 	  const isValid = Boolean(sub && title.trim() && content.trim() && validTags);
 	  
