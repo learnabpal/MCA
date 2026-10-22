@@ -4,6 +4,9 @@ import type { AthContent, AthDownload } from "@/app/AthenaeumMaster";
 import { APP_NAME, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
 import { Box, Button, Chip, Paper, Stack, TextField, Typography } from "@mui/material";
 import React from "react";
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
+import MDEditor from "@uiw/react-md-editor";
 
 
 
@@ -21,16 +24,26 @@ function ContentForm({ onSubmit }: { onSubmit: (value: AthContent) => void }) {
 				 <Stack spacing={ 2.5 }>
 						<Typography variant={ "h5" }>{ "Content" }</Typography>
 						<Box>
-							  <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Subject" }</Typography>
+							  <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Subject *" }</Typography>
 							  <Stack direction={ "row" } spacing={ 1 } useFlexGap flexWrap={ "wrap" }>
 									 { Object.entries(SUB_MAP).map(([ key, value ]) => (
-												<Chip key={ key } label={ value } clickable color={ sub === key ? "primary" : "default" } variant={ sub === key ? "filled" : "outlined" } onClick={ () => setSub(key as SubKey) }/>
+												<Chip key={ key } label={ value } clickable color={ sub === key ? "primary" : "default" } variant={ sub === key ? "filled" : "outlined" } onClick={ () => setSub(sub === key ? "" : key as SubKey) }/>
 									 )) }
 							  </Stack>
 						</Box>
 						<TextField label={ "Tags" } value={ tagsInput } onChange={ (event) => setTagsInput(event.target.value) } error={ Boolean(tagsInput.trim()) && ! validTags } helperText={ ! tagsInput.trim() ? "Enter at least one tag." : ! validTags ? "Tags must be non-empty and unique." : "Separate tags with commas." } required fullWidth/>
 						<TextField label={ "Title" } value={ title } onChange={ (event) => setTitle(event.target.value) } required fullWidth/>
-						<TextField label={ "Content" } value={ content } onChange={ (event) => setContent(event.target.value) } required multiline minRows={ 10 } fullWidth/>
+						{/* <TextField label={ "Content" } value={ content } onChange={ (event) => setContent(event.target.value) } required multiline minRows={ 10 } fullWidth/> */ }
+						<Stack spacing={ 1 }>
+							  <Typography variant={ "body2" } color={ "text.secondary" }>{ "Content *" }</Typography>
+							  <MDEditor
+										 value={ content }
+										 onChange={ (value) => setContent(value ?? "") }
+										 height={ 480 }
+										 preview={ "edit" }
+										 textareaProps={ { placeholder: "Write content using Markdown..." } }
+							  />
+						</Stack>
 						<Stack direction={ "row" } spacing={ 1 }>
 							  <Button variant={ "outlined" } fullWidth onClick={ () => {
 									 setSub("");
@@ -82,13 +95,13 @@ function DownloadForm({ onSubmit }: { onSubmit: (value: AthDownload) => void }) 
 export default function AdminPage() {
 	  const [ authed, setAuthed ] = React.useState(false);
 	  const [ value, setValue ] = React.useState({});
-	  if ( /*NOT->*/ ! authed) return (
-				 <Stack spacing={ 3 } maxWidth={ "sm" } sx={ { mx: "auto", p: { xs: 2, md: 4 } } }>
-						<TextField value={ value[0] || "" } onChange={ (e) => setValue(prevState => ({ ...prevState, [0]: e.target.value })) }/>
-						<TextField value={ value[1] || "" } onChange={ (e) => setValue(prevState => ({ ...prevState, [1]: e.target.value })) }/>
-						<TextField value={ value[2] || "" } onChange={ (e) => setValue(prevState => ({ ...prevState, [2]: e.target.value })) }/>
-				 </Stack>
-	  );
+	  // if ( /*NOT->*/ ! authed) return (
+	  // 		 <Stack spacing={ 3 } maxWidth={ "sm" } sx={ { mx: "auto", p: { xs: 2, md: 4 } } }>
+	  // 				<TextField value={ value[0] || "" } onChange={ (e) => setValue(prevState => ({ ...prevState, [0]: e.target.value })) }/>
+	  // 				<TextField value={ value[1] || "" } onChange={ (e) => setValue(prevState => ({ ...prevState, [1]: e.target.value })) }/>
+	  // 				<TextField value={ value[2] || "" } onChange={ (e) => setValue(prevState => ({ ...prevState, [2]: e.target.value })) }/>
+	  // 		 </Stack>
+	  // );
 	  return (
 				 <Stack spacing={ 3 } sx={ { mx: "auto", p: { xs: 2, md: 4 } } }>
 						<Typography variant={ "h3" }>{ APP_NAME + " Admin" }</Typography>
