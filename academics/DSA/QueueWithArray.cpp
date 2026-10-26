@@ -4,7 +4,7 @@ using namespace std;
 
 const int MAX = 100;
 
-struct Queue
+struct QueueAR
 {
       int items[MAX];
       int front = -1;
@@ -61,7 +61,7 @@ struct Queue
 
 void do_queue_with_array()
 {
-      Queue q;
+      QueueAR *q = new QueueAR;
 
       int choice;
       do

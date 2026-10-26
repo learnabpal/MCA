@@ -2,19 +2,19 @@
 
 using namespace std;
 
-struct Item
+struct QItem
 {
       int data;
-      Item *next;
+      QItem *next;
 };
 
-struct Queue
+struct QueueLL
 {
-      Item *front, *rear;
+      QItem *front, *rear;
 
       void enqueue(int value)
       {
-            Item *nn = new Item;
+            QItem *nn = new QItem;
 
             if (nn == nullptr)
             {
@@ -42,7 +42,7 @@ struct Queue
                   cout << "Queue underflow";
                   return -1;
             }
-            Item *item = front;
+            QItem *item = front;
             if (front == rear)
                   front = rear = nullptr;
             else
@@ -60,7 +60,7 @@ struct Queue
                   return;
             }
             cout << "Queue: ";
-            Item *temp = front;
+            QItem *temp = front;
             while (temp != nullptr)
             {
                   cout << temp->data << " ";
@@ -72,7 +72,7 @@ struct Queue
 
 void do_queue_with_linked_list()
 {
-      Queue q;
+      QueueLL *q = new QueueLL;
 
       int choice;
       do
@@ -89,25 +89,33 @@ void do_queue_with_linked_list()
                   int value;
                   cout << "Enter value to be enqueued: ";
                   cin >> value;
-                  q.enqueue(value);
+                  q->enqueue(value);
                   break;
             case 2:
-                  int item = q.dequeue();
+                  int item = q->dequeue();
                   if (item != -1)
                   {
                         cout << "Dequeued item: " << item << endl;
                   }
                   break;
             case 3:
-                  q.display();
+                  q->display();
                   break;
             case 4:
-                  cout << "Exiting..." << endl;
                   break;
             default:
                   cout << "Invalid choice" << endl;
             }
       } while (choice != 4);
+
+      while (q->front != nullptr)
+      {
+            QItem *temp = q->front;
+            q->front = q->front->next;
+            delete temp;
+      }
+      q->front = q->rear = nullptr;
+      delete q;
 }
 
 int main()
