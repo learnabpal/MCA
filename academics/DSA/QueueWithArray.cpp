@@ -78,17 +78,17 @@ void do_queue_with_array()
                   int value;
                   cout << "Enter value to be enqueued: ";
                   cin >> value;
-                  q.enqueue(value);
+                  q->enqueue(value);
                   break;
             case 2:
-                  int item = q.dequeue();
+                  int item = q->dequeue();
                   if (item != -1)
                   {
                         cout << "Dequeued item: " << item << endl;
                   }
                   break;
             case 3:
-                  q.display();
+                  q->display();
                   break;
             case 4:
                   break;
@@ -96,6 +96,15 @@ void do_queue_with_array()
                   cout << "Invalid choice" << endl;
             }
       } while (choice != 4);
+
+      while (q->front != nullptr)
+      {
+            QItem *temp = q->front;
+            q->front = q->front->next;
+            delete temp;
+      }
+      q->front = q->rear = nullptr;
+      delete q;
 }
 
 int main()
