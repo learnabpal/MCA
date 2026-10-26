@@ -75,21 +75,27 @@ void do_queue_with_array()
             switch (choice)
             {
             case 1:
+            {
                   int value;
                   cout << "Enter value to be enqueued: ";
                   cin >> value;
                   q->enqueue(value);
                   break;
+            }
             case 2:
+            {
                   int item = q->dequeue();
                   if (item != -1)
                   {
                         cout << "Dequeued item: " << item << endl;
                   }
                   break;
+            }
             case 3:
+            {
                   q->display();
                   break;
+            }
             case 4:
                   break;
             default:
