@@ -103,13 +103,6 @@ void do_queue_with_array()
             }
       } while (choice != 4);
 
-      while (q->front != nullptr)
-      {
-            QItem *temp = q->front;
-            q->front = q->front->next;
-            delete temp;
-      }
-      q->front = q->rear = nullptr;
       delete q;
 }
 
