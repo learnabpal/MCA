@@ -27,12 +27,29 @@ function ContentForm({ onSubmit }: { onSubmit: (value: AthContent) => void }) {
 							  <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Subject *" }</Typography>
 							  <Stack direction={ "row" } spacing={ 1 } useFlexGap flexWrap={ "wrap" }>
 									 { Object.entries(SUB_MAP).map(([ key, value ]) => (
-												<Chip key={ key } label={ value } clickable color={ sub === key ? "primary" : "default" } variant={ sub === key ? "filled" : "outlined" } onClick={ () => setSub(sub === key ? "" : key as SubKey) }/>
+												<Chip
+														  key={ key }
+														  label={ value }
+														  clickable
+														  color={ sub === key ? "primary" : "default" }
+														  variant={ sub === key ? "filled" : "outlined" }
+														  onClick={ () => setSub(sub === key ? "" : key as SubKey) }
+												/>
 									 )) }
 							  </Stack>
 						</Box>
-						<TextField label={ "Tags" } value={ tagsInput } onChange={ (event) => setTagsInput(event.target.value) } error={ tagsInput.trim() && ! validTags } helperText={ ! tagsInput.trim() ? "Enter at least one tag." : ! validTags ? "Tags must be non-empty and unique." : "Separate tags with commas." } required fullWidth/>
-						<TextField label={ "Title" } value={ title } onChange={ (event) => setTitle(event.target.value) } required fullWidth/>
+						<TextField
+								  label={ "Title" }
+								  value={ title }
+								  onChange={ (event) => setTitle(event.target.value) }
+								  required fullWidth
+						/>
+						<TextField
+								  label={ "Tags" }
+								  value={ tagsInput }
+								  onChange={ (event) => setTagsInput(event.target.value) }
+								  required fullWidth
+						/>
 						{/* <TextField label={ "Content" } value={ content } onChange={ (event) => setContent(event.target.value) } required multiline minRows={ 10 } fullWidth/> */ }
 						<Stack spacing={ 1 }>
 							  <Typography variant={ "body2" } color={ "text.secondary" }>{ "Content *" }</Typography>
