@@ -1,10 +1,10 @@
 import { isInRestrictedList } from "@/components/mui/apx/ts/Utils";
-import { getAuth } from "@firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "@firebase/auth";
 import { child } from "@firebase/database";
 import { getFirestore } from "@firebase/firestore";
 import { getDownloadURL, getStorage, ref as storageRef } from "@firebase/storage";
 import axios from "axios";
-import { initializeApp, initializeServerApp } from "firebase/app";
+import { getApps, initializeApp, initializeServerApp } from "firebase/app";
 import { getDatabase, ref as rtdbRef } from "firebase/database";
 import { NextRequest } from "next/server";
 import React from "react";
@@ -20,12 +20,12 @@ const firebaseConfig = {
 	  projectId: "apxmca",
 	  storageBucket: "apxmca.firebasestorage.app",
 	  messagingSenderId: "351899767213",
-	  appId: "1:351899767213:web:89d057dd93aca90fd3d124"
+	  appId: "1:351899767213:web:5db901d967c8bcb5d3d124"
 };
 
 
 // INITIALISE FIREBASE
-const firebaseClientApp = initializeApp(firebaseConfig);
+const firebaseClientApp = initializeApp(firebaseConfig, "athenaeum");
 // INITIALISE SERVICES
 const rtDb = getDatabase(firebaseClientApp);
 const fsDb = getFirestore(firebaseClientApp);
@@ -96,6 +96,11 @@ export const useStorageDownloadUrls = (paths: string[]) => {
 	  return { mediaUrls };
 };
 
+export const googlePopup = () => signInWithPopup(
+		  auth,
+		  new GoogleAuthProvider()
+					 .setCustomParameters({ client_id: "351899767213-tuogfi3ho532a8725a2ku8cc6oka2ptb.apps.googleusercontent.com", prompt: "select_account" })
+);
 
 const HOST_NODE = "HOST";
 const HANDLE_MAP_NODE = "HANDLE";

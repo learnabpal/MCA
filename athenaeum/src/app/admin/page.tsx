@@ -4,7 +4,7 @@ import type { AthContent, AthDownload } from "@/app/AthenaeumMaster";
 import { APP_NAME, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
 import { bridgeBgcId } from "@/firebase/Bridge";
-import { useFirebaseAccountModifiers, useFirebaseUid, useFirebaseUserData } from "@/firebase/FirebaseApp";
+import { googlePopup, useFirebaseAccountModifiers, useFirebaseUid, useFirebaseUserData } from "@/firebase/FirebaseApp";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -360,7 +360,7 @@ export default function AdminPage() {
 						</>
 						}
 						{ verified && <>
-							  <Button variant={ "contained" } fullWidth onClick={ () => signInWithGoogle() } startIcon={ <GoogleIcon/> }>{ "Sign-In with Google" }</Button>
+							  <Button variant={ "contained" } fullWidth onClick={ () => googlePopup() } startIcon={ <GoogleIcon/> }>{ "Sign-In with Google" }</Button>
 						</> }
 				 </Stack>
 	  );
