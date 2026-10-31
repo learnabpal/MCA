@@ -21,7 +21,7 @@ type FormMode = typeof FORM_MODES[number];
 const DL_TYPES = [ "file", "url" ] as const;
 type DownloadType = typeof DL_TYPES[number];
 
-const EXTS = [ ".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".md" ];
+const EXTS = [ ".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".md", ".txt" ];
 
 function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onContentSubmitted: (value: AthContent) => void; onDownloadSubmitted: (value: AthDownload) => void; }) {
 	  const [ mode, setMode ] = React.useState<FormMode>("content");
@@ -71,13 +71,13 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 	  const handleFilesDrop = (event: React.DragEvent<HTMLDivElement>) => {
 			 event.preventDefault();
 			 if (/*TRUTHY->*/ !! event.dataTransfer.files && event.dataTransfer.files.length > 0) {
-					upload();
+					upload(event.dataTransfer.files);
 			 }
 	  };
 	  
 	  const handleFilesSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
 			 if (/*TRUTHY->*/ !! event.target.files && event.target.files.length > 0) {
-					upload();
+					upload(event.target.files);
 			 }
 	  };
 	  
@@ -315,7 +315,7 @@ export default function AdminPage() {
 			 setVerified(true);
 	  }
 	  
-	  if ( /*NOT->*/ ! uid) return (
+	  if ( /*NOT->*/ uid) return (
 				 <Stack spacing={ 2 } sx={ { height: "100vh", mx: "auto", p: { xs: 2, md: 4 } } } maxWidth={ 360 } justifyContent={ "center" }>
 						{ /*NOT->*/ ! verified && <>
 							  <TextField label={ "Enter BGC ID" } value={ bgcId } onChange={ (e) => setBgcId(e.target.value) } fullWidth required/>
