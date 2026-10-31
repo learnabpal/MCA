@@ -274,9 +274,9 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 																	 variant={ "outlined" }
 																	 startIcon={ <AddIcon/> }
 																	 onClick={ () => setUrlPairs((prev) => [ ...prev, { title: "", url: "" } ]) }
-																	 sx={ { alignSelf: "flex-start" } }
+																	 sx={ { alignSelf: "center" } }
 														  >
-																 { "Add Another URL Pair" }
+																 { "Add Another" }
 														  </Button>
 													</Stack>
 										 ) }
