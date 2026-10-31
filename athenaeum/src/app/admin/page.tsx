@@ -18,7 +18,7 @@ function ContentForm({ onSubmit }: { onSubmit: (value: AthContent) => void }) {
 	  const [ content, setContent ] = React.useState("");
 	  const tags = tagsInput.split(",").map((tag) => tag.trim()).filter(Boolean);
 	  const validTags = tagsInput.trim().length > 0 && tags.every(Boolean) && new Set(tags).size === tags.length;
-	  const isValid = Boolean(sub && title.trim() && content.trim() && validTags);
+	  const isValid = sub && title.trim() && content.trim() && validTags;
 	  
 	  return (
 				 <Stack spacing={ 2.5 }>
@@ -31,7 +31,7 @@ function ContentForm({ onSubmit }: { onSubmit: (value: AthContent) => void }) {
 									 )) }
 							  </Stack>
 						</Box>
-						<TextField label={ "Tags" } value={ tagsInput } onChange={ (event) => setTagsInput(event.target.value) } error={ Boolean(tagsInput.trim()) && ! validTags } helperText={ ! tagsInput.trim() ? "Enter at least one tag." : ! validTags ? "Tags must be non-empty and unique." : "Separate tags with commas." } required fullWidth/>
+						<TextField label={ "Tags" } value={ tagsInput } onChange={ (event) => setTagsInput(event.target.value) } error={ tagsInput.trim() && ! validTags } helperText={ ! tagsInput.trim() ? "Enter at least one tag." : ! validTags ? "Tags must be non-empty and unique." : "Separate tags with commas." } required fullWidth/>
 						<TextField label={ "Title" } value={ title } onChange={ (event) => setTitle(event.target.value) } required fullWidth/>
 						{/* <TextField label={ "Content" } value={ content } onChange={ (event) => setContent(event.target.value) } required multiline minRows={ 10 } fullWidth/> */ }
 						<Stack spacing={ 1 }>
@@ -66,18 +66,18 @@ function DownloadForm({ onSubmit }: { onSubmit: (value: AthDownload) => void }) 
 	  const validUrl = (() => {
 			 try {
 					const parsed = new URL(url.trim());
-					return (parsed.protocol === "https:" || parsed.protocol === "http:") && Boolean(parsed.hostname);
+					return (parsed.protocol === "https:" || parsed.protocol === "http:") && (parsed.hostname);
 			 } catch {
 					return false;
 			 }
 	  })();
-	  const isValid = Boolean(title.trim() && validUrl);
+	  const isValid = title.trim() && validUrl;
 	  
 	  return (
 				 <Stack spacing={ 2.5 }>
 						<Typography variant={ "h5" }>{ "Download" }</Typography>
 						<TextField label={ "Title" } value={ title } onChange={ (event) => setTitle(event.target.value) } required fullWidth/>
-						<TextField label={ "URL" } value={ url } onChange={ (event) => setUrl(event.target.value) } error={ Boolean(url.trim()) && ! validUrl } helperText={ Boolean(url.trim()) && ! validUrl ? "Enter a valid HTTP or HTTPS URL." : " " } required fullWidth/>
+						<TextField label={ "URL" } value={ url } onChange={ (event) => setUrl(event.target.value) } error={ url.trim() && ! validUrl } helperText={ url.trim() && ! validUrl ? "Enter a valid HTTP or HTTPS URL." : " " } required fullWidth/>
 						<Stack direction={ "row" } spacing={ 1 }>
 							  <Button variant={ "outlined" } fullWidth onClick={ () => {
 									 setTitle("");
