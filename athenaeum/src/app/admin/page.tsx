@@ -24,7 +24,7 @@ type DownloadType = typeof DL_TYPES[number];
 
 const EXTS = [ ".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".md", ".txt" ];
 
-function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onContentSubmitted: (value: AthContent) => void; onDownloadSubmitted: (value: AthDownload) => void; }) {
+function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onContentSubmitted: (value: AthContent) => void; onDownloadSubmit: (value: AthDownload[]) => void; }) {
 	  const [ mode, setMode ] = React.useState<FormMode>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey | "">("");
 	  
@@ -100,15 +100,18 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 			 if (mode === "download") {
 					if (/*NOT->*/ ! isDownloadValid || /*NOT->*/ ! subKey) return;
 					// Submitting download entries accordingly
+					const downloads: AthDownload[] = [];
 					if (downloadType === "file") {
 						  selectedFiles.forEach((file) => {
-								 onDownloadSubmitted({ title: file.name, url: URL.createObjectURL(file) });
-						  });
-					} else {
-						  urlPairs.forEach((pair) => {
-								 onDownloadSubmitted({ title: pair.title.trim(), url: pair.url.trim() });
+								 downloads.push({ title: file.name, url: URL.createObjectURL(file) });
 						  });
 					}
+					if (downloadType === "url") {
+						  urlPairs.forEach((pair) => {
+								 downloads.push({ title: pair.title.trim(), url: pair.url.trim() });
+						  });
+					}
+					downloads.length > 0 && onDownloadSubmitted(downloads);
 			 }
 	  };
 	  
