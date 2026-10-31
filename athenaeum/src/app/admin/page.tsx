@@ -2,7 +2,9 @@
 
 import type { AthContent, AthDownload } from "@/app/AthenaeumMaster";
 import { APP_NAME, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
-import { Box, Button, Chip, Paper, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Box, Button, Chip, IconButton, Paper, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 import React from "react";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
@@ -11,8 +13,13 @@ import MDEditor from "@uiw/react-md-editor";
 
 
 
-const MODES = [ "content", "download" ] as const;
-type FormMode = typeof MODES[number];
+const FORM_MODES = [ "content", "download" ] as const;
+type FormMode = typeof FORM_MODES[number];
+
+const DL_TYPES = [ "file", "url" ] as const;
+type DownloadType = typeof DL_TYPES[number];
+
+const EXTS = [ ".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".md" ];
 
 function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSubmit: (value: AthContent) => void; onDownloadSubmit: (value: AthDownload) => void; }) {
 	  const [ mode, setMode ] = React.useState<FormMode>("content");
@@ -24,45 +31,49 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 	  const [ content, setContent ] = React.useState("");
 	  
 	  /* Download Form State */
-	  const [ downloadTitle, setDownloadTitle ] = React.useState("");
-	  const [ url, setUrl ] = React.useState("");
-	  const [ selectedFile, setSelectedFile ] = React.useState<File | null>(null);
+	  const [ downloadType, setDownloadType ] = React.useState<DownloadType>("file");
+	  const [ selectedFiles, setSelectedFiles ] = React.useState<File[]>([]);
+	  const [ urlPairs, setUrlPairs ] = React.useState<Array<{ title: string; url: string }>>([ { title: "", url: "" } ]);
 	  
 	  /* Derived State for Content */
 	  const tags = tagsInput.split(",").map((tag) => tag.trim()).filter(Boolean);
 	  const validTags = tagsInput.trim().length > 0 && tags.every(Boolean) && new Set(tags).size === tags.length;
 	  const isContentValid = /*TRUTHY->*/ !! (sub && contentTitle.trim() && content.trim() && validTags);
 	  
-	  /* Derived State for Download */
-	  const validUrl = (() => {
+	  /* Helper for URL validation */
+	  const validateUrl = (rawUrl: string) => {
 			 try {
-					const parsed = new URL(url.trim());
+					const parsed = new URL(rawUrl.trim());
 					return (parsed.protocol === "https:" || parsed.protocol === "http:") && /*TRUTHY->*/ !! parsed.hostname;
 			 } catch {
 					return false;
 			 }
-	  })();
-	  const isDownloadValid = /*TRUTHY->*/ !! (sub && downloadTitle.trim() && validUrl);
+	  };
 	  
-	  const handleFileDrop = (event: React.DragEvent<HTMLDivElement>) => {
+	  const isValidFile = (file: File) => {
+			 const name = file.name.toLowerCase();
+			 return EXTS.some((ext) => name.endsWith(ext));
+	  };
+	  
+	  const isDownloadValid = downloadType === "file"
+				 ? /*TRUTHY->*/ !! (sub && selectedFiles.length > 0 && selectedFiles.every(isValidFile))
+				 : /*TRUTHY->*/ !! (sub && urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)));
+	  
+	  const handleFilesDrop = (event: React.DragEvent<HTMLDivElement>) => {
 			 event.preventDefault();
-			 if (event.dataTransfer.files && event.dataTransfer.files[0]) {
-					const file = event.dataTransfer.files[0];
-					handleUpload(file);
+			 if (/*TRUTHY->*/ !! event.dataTransfer.files && event.dataTransfer.files.length > 0) {
+					const filesArray = Array.from(event.dataTransfer.files).filter(isValidFile);
+					setSelectedFiles((prev) => [ ...prev, ...filesArray ]);
+					/* TODO: Upload files in background to storage and update URLs accordingly */
 			 }
 	  };
 	  
-	  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-			 if (event.target.files && event.target.files[0]) {
-					const file = event.target.files[0];
-					handleUpload(file);
+	  const handleFilesSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+			 if (/*TRUTHY->*/ !! event.target.files && event.target.files.length > 0) {
+					const filesArray = Array.from(event.target.files).filter(isValidFile);
+					setSelectedFiles((prev) => [ ...prev, ...filesArray ]);
+					/* TODO: Upload files in background to storage and update URLs accordingly */
 			 }
-	  };
-	  
-	  const handleUpload = (file: File) => {
-			 setSelectedFile(file);
-			 setDownloadTitle(file.name);
-			 /* TODO: Upload file to storage and setUrl with the resulting download URL */
 	  };
 	  
 	  const handleReset = () => {
@@ -70,9 +81,8 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 			 setTagsInput("");
 			 setContentTitle("");
 			 setContent("");
-			 setDownloadTitle("");
-			 setUrl("");
-			 setSelectedFile(null);
+			 setSelectedFiles([]);
+			 setUrlPairs([ { title: "", url: "" } ]);
 	  };
 	  
 	  const handleSubmit = () => {
@@ -81,7 +91,16 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 					onContentSubmit({ sub, tags, title: contentTitle.trim(), content });
 			 } else {
 					if (/*NOT->*/ ! isDownloadValid || /*NOT->*/ ! sub) return;
-					onDownloadSubmit({ title: downloadTitle.trim(), url: url.trim() });
+					// Submitting download entries accordingly
+					if (downloadType === "file") {
+						  selectedFiles.forEach((file) => {
+								 onDownloadSubmit({ title: file.name, url: URL.createObjectURL(file) });
+						  });
+					} else {
+						  urlPairs.forEach((pair) => {
+								 onDownloadSubmit({ title: pair.title.trim(), url: pair.url.trim() });
+						  });
+					}
 			 }
 	  };
 	  
@@ -93,12 +112,15 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 										 value={ mode }
 										 exclusive
 										 onChange={ (_, newMode: FormMode | null) => {
-												if (newMode !== null) setMode(newMode);
+												/*TRUTHY->*/
+												!! newMode && setMode(newMode);
 										 } }
 										 color={ "primary" }
 							  >
-									 { MODES.map((value) => (
-												<ToggleButton key={ value } value={ value } sx={ { px: 4 } }>{ value }</ToggleButton>
+									 { FORM_MODES.map((m) => (
+												<ToggleButton key={ m } value={ m } sx={ { px: 4, textTransform: "capitalize" } }>
+													  { m }
+												</ToggleButton>
 									 )) }
 							  </ToggleButtonGroup>
 						</Box>
@@ -147,47 +169,117 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 										 </Stack>
 								  </Stack>
 						) }
+						
 						{ mode === "download" && (
 								  <Stack spacing={ 2.5 }>
-										 <Box
-													onDragOver={ (event) => event.preventDefault() }
-													onDrop={ handleFileDrop }
-													sx={ {
-														  border: "2px dashed",
-														  borderColor: "divider",
-														  borderRadius: 2,
-														  p: 4,
-														  textAlign: "center",
-														  cursor: "pointer",
-														  bgcolor: "action.hover",
-														  "&:hover": { borderColor: "primary.main" }
-													} }
-													onClick={ () => document.getElementById("file-drop-input")?.click() }
-										 >
-												<input
-														  id={ "file-drop-input" }
-														  type={ "file" }
-														  style={ { display: "none" } }
-														  onChange={ handleFileSelect }
-												/>
-												<Typography variant={ "body1" } color={ "text.secondary" }>
-													  { selectedFile ? `Selected: ${ selectedFile.name }` : "Drag & drop a file here, or click to select" }
-												</Typography>
+										 <Box sx={ { display: "flex", justifyContent: "center", mb: 1 } }>
+												<ToggleButtonGroup
+														  value={ downloadType }
+														  exclusive
+														  onChange={ (_, newType: DownloadType | null) => {
+																 /*TRUTHY->*/
+																 !! newType && setDownloadType(newType);
+														  } }
+														  size={ "small" }
+														  color={ "primary" }
+												>
+													  { DL_TYPES.map((dt) => (
+																 <ToggleButton key={ dt } value={ dt } sx={ { px: 3, textTransform: "capitalize" } }>
+																		{ dt === "file" ? "File Upload" : "Direct URL" }
+																 </ToggleButton>
+													  )) }
+												</ToggleButtonGroup>
 										 </Box>
-										 <TextField
-													label={ "Filename (Title)" }
-													value={ downloadTitle }
-													slotProps={ { input: { readOnly: true } } }
-													required fullWidth
-										 />
-										 <TextField
-													label={ "URL" }
-													value={ url }
-													onChange={ (event) => setUrl(event.target.value) }
-													error={ /*TRUTHY->*/ !! (url.trim() && /*NOT->*/ ! validUrl) }
-													helperText={ url.trim() && /*NOT->*/ ! validUrl ? "Enter a valid HTTP or HTTPS URL." : " " }
-													required fullWidth
-										 />
+										 
+										 { downloadType === "file" && (
+													<Stack spacing={ 2 }>
+														  <Box
+																	 onDragOver={ (event) => event.preventDefault() }
+																	 onDrop={ handleFilesDrop }
+																	 sx={ {
+																			border: "2px dashed",
+																			borderColor: "divider",
+																			borderRadius: 2,
+																			p: 4,
+																			textAlign: "center",
+																			cursor: "pointer",
+																			bgcolor: "action.hover",
+																			"&:hover": { borderColor: "primary.main" }
+																	 } }
+																	 onClick={ () => document.getElementById("file-drop-input")?.click() }
+														  >
+																 <input
+																			id={ "file-drop-input" }
+																			type={ "file" }
+																			multiple
+																			accept={ EXTS.join(",") }
+																			style={ { display: "none" } }
+																			onChange={ handleFilesSelect }
+																 />
+																 <Typography variant={ "body1" } color={ "text.secondary" }>
+																		{ "Drag & drop files here, or click to select (Images, PDF, Office, MD)" }
+																 </Typography>
+														  </Box>
+														  { selectedFiles.length > 0 && (
+																	 <Stack spacing={ 1 }>
+																			<Typography variant={ "body2" } color={ "text.secondary" }>{ "Selected Files (Titles):" }</Typography>
+																			{ selectedFiles.map((file, idx) => (
+																					  <Paper key={ idx } variant={ "outlined" } sx={ { p: 1.5, display: "flex", justifyContent: "space-between", alignItems: "center" } }>
+																							 <Typography variant={ "body2" }>{ file.name }</Typography>
+																							 <IconButton size={ "small" } color={ "error" } onClick={ () => setSelectedFiles((prev) => prev.filter((_, i) => i !== idx)) }>
+																									<DeleteIcon fontSize={ "small" }/>
+																							 </IconButton>
+																					  </Paper>
+																			)) }
+																	 </Stack>
+														  ) }
+													</Stack>
+										 ) }
+										 
+										 { downloadType === "url" && (
+													<Stack spacing={ 3 }>
+														  { urlPairs.map((pair, index) => (
+																	 <Stack key={ index } direction={ "row" } spacing={ 1.5 }>
+																			<Stack flex={ 1 } spacing={ 1.5 }>
+																				  <TextField
+																							 label={ "Title" }
+																							 value={ pair.title }
+																							 onChange={ (e) => {
+																									const val = e.target.value;
+																									setUrlPairs((prev) => prev.map((p, i) => i === index ? { ...p, title: val } : p));
+																							 } }
+																							 required fullWidth
+																				  />
+																				  <TextField
+																							 label={ "URL" }
+																							 value={ pair.url }
+																							 onChange={ (e) => {
+																									const val = e.target.value;
+																									setUrlPairs((prev) => prev.map((p, i) => i === index ? { ...p, url: val } : p));
+																							 } }
+																							 error={ /*TRUTHY->*/ !! (pair.url.trim() && /*NOT->*/ ! validateUrl(pair.url)) }
+																							 required fullWidth
+																				  />
+																			</Stack>
+																			{ urlPairs.length > 1 && (
+																					  <Box>
+																							 <IconButton color={ "error" } onClick={ () => setUrlPairs((prev) => prev.filter((_, i) => i !== index)) }>
+																									<DeleteIcon/>
+																							 </IconButton>
+																					  </Box>
+																			) }
+																	 </Stack>
+														  )) }
+														  <Button
+																	 variant={ "outlined" }
+																	 startIcon={ <AddIcon/> }
+																	 onClick={ () => setUrlPairs((prev) => [ ...prev, { title: "", url: "" } ]) }
+																	 sx={ { alignSelf: "flex-start" } }
+														  >
+																 { "Add Another URL Pair" }
+														  </Button>
+													</Stack>
+										 ) }
 								  </Stack>
 						) }
 						
