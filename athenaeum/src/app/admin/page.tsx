@@ -121,7 +121,7 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 						</Box>
 						
 						{/* Mode-Specific Forms */ }
-						{ mode === "content" ? (
+						{ mode === "content" && (
 								  <Stack spacing={ 2.5 }>
 										 <TextField
 													label={ "Title" }
@@ -146,7 +146,8 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 												/>
 										 </Stack>
 								  </Stack>
-						) : (
+						) }
+						{ mode === "download" && (
 								  <Stack spacing={ 2.5 }>
 										 <Box
 													onDragOver={ (event) => event.preventDefault() }
