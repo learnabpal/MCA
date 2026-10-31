@@ -113,197 +113,200 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 	  };
 	  
 	  return (
-				 <Stack spacing={ 3 }>
-						{/* Mode Selector */ }
-						<Box sx={ { display: "flex", justifyContent: "center" } }>
-							  <ToggleButtonGroup
-										 value={ mode }
-										 exclusive
-										 onChange={ (_, newMode: FormMode | null) => {
-												/*TRUTHY->*/
-												!! newMode && setMode(newMode);
-										 } }
-										 color={ "primary" }
-							  >
-									 { FORM_MODES.map((m) => (
-												<ToggleButton key={ m } value={ m } sx={ { px: 4, textTransform: "capitalize" } }>
-													  { m }
-												</ToggleButton>
-									 )) }
-							  </ToggleButtonGroup>
-						</Box>
-						
-						{/* Common Subject Selection */ }
-						<Box>
-							  <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Subject *" }</Typography>
-							  <Stack direction={ "row" } spacing={ 1 } useFlexGap flexWrap={ "wrap" }>
-									 { Object.entries(SUB_MAP).map(([ key, value ]) => (
-												<Chip
-														  key={ key }
-														  label={ value }
-														  clickable
-														  color={ subKey === key ? "primary" : "default" }
-														  variant={ subKey === key ? "filled" : "outlined" }
-														  onClick={ () => setSubKey(subKey === key ? "" : key as SubKey) }
+				 <>
+						<WiPView/>
+						<Stack spacing={ 3 }>
+							  {/* Mode Selector */ }
+							  <Box sx={ { display: "flex", justifyContent: "center" } }>
+									 <ToggleButtonGroup
+												value={ mode }
+												exclusive
+												onChange={ (_, newMode: FormMode | null) => {
+													  /*TRUTHY->*/
+													  !! newMode && setMode(newMode);
+												} }
+												color={ "primary" }
+									 >
+											{ FORM_MODES.map((m) => (
+													  <ToggleButton key={ m } value={ m } sx={ { px: 4, textTransform: "capitalize" } }>
+															 { m }
+													  </ToggleButton>
+											)) }
+									 </ToggleButtonGroup>
+							  </Box>
+							  
+							  {/* Common Subject Selection */ }
+							  <Box>
+									 <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Subject *" }</Typography>
+									 <Stack direction={ "row" } spacing={ 1 } useFlexGap flexWrap={ "wrap" }>
+											{ Object.entries(SUB_MAP).map(([ key, value ]) => (
+													  <Chip
+																 key={ key }
+																 label={ value }
+																 clickable
+																 color={ subKey === key ? "primary" : "default" }
+																 variant={ subKey === key ? "filled" : "outlined" }
+																 onClick={ () => setSubKey(subKey === key ? "" : key as SubKey) }
+													  />
+											)) }
+									 </Stack>
+							  </Box>
+							  
+							  {/* Mode-Specific Forms */ }
+							  { mode === "content" && (
+										 <Stack spacing={ 2.5 }>
+												<TextField
+														  label={ "Title" }
+														  value={ contentTitle }
+														  onChange={ (event) => setContentTitle(event.target.value) }
+														  required fullWidth
 												/>
-									 )) }
-							  </Stack>
-						</Box>
-						
-						{/* Mode-Specific Forms */ }
-						{ mode === "content" && (
-								  <Stack spacing={ 2.5 }>
-										 <TextField
-													label={ "Title" }
-													value={ contentTitle }
-													onChange={ (event) => setContentTitle(event.target.value) }
-													required fullWidth
-										 />
-										 <TextField
-													label={ "Tags" }
-													value={ tagsInput }
-													onChange={ (event) => setTagsInput(event.target.value) }
-													required fullWidth
-										 />
-										 <Stack spacing={ 1 }>
-												<Typography variant={ "body2" } color={ "text.secondary" }>{ "Content *" }</Typography>
-												<MDEditor
-														  value={ content }
-														  onChange={ (val) => setContent(val ?? "") }
-														  height={ 480 }
-														  preview={ "edit" }
-														  textareaProps={ { placeholder: "Write content using Markdown..." } }
+												<TextField
+														  label={ "Tags" }
+														  value={ tagsInput }
+														  onChange={ (event) => setTagsInput(event.target.value) }
+														  required fullWidth
 												/>
+												<Stack spacing={ 1 }>
+													  <Typography variant={ "body2" } color={ "text.secondary" }>{ "Content *" }</Typography>
+													  <MDEditor
+																 value={ content }
+																 onChange={ (val) => setContent(val ?? "") }
+																 height={ 480 }
+																 preview={ "edit" }
+																 textareaProps={ { placeholder: "Write content using Markdown..." } }
+													  />
+												</Stack>
 										 </Stack>
-								  </Stack>
-						) }
-						
-						{ mode === "download" && (
-								  <Stack spacing={ 2.5 }>
-										 <Box sx={ { display: "flex", justifyContent: "center", mb: 1 } }>
-												<ToggleButtonGroup
-														  value={ downloadType }
-														  exclusive
-														  onChange={ (_, newType: DownloadType | null) => {
-																 /*TRUTHY->*/
-																 !! newType && setDownloadType(newType);
-														  } }
-														  size={ "small" }
-														  color={ "primary" }
-												>
-													  { DL_TYPES.map((dt) => (
-																 <ToggleButton key={ dt } value={ dt } sx={ { px: 3, textTransform: "capitalize" } }>
-																		{ dt === "file" ? "File Upload" : "Direct URL" }
-																 </ToggleButton>
-													  )) }
-												</ToggleButtonGroup>
-										 </Box>
-										 
-										 { downloadType === "file" && (
-													<Stack spacing={ 2 }>
-														  <Box
-																	 onDragOver={ (event) => event.preventDefault() }
-																	 onDrop={ handleFilesDrop }
-																	 sx={ {
-																			border: "2px dashed",
-																			borderColor: "divider",
-																			borderRadius: 2,
-																			p: 4,
-																			textAlign: "center",
-																			cursor: "pointer",
-																			bgcolor: "action.hover",
-																			"&:hover": { borderColor: "primary.main" }
-																	 } }
-																	 onClick={ () => document.getElementById("file-drop-input")?.click() }
-														  >
-																 <input
-																			id={ "file-drop-input" }
-																			type={ "file" }
-																			multiple
-																			accept={ EXTS.join(",") }
-																			style={ { display: "none" } }
-																			onChange={ handleFilesSelect }
-																 />
-																 <Typography variant={ "body1" } color={ "text.secondary" }>
-																		{ "Drag & drop files here, or click to select (Images, PDF, Office, MD)" }
-																 </Typography>
-														  </Box>
-														  { selectedFiles.length > 0 && (
-																	 <Stack spacing={ 1 }>
-																			<Typography variant={ "body2" } color={ "text.secondary" }>{ "Selected Files (Titles):" }</Typography>
-																			{ selectedFiles.map((file, idx) => (
-																					  <Paper key={ idx } variant={ "outlined" } sx={ { p: 1.5, display: "flex", justifyContent: "space-between", alignItems: "center" } }>
-																							 <Typography variant={ "body2" }>{ file.name }</Typography>
-																							 <IconButton size={ "small" } color={ "error" } onClick={ () => setSelectedFiles((prev) => prev.filter((_, i) => i !== idx)) }>
-																									<DeleteIcon fontSize={ "small" }/>
-																							 </IconButton>
-																					  </Paper>
-																			)) }
-																	 </Stack>
-														  ) }
-													</Stack>
-										 ) }
-										 
-										 { downloadType === "url" && (
-													<Stack spacing={ 3 }>
-														  { urlPairs.map((pair, index) => (
-																	 <Stack key={ index } direction={ "row" } spacing={ 1.5 }>
-																			<Stack flex={ 1 } spacing={ 1.5 }>
-																				  <TextField
-																							 label={ "Title" }
-																							 value={ pair.title }
-																							 onChange={ (e) => {
-																									const val = e.target.value;
-																									setUrlPairs((prev) => prev.map((p, i) => i === index ? { ...p, title: val } : p));
-																							 } }
-																							 required fullWidth
-																				  />
-																				  <TextField
-																							 label={ "URL" }
-																							 value={ pair.url }
-																							 onChange={ (e) => {
-																									const val = e.target.value;
-																									setUrlPairs((prev) => prev.map((p, i) => i === index ? { ...p, url: val } : p));
-																							 } }
-																							 error={ /*TRUTHY->*/ !! (pair.url.trim() && /*NOT->*/ ! validateUrl(pair.url)) }
-																							 required fullWidth
-																				  />
+							  ) }
+							  
+							  { mode === "download" && (
+										 <Stack spacing={ 2.5 }>
+												<Box sx={ { display: "flex", justifyContent: "center", mb: 1 } }>
+													  <ToggleButtonGroup
+																 value={ downloadType }
+																 exclusive
+																 onChange={ (_, newType: DownloadType | null) => {
+																		/*TRUTHY->*/
+																		!! newType && setDownloadType(newType);
+																 } }
+																 size={ "small" }
+																 color={ "primary" }
+													  >
+															 { DL_TYPES.map((dt) => (
+																		<ToggleButton key={ dt } value={ dt } sx={ { px: 3, textTransform: "capitalize" } }>
+																			  { dt === "file" ? "File Upload" : "Direct URL" }
+																		</ToggleButton>
+															 )) }
+													  </ToggleButtonGroup>
+												</Box>
+												
+												{ downloadType === "file" && (
+														  <Stack spacing={ 2 }>
+																 <Box
+																			onDragOver={ (event) => event.preventDefault() }
+																			onDrop={ handleFilesDrop }
+																			sx={ {
+																				  border: "2px dashed",
+																				  borderColor: "divider",
+																				  borderRadius: 2,
+																				  p: 4,
+																				  textAlign: "center",
+																				  cursor: "pointer",
+																				  bgcolor: "action.hover",
+																				  "&:hover": { borderColor: "primary.main" }
+																			} }
+																			onClick={ () => document.getElementById("file-drop-input")?.click() }
+																 >
+																		<input
+																				  id={ "file-drop-input" }
+																				  type={ "file" }
+																				  multiple
+																				  accept={ EXTS.join(",") }
+																				  style={ { display: "none" } }
+																				  onChange={ handleFilesSelect }
+																		/>
+																		<Typography variant={ "body1" } color={ "text.secondary" }>
+																			  { "Drag & drop files here, or click to select (Images, PDF, Office, MD)" }
+																		</Typography>
+																 </Box>
+																 { selectedFiles.length > 0 && (
+																			<Stack spacing={ 1 }>
+																				  <Typography variant={ "body2" } color={ "text.secondary" }>{ "Selected Files (Titles):" }</Typography>
+																				  { selectedFiles.map((file, idx) => (
+																							 <Paper key={ idx } variant={ "outlined" } sx={ { p: 1.5, display: "flex", justifyContent: "space-between", alignItems: "center" } }>
+																									<Typography variant={ "body2" }>{ file.name }</Typography>
+																									<IconButton size={ "small" } color={ "error" } onClick={ () => setSelectedFiles((prev) => prev.filter((_, i) => i !== idx)) }>
+																										  <DeleteIcon fontSize={ "small" }/>
+																									</IconButton>
+																							 </Paper>
+																				  )) }
 																			</Stack>
-																			{ urlPairs.length > 1 && (
-																					  <Box>
-																							 <IconButton color={ "error" } onClick={ () => setUrlPairs((prev) => prev.filter((_, i) => i !== index)) }>
-																									<DeleteIcon/>
-																							 </IconButton>
-																					  </Box>
-																			) }
-																	 </Stack>
-														  )) }
-														  <Button
-																	 variant={ "outlined" }
-																	 startIcon={ <AddIcon/> }
-																	 onClick={ () => setUrlPairs((prev) => [ ...prev, { title: "", url: "" } ]) }
-																	 sx={ { alignSelf: "center" } }
-														  >
-																 { "Add Another" }
-														  </Button>
-													</Stack>
-										 ) }
-								  </Stack>
-						) }
-						
-						{/* Action Buttons */ }
-						<Stack direction={ "row" } spacing={ 1 }>
-							  <Button variant={ "outlined" } fullWidth onClick={ handleReset }>{ "Cancel" }</Button>
-							  <Button
-										 variant={ "contained" }
-										 disabled={ (mode === "content" && /*NOT->*/ ! isContentValid) || (mode === "download" && /*NOT->*/ ! isDownloadValid) }
-										 fullWidth
-										 onClick={ handleSubmit }
-							  >
-									 { "Submit" }
-							  </Button>
+																 ) }
+														  </Stack>
+												) }
+												
+												{ downloadType === "url" && (
+														  <Stack spacing={ 3 }>
+																 { urlPairs.map((pair, index) => (
+																			<Stack key={ index } direction={ "row" } spacing={ 1.5 }>
+																				  <Stack flex={ 1 } spacing={ 1.5 }>
+																						 <TextField
+																									label={ "Title" }
+																									value={ pair.title }
+																									onChange={ (e) => {
+																										  const val = e.target.value;
+																										  setUrlPairs((prev) => prev.map((p, i) => i === index ? { ...p, title: val } : p));
+																									} }
+																									required fullWidth
+																						 />
+																						 <TextField
+																									label={ "URL" }
+																									value={ pair.url }
+																									onChange={ (e) => {
+																										  const val = e.target.value;
+																										  setUrlPairs((prev) => prev.map((p, i) => i === index ? { ...p, url: val } : p));
+																									} }
+																									error={ /*TRUTHY->*/ !! (pair.url.trim() && /*NOT->*/ ! validateUrl(pair.url)) }
+																									required fullWidth
+																						 />
+																				  </Stack>
+																				  { urlPairs.length > 1 && (
+																							 <Box>
+																									<IconButton color={ "error" } onClick={ () => setUrlPairs((prev) => prev.filter((_, i) => i !== index)) }>
+																										  <DeleteIcon/>
+																									</IconButton>
+																							 </Box>
+																				  ) }
+																			</Stack>
+																 )) }
+																 <Button
+																			variant={ "outlined" }
+																			startIcon={ <AddIcon/> }
+																			onClick={ () => setUrlPairs((prev) => [ ...prev, { title: "", url: "" } ]) }
+																			sx={ { alignSelf: "center" } }
+																 >
+																		{ "Add Another" }
+																 </Button>
+														  </Stack>
+												) }
+										 </Stack>
+							  ) }
+							  
+							  {/* Action Buttons */ }
+							  <Stack direction={ "row" } spacing={ 1 }>
+									 <Button variant={ "outlined" } fullWidth onClick={ handleReset }>{ "Cancel" }</Button>
+									 <Button
+												variant={ "contained" }
+												disabled={ (mode === "content" && /*NOT->*/ ! isContentValid) || (mode === "download" && /*NOT->*/ ! isDownloadValid) }
+												fullWidth
+												onClick={ handleSubmit }
+									 >
+											{ "Submit" }
+									 </Button>
+							  </Stack>
 						</Stack>
-				 </Stack>
+				 </>
 	  );
 }
 

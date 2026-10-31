@@ -1,4 +1,3 @@
-import { shareableHandle } from "@/core/AppMaster";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from "@mui/material";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -6,7 +5,6 @@ import Portal from "@mui/material/Portal";
 import Stack from "@mui/material/Stack";
 import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import { usePathname } from "next/navigation";
 import React, { JSX } from "react";
 
 
@@ -104,20 +102,20 @@ export const useSnackbar = () => {
 };
 
 
-/**
- * When {@param isPath} is true, the {@param value} or {@param txt} is ignored and the current path is copied.
- * When {@param isLink} is true, the {@param value} or {@param txt} is wrapped in {@link shareableHandle}.
- * When {@param isPath} and {@param isLink} are false, the {@param value} or {@param txt} is copied as is.
- */
-export const useTextCopier = ({ field = "Text", value = "", isLink = true, isPath = false }: { field?: string, value?: string, isLink?: boolean, isPath?: boolean } = {}) => {
-	  const { Snackbar, performActionAndShow } = useSnackbar();
-	  const path = usePathname();
-	  const copy = (txt = "") => performActionAndShow(() => navigator.clipboard.writeText(isPath ? shareableHandle(path.substring(1)) : isLink ? shareableHandle(txt || value) : (txt || value)));
-	  return {
-			 copy,
-			 Snackbar: () => <Snackbar message={ field + " copied to clipboard!" }/>
-	  };
-};
+// /**
+//  * When {@param isPath} is true, the {@param value} or {@param txt} is ignored and the current path is copied.
+//  * When {@param isLink} is true, the {@param value} or {@param txt} is wrapped in {@link shareableHandle}.
+//  * When {@param isPath} and {@param isLink} are false, the {@param value} or {@param txt} is copied as is.
+//  */
+// export const useTextCopier = ({ field = "Text", value = "", isLink = true, isPath = false }: { field?: string, value?: string, isLink?: boolean, isPath?: boolean } = {}) => {
+// 	  const { Snackbar, performActionAndShow } = useSnackbar();
+// 	  const path = usePathname();
+// 	  const copy = (txt = "") => performActionAndShow(() => navigator.clipboard.writeText(isPath ? shareableHandle(path.substring(1)) : isLink ? shareableHandle(txt || value) : (txt || value)));
+// 	  return {
+// 			 copy,
+// 			 Snackbar: () => <Snackbar message={ field + " copied to clipboard!" }/>
+// 	  };
+// };
 
 /**
  * A hook that provides a forced-interaction MUI Dialog for moderation confirmations.
