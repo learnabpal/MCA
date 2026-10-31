@@ -1,9 +1,9 @@
 "use client";
 
-import { Branding } from "@/app/(public)/layout";
 import type { AthContent, AthDownload } from "@/app/AthenaeumMaster";
 import { APP_NAME, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
+import { bridgeBgcId } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid, useFirebaseUserData } from "@/firebase/FirebaseApp";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -25,7 +25,7 @@ type DownloadType = typeof DL_TYPES[number];
 
 const EXTS = [ ".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".md", ".txt" ];
 
-function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onContentSubmitted: (value: AthContent) => void; onDownloadSubmit: (value: AthDownload[]) => void; }) {
+function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onContentSubmitted: (value: AthContent) => void; onDownloadSubmitted: (value: AthDownload[]) => void; }) {
 	  const [ mode, setMode ] = React.useState<FormMode>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey | "">("");
 	  
@@ -314,6 +314,7 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 	  );
 }
 
+
 export default function AdminPage() {
 	  const { displayName, email, photoURL } = useFirebaseUserData();
 	  const uid = useFirebaseUid();
@@ -321,15 +322,23 @@ export default function AdminPage() {
 	  const [ bgcId, setBgcId ] = React.useState("");
 	  const [ verified, setVerified ] = React.useState(false);
 	  
-	  function verifyAllowed(): any {
-			 setVerified(true);
+	  function verifyBGCId(): any {
+			 if ( /*NOT->*/ ! bgcId) return;
+			 bridgeBgcId(bgcId).then(
+						value => {
+							  setVerified(value === true);
+						},
+						reason => {
+							  setVerified(false);
+						}
+			 );
 	  }
 	  
 	  if ( /*NOT->*/ ! uid) return (
 				 <Stack spacing={ 2 } sx={ { height: "100vh", mx: "auto", p: { xs: 2, md: 4 } } } maxWidth={ 360 } justifyContent={ "center" }>
 						{ /*NOT->*/ ! verified && <>
 							  <TextField label={ "Enter BGC ID" } value={ bgcId } onChange={ (e) => setBgcId(e.target.value) } fullWidth required/>
-							  <Button variant={ "contained" } fullWidth onClick={ () => verifyAllowed() }>{ "Verify" }</Button>
+							  <Button variant={ "contained" } fullWidth onClick={ () => verifyBGCId() } disabled={  /*NOT->*/ ! bgcId?.trim() }>{ "Verify" }</Button>
 						</>
 						}
 						{ verified && <>

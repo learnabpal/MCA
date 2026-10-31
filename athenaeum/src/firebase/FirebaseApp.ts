@@ -14,12 +14,13 @@ import { useAuthState, useCreateUserWithEmailAndPassword, useDeleteUser, useSend
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
-	  apiKey: "AIzaSyDeYY37ptaV8wAZHz6HPhmOA6l6Zh3lsDw",
-	  authDomain: "apxdgtlcorpus.firebaseapp.com",
-	  projectId: "apxdgtlcorpus",
-	  storageBucket: "apxdgtlcorpus.firebasestorage.app",
-	  messagingSenderId: "858167019558",
-	  appId: "1:858167019558:web:08d5e47c6c399799997ee7"
+	  apiKey: "AIzaSyDvSiZnDM_TnLdj0vyz4j9Ic2Ygt5Qi254",
+	  authDomain: "apxmca.firebaseapp.com",
+	  databaseURL: "https://apxmca-default-rtdb.firebaseio.com",
+	  projectId: "apxmca",
+	  storageBucket: "apxmca.firebasestorage.app",
+	  messagingSenderId: "351899767213",
+	  appId: "1:351899767213:web:89d057dd93aca90fd3d124"
 };
 
 
@@ -34,7 +35,7 @@ const storage = getStorage(firebaseClientApp);
 // EXPORT SERVICES
 
 const auth = getAuth(firebaseClientApp);
-export const RTDB_ROOT_REF = rtdbRef(rtDb);
+const RTDB_ROOT_REF = rtdbRef(rtDb);
 
 const FIRESTORE_ROOT_REF = fsDb;
 const STORAGE_ROOT_REF = storage;
@@ -112,10 +113,15 @@ const SHARD_PREFIX = "SHARD";
 const ENQUIRIES_NODE = "ENQUIRIES";
 
 
+const BGC_IDS_NODE = "BGC_IDS";
+
+
 export {
 	  HOST_NODE, HANDLE_MAP_NODE, SERVICE_COLLECTION, PROFILE_COLLECTION, CLAIM_NODE, CONTENT_COLLECTION,
 	  RTDB_ROOT_REF, FIRESTORE_ROOT_REF, STORAGE_ROOT_REF, GATEWAY_NODE, ARCHIVE_NODE, TRASHED_NODE,
-	  SHARDS_COLLECTION, SHARD_PREFIX
+	  SHARDS_COLLECTION, SHARD_PREFIX,
+	  
+	  BGC_IDS_NODE
 };
 
 
@@ -164,6 +170,8 @@ const invokeServerApp = (request?: NextRequest) => {
 			 
 			 const enquiriesNodeRef = child(RTDB_ROOT_REF, ENQUIRIES_NODE);
 			 
+			 const bgcIdsNodeRef = child(RTDB_ROOT_REF, BGC_IDS_NODE);
+			 
 			 return ({
 					uid: user?.uid,
 					email: user?.email,
@@ -173,8 +181,9 @@ const invokeServerApp = (request?: NextRequest) => {
 					/* contentCollectionRef, gatewayCollectionRef */
 					// profileCollectionRef, serviceCollectionRef,
 					// contentGuideShardsCollectionRef, contentEventShardsCollectionRef,
-					gatewayNodeRef, // archiveNodeRef, trashedNodeRef
-					enquiriesNodeRef
+					// gatewayNodeRef,  archiveNodeRef, trashedNodeRef
+					// enquiriesNodeRef,
+					bgcIdsNodeRef
 					/* profileStorageRef, serviceStorageRef */
 			 });
 	  });
