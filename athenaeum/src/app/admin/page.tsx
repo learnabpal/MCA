@@ -2,13 +2,16 @@
 
 import type { AthContent, AthDownload } from "@/app/AthenaeumMaster";
 import { APP_NAME, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
-import { Box, Button, Chip, IconButton, Paper, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import NumberCaptcha from "@/components/mui/apx/tsx/NumberCaptcha";
+import { useFirebaseAccountModifiers, useFirebaseUid, useFirebaseUserData } from "@/firebase/FirebaseApp";
 import AddIcon from "@mui/icons-material/Add";
-import React from "react";
-import "@uiw/react-md-editor/markdown-editor.css";
+import DeleteIcon from "@mui/icons-material/Delete";
+import GoogleIcon from "@mui/icons-material/Google";
+import { Avatar, Box, Button, Chip, IconButton, Paper, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import "@uiw/react-markdown-preview/markdown.css";
 import MDEditor from "@uiw/react-md-editor";
+import "@uiw/react-md-editor/markdown-editor.css";
+import React from "react";
 
 
 
@@ -23,7 +26,9 @@ const EXTS = [ ".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf", ".doc", ".docx"
 
 function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSubmit: (value: AthContent) => void; onDownloadSubmit: (value: AthDownload) => void; }) {
 	  const [ mode, setMode ] = React.useState<FormMode>("content");
-	  const [ sub, setSub ] = React.useState<SubKey | "">("");
+	  const [ subKey, setSubKey ] = React.useState<SubKey | "">("");
+	  
+	  const [ captchad, setCaptchad ] = React.useState<boolean>();
 	  
 	  /* Content Form State */
 	  const [ tagsInput, setTagsInput ] = React.useState("");
@@ -38,7 +43,7 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 	  /* Derived State for Content */
 	  const tags = tagsInput.split(",").map((tag) => tag.trim()).filter(Boolean);
 	  const validTags = tagsInput.trim().length > 0 && tags.every(Boolean) && new Set(tags).size === tags.length;
-	  const isContentValid = /*TRUTHY->*/ !! (sub && contentTitle.trim() && content.trim() && validTags);
+	  const isContentValid = captchad && /*TRUTHY->*/ !! (subKey && contentTitle.trim() && content.trim() && validTags);
 	  
 	  /* Helper for URL validation */
 	  const validateUrl = (rawUrl: string) => {
@@ -55,9 +60,9 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 			 return EXTS.some((ext) => name.endsWith(ext));
 	  };
 	  
-	  const isDownloadValid = downloadType === "file"
-				 ? /*TRUTHY->*/ !! (sub && selectedFiles.length > 0 && selectedFiles.every(isValidFile))
-				 : /*TRUTHY->*/ !! (sub && urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)));
+	  const isDownloadValid = captchad && downloadType === "file"
+				 ? /*TRUTHY->*/ !! (subKey && selectedFiles.length > 0 && selectedFiles.every(isValidFile))
+				 : /*TRUTHY->*/ !! (subKey && urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)));
 	  
 	  const handleFilesDrop = (event: React.DragEvent<HTMLDivElement>) => {
 			 event.preventDefault();
@@ -77,7 +82,7 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 	  };
 	  
 	  const handleReset = () => {
-			 setSub("");
+			 setSubKey("");
 			 setTagsInput("");
 			 setContentTitle("");
 			 setContent("");
@@ -87,10 +92,10 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 	  
 	  const handleSubmit = () => {
 			 if (mode === "content") {
-					if (/*NOT->*/ ! isContentValid || /*NOT->*/ ! sub) return;
-					onContentSubmit({ sub, tags, title: contentTitle.trim(), content });
+					if (/*NOT->*/ ! isContentValid || /*NOT->*/ ! subKey) return;
+					onContentSubmit({ sub: subKey, tags, title: contentTitle.trim(), content });
 			 } else {
-					if (/*NOT->*/ ! isDownloadValid || /*NOT->*/ ! sub) return;
+					if (/*NOT->*/ ! isDownloadValid || /*NOT->*/ ! subKey) return;
 					// Submitting download entries accordingly
 					if (downloadType === "file") {
 						  selectedFiles.forEach((file) => {
@@ -134,9 +139,9 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 														  key={ key }
 														  label={ value }
 														  clickable
-														  color={ sub === key ? "primary" : "default" }
-														  variant={ sub === key ? "filled" : "outlined" }
-														  onClick={ () => setSub(sub === key ? "" : key as SubKey) }
+														  color={ subKey === key ? "primary" : "default" }
+														  variant={ subKey === key ? "filled" : "outlined" }
+														  onClick={ () => setSubKey(subKey === key ? "" : key as SubKey) }
 												/>
 									 )) }
 							  </Stack>
@@ -284,6 +289,7 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 						) }
 						
 						{/* Action Buttons */ }
+						<NumberCaptcha onVerified={ setCaptchad }/>
 						<Stack direction={ "row" } spacing={ 1 }>
 							  <Button variant={ "outlined" } fullWidth onClick={ handleReset }>{ "Cancel" }</Button>
 							  <Button
@@ -300,9 +306,37 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 }
 
 export default function AdminPage() {
+	  const { displayName, email, photoURL } = useFirebaseUserData();
+	  const uid = useFirebaseUid();
+	  const { signInWithGoogle, signOut } = useFirebaseAccountModifiers();
+	  const [ bgcId, setBgcId ] = React.useState("");
+	  const [ verified, setVerified ] = React.useState(false);
+	  
+	  function verifyAllowed(): any {
+			 setVerified(true);
+	  }
+	  
+	  if ( /*NOT->*/ ! uid) return (
+				 <Stack spacing={ 2 } sx={ { height: "100vh", mx: "auto", p: { xs: 2, md: 4 } } } maxWidth={ 360 } justifyContent={ "center" }>
+						{ /*NOT->*/ ! verified && <>
+							  <TextField label={ "Enter BGC ID" } value={ bgcId } onChange={ (e) => setBgcId(e.target.value) } fullWidth required/>
+							  <Button variant={ "contained" } fullWidth onClick={ () => verifyAllowed() }>{ "Verify" }</Button>
+						</>
+						}
+						{ verified && <>
+							  <Button variant={ "contained" } fullWidth onClick={ () => signInWithGoogle() } startIcon={ <GoogleIcon/> }>{ "Sign-In with Google" }</Button>
+						</> }
+				 </Stack>
+	  );
 	  return (
 				 <Stack spacing={ 3 } sx={ { mx: "auto", p: { xs: 2, md: 4 } } }>
-						<Typography variant={ "h3" }>{ APP_NAME + " Admin" }</Typography>
+						<Stack direction={ "row" } spacing={ 2 } alignSelf={ "center" }>
+							  <Avatar src={ photoURL } alt={ displayName } sx={ { width: 48, height: 48 } }/>
+							  <Stack spacing={ 1 }>
+									 <Typography variant={ "h3" }>{ APP_NAME + " Admin" }</Typography>
+									 <Typography variant={ "body1" }>{ displayName + " " + email }</Typography>
+							  </Stack>
+						</Stack>
 						<Paper variant={ "outlined" } sx={ { p: { xs: 2, md: 3 } } }>
 							  <AdminFormContainer
 										 onContentSubmit={ (val) => console.log("Content:", val) }
