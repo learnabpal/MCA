@@ -2,7 +2,6 @@
 
 import type { AthContent, AthDownload } from "@/app/AthenaeumMaster";
 import { APP_NAME, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
-import NumberCaptcha from "@/components/mui/apx/tsx/NumberCaptcha";
 import { useFirebaseAccountModifiers, useFirebaseUid, useFirebaseUserData } from "@/firebase/FirebaseApp";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -28,7 +27,6 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 	  const [ mode, setMode ] = React.useState<FormMode>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey | "">("");
 	  
-	  const [ captchad, setCaptchad ] = React.useState<boolean>();
 	  
 	  /* Content Form State */
 	  const [ tagsInput, setTagsInput ] = React.useState("");
@@ -43,7 +41,7 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 	  /* Derived State for Content */
 	  const tags = tagsInput.split(",").map((tag) => tag.trim()).filter(Boolean);
 	  const validTags = tagsInput.trim().length > 0 && tags.every(Boolean) && new Set(tags).size === tags.length;
-	  const isContentValid = captchad && /*TRUTHY->*/ !! (subKey && contentTitle.trim() && content.trim() && validTags);
+	  const isContentValid =   /*TRUTHY->*/ !! (subKey && contentTitle.trim() && content.trim() && validTags);
 	  
 	  /* Helper for URL validation */
 	  const validateUrl = (rawUrl: string) => {
@@ -60,7 +58,7 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 			 return EXTS.some((ext) => name.endsWith(ext));
 	  };
 	  
-	  const isDownloadValid = captchad && downloadType === "file"
+	  const isDownloadValid = downloadType === "file"
 				 ? /*TRUTHY->*/ !! (subKey && selectedFiles.length > 0 && selectedFiles.every(isValidFile))
 				 : /*TRUTHY->*/ !! (subKey && urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)));
 	  
@@ -289,7 +287,6 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 						) }
 						
 						{/* Action Buttons */ }
-						<NumberCaptcha onVerified={ setCaptchad }/>
 						<Stack direction={ "row" } spacing={ 1 }>
 							  <Button variant={ "outlined" } fullWidth onClick={ handleReset }>{ "Cancel" }</Button>
 							  <Button
