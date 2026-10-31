@@ -23,7 +23,7 @@ type DownloadType = typeof DL_TYPES[number];
 
 const EXTS = [ ".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".md" ];
 
-function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSubmit: (value: AthContent) => void; onDownloadSubmit: (value: AthDownload) => void; }) {
+function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onContentSubmitted: (value: AthContent) => void; onDownloadSubmitted: (value: AthDownload) => void; }) {
 	  const [ mode, setMode ] = React.useState<FormMode>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey | "">("");
 	  
@@ -62,20 +62,22 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 				 ? /*TRUTHY->*/ !! (subKey && selectedFiles.length > 0 && selectedFiles.every(isValidFile))
 				 : /*TRUTHY->*/ !! (subKey && urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)));
 	  
+	  
+	  const upload = (files: FileList) => {
+			 const filesArray = Array.from(files).filter(isValidFile);
+			 setSelectedFiles((prev) => Array.from(new Set([ ...prev, ...filesArray ])));
+			 /* TODO: Upload files in background to storage and update URLs accordingly */
+	  };
 	  const handleFilesDrop = (event: React.DragEvent<HTMLDivElement>) => {
 			 event.preventDefault();
 			 if (/*TRUTHY->*/ !! event.dataTransfer.files && event.dataTransfer.files.length > 0) {
-					const filesArray = Array.from(event.dataTransfer.files).filter(isValidFile);
-					setSelectedFiles((prev) => [ ...prev, ...filesArray ]);
-					/* TODO: Upload files in background to storage and update URLs accordingly */
+					upload();
 			 }
 	  };
 	  
 	  const handleFilesSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
 			 if (/*TRUTHY->*/ !! event.target.files && event.target.files.length > 0) {
-					const filesArray = Array.from(event.target.files).filter(isValidFile);
-					setSelectedFiles((prev) => [ ...prev, ...filesArray ]);
-					/* TODO: Upload files in background to storage and update URLs accordingly */
+					upload();
 			 }
 	  };
 	  
@@ -91,17 +93,17 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 	  const handleSubmit = () => {
 			 if (mode === "content") {
 					if (/*NOT->*/ ! isContentValid || /*NOT->*/ ! subKey) return;
-					onContentSubmit({ sub: subKey, tags, title: contentTitle.trim(), content });
+					onContentSubmitted({ sub: subKey, tags, title: contentTitle.trim(), content });
 			 } else {
 					if (/*NOT->*/ ! isDownloadValid || /*NOT->*/ ! subKey) return;
 					// Submitting download entries accordingly
 					if (downloadType === "file") {
 						  selectedFiles.forEach((file) => {
-								 onDownloadSubmit({ title: file.name, url: URL.createObjectURL(file) });
+								 onDownloadSubmitted({ title: file.name, url: URL.createObjectURL(file) });
 						  });
 					} else {
 						  urlPairs.forEach((pair) => {
-								 onDownloadSubmit({ title: pair.title.trim(), url: pair.url.trim() });
+								 onDownloadSubmitted({ title: pair.title.trim(), url: pair.url.trim() });
 						  });
 					}
 			 }
@@ -336,8 +338,8 @@ export default function AdminPage() {
 						</Stack>
 						<Paper variant={ "outlined" } sx={ { p: { xs: 2, md: 3 } } }>
 							  <AdminFormContainer
-										 onContentSubmit={ (val) => console.log("Content:", val) }
-										 onDownloadSubmit={ (val) => console.log("Download:", val) }
+										 onContentSubmitted={ (val) => console.log("Content:", val) }
+										 onDownloadSubmitted={ (val) => console.log("Download:", val) }
 							  />
 						</Paper>
 				 </Stack>
