@@ -2,6 +2,7 @@
 
 import type { AthContent, AthDownload } from "@/app/AthenaeumMaster";
 import { APP_NAME, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
+import { useWipView } from "@/components/mui/apx/tsx/WiPView";
 import { useFirebaseAccountModifiers, useFirebaseUid, useFirebaseUserData } from "@/firebase/FirebaseApp";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -27,6 +28,7 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 	  const [ mode, setMode ] = React.useState<FormMode>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey | "">("");
 	  
+	  const { setUi, close, open, WiPView } = useWipView();
 	  
 	  /* Content Form State */
 	  const [ tagsInput, setTagsInput ] = React.useState("");
@@ -94,7 +96,8 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 			 if (mode === "content") {
 					if (/*NOT->*/ ! isContentValid || /*NOT->*/ ! subKey) return;
 					onContentSubmitted({ sub: subKey, tags, title: contentTitle.trim(), content });
-			 } else {
+			 }
+			 if (mode === "download") {
 					if (/*NOT->*/ ! isDownloadValid || /*NOT->*/ ! subKey) return;
 					// Submitting download entries accordingly
 					if (downloadType === "file") {
