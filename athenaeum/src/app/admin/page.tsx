@@ -1,5 +1,6 @@
 "use client";
 
+import { Branding } from "@/app/(public)/layout";
 import type { AthContent, AthDownload } from "@/app/AthenaeumMaster";
 import { APP_NAME, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
@@ -324,7 +325,7 @@ export default function AdminPage() {
 			 setVerified(true);
 	  }
 	  
-	  if ( /*NOT->*/ uid) return (
+	  if ( /*NOT->*/ ! uid) return (
 				 <Stack spacing={ 2 } sx={ { height: "100vh", mx: "auto", p: { xs: 2, md: 4 } } } maxWidth={ 360 } justifyContent={ "center" }>
 						{ /*NOT->*/ ! verified && <>
 							  <TextField label={ "Enter BGC ID" } value={ bgcId } onChange={ (e) => setBgcId(e.target.value) } fullWidth required/>
