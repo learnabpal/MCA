@@ -65,7 +65,7 @@ export {
 
 
 export const APP_NAME = "Athenaeum";
-export const APP_TAGLINE = "MCA Mate";
+export const APP_TAGLINE = "Our MCA Buddy";
 export const BGC_NAME = "Bhawanipur Global Campus";
 export const BGC_HEX = "#800000";
 export const DEV_NAME = "Arnab Pal | apxdgtl";

@@ -288,11 +288,11 @@ function AdminFormContainer({ onContentSubmit, onDownloadSubmit }: { onContentSu
 							  <Button variant={ "outlined" } fullWidth onClick={ handleReset }>{ "Cancel" }</Button>
 							  <Button
 										 variant={ "contained" }
-										 disabled={ mode === "content" ? /*NOT->*/ ! isContentValid : /*NOT->*/ ! isDownloadValid }
+										 disabled={ (mode === "content" && /*NOT->*/ ! isContentValid) || (mode === "download" && /*NOT->*/ ! isDownloadValid) }
 										 fullWidth
 										 onClick={ handleSubmit }
 							  >
-									 { mode === "content" ? "Submit Content" : "Submit Download" }
+									 { "Submit" }
 							  </Button>
 						</Stack>
 				 </Stack>
