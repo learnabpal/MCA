@@ -322,17 +322,13 @@ export default function AdminPage() {
 	  const [ bgcId, setBgcId ] = React.useState("");
 	  const [ verified, setVerified ] = React.useState(false);
 	  
-	  function verifyBGCId(): any {
+	  const verifyBGCId = () => {
 			 if ( /*NOT->*/ ! bgcId) return;
 			 bridgeBgcId(bgcId).then(
-						value => {
-							  setVerified(value === true);
-						},
-						reason => {
-							  setVerified(false);
-						}
+						value => setVerified(value === true),
+						reason => setVerified(false)
 			 );
-	  }
+	  };
 	  
 	  if ( /*NOT->*/ ! uid) return (
 				 <Stack spacing={ 2 } sx={ { height: "100vh", mx: "auto", p: { xs: 2, md: 4 } } } maxWidth={ 360 } justifyContent={ "center" }>
