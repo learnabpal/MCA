@@ -23,13 +23,13 @@ export const SUB_MAP = {
 	  bmc: "Basic Mathematics for Computing",
 	  ecom: "E-Commerce and Digital Business",
 	  
-	  rdbms: "Database Management System",
-	  os: "Operating System",
-	  oopj: "Object Oriented Programming with Java",
-	  prst: "Probability and Statistics",
-	  
-	  sweng: "Software Engineering",
-	  webt: "Web Technology"
+	  // rdbms: "Database Management System",
+	  // os: "Operating System",
+	  // oopj: "Object Oriented Programming with Java",
+	  // prst: "Probability and Statistics",
+	  //
+	  // sweng: "Software Engineering",
+	  // webt: "Web Technology"
 } as const;
 export type SubKey = keyof typeof SUB_MAP;
 export const SUBS: Readonly<Record<Sem, SubKey[]>> = {
