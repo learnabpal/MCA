@@ -335,7 +335,7 @@ export default function AdminPage() {
 			 if (timer === 0) {
 					bridgeBgcId(bgcId).then(
 							  (value) => {
-									 setVerified(true);
+									 setVerified(value === true);
 									 setTimer(-1);
 							  },
 							  (reason) => {
