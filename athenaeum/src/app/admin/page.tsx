@@ -320,21 +320,43 @@ export default function AdminPage() {
 	  const uid = useFirebaseUid();
 	  const { signInWithGoogle, signOut } = useFirebaseAccountModifiers();
 	  const [ bgcId, setBgcId ] = React.useState("");
-	  const [ verified, setVerified ] = React.useState(false);
+	  const [ verified, setVerified ] = React.useState(undefined);
+	  
+	  const invalidId = bgcId?.trim()?.length < 10 || bgcId?.trim()?.length > 12;
+	  
+	  const [ timer, setTimer ] = React.useState<number>(-1);
 	  
 	  const verifyBGCId = () => {
-			 if ( /*NOT->*/ ! bgcId) return;
-			 bridgeBgcId(bgcId).then(
-						value => setVerified(value === true),
-						reason => setVerified(false)
-			 );
+			 if (/*TRUTHY->*/ !! invalidId || timer > -1) return;
+			 setTimer(5);
 	  };
 	  
+	  React.useEffect(() => {
+			 if (timer === 0) {
+					bridgeBgcId(bgcId).then(
+							  (value) => {
+									 setVerified(true);
+									 setTimer(-1);
+							  },
+							  (reason) => {
+									 setVerified(false);
+									 setTimer(-1);
+							  }
+					);
+			 } else if (timer > 0) {
+					const iid = setTimeout(() => {
+						  setTimer((prev) => prev - 1);
+					}, 1000);
+					return () => clearTimeout(iid);
+			 }
+	  }, [ timer, bgcId ]);
+	  
 	  if ( /*NOT->*/ ! uid) return (
-				 <Stack spacing={ 2 } sx={ { height: "100vh", mx: "auto", p: { xs: 2, md: 4 } } } maxWidth={ 360 } justifyContent={ "center" }>
+				 <Stack spacing={ 1 } sx={ { height: "100vh", mx: "auto", p: { xs: 2, md: 4 } } } maxWidth={ 360 } justifyContent={ "center" }>
 						{ /*NOT->*/ ! verified && <>
 							  <TextField label={ "Enter BGC ID" } value={ bgcId } onChange={ (e) => setBgcId(e.target.value) } fullWidth required/>
-							  <Button variant={ "contained" } fullWidth onClick={ () => verifyBGCId() } disabled={  /*NOT->*/ ! bgcId?.trim() }>{ "Verify" }</Button>
+							  { verified === false && <Typography color={ "error" } fontSize={ 12 } textAlign={ "center" }>{ "Unauthorised BGC ID" }</Typography> }
+							  <Button variant={ "contained" } fullWidth onClick={ () => verifyBGCId() } disabled={ invalidId || timer >= 0 }>{ timer > 0 ? "Verifying..." : "Verify" }</Button>
 						</>
 						}
 						{ verified && <>
