@@ -90,3 +90,17 @@ export const NAV_ITEMS = {
 	  subjects: { label: "Subjects", href: "/subjects", icon: <MenuBookOutlinedIcon fontSize={ "small" }/>, desc: "Browse subjects by semester and access their topics and available downloads." },
 	  github: { label: "GitHub", href: "/github", icon: <GitHubIcon fontSize={ "small" }/>, desc: "Explore the MCA monorepo and all its project files." }
 } as const;
+
+
+export const FORM_MODES = [ "content", "download" ] as const;
+export type FormMode = typeof FORM_MODES[number];
+export const DL_TYPES = [ "file", "url" ] as const;
+export type DownloadType = typeof DL_TYPES[number];
+export const EXTS = [
+	  ".jpg", ".jpeg", ".png", ".gif", ".webp",
+	  ".pdf",
+	  ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx",
+	  ".md", ".txt"
+] as const;
+
+export const joiner = (...str: string[]) => str.join("/");

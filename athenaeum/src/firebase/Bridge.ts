@@ -22,7 +22,7 @@ export const bridgeBgcId = (bgcId: string): Promise<{ email: string } & ApiStatu
 
 const uploadFiles = "upload-files";
 
-export const bridgeUploadFiles = (files: File[]) => {
+export const bridgeUploadFiles = (files: File[]): Promise<{ url: string, title: string }[] & ApiStatus> => {
 	  const formData = new FormData();
 	  files.forEach(file => formData.append("files", file, file.name));
 	  return api.post(uploadFiles, formData).then(response => response.data);

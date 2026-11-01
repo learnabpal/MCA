@@ -1,15 +1,14 @@
 "use client";
 
 import { Branding } from "@/app/(public)/layout";
-import type { AthContent, AthDownload, MatKey } from "@/app/AthenaeumMaster";
-import { APP_NAME, MAT_MAP, MAX_FILE_BYTES, MAX_FILE_MB, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
+import type { AthContent, AthDownload, DownloadType, FormMode, MatKey } from "@/app/AthenaeumMaster";
+import { APP_NAME, DL_TYPES, EXTS, FORM_MODES, MAT_MAP, MAX_FILE_BYTES, MAX_FILE_MB, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
 import { bridgeBgcId } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid, useFirebaseUserData } from "@/firebase/FirebaseApp";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import GoogleIcon from "@mui/icons-material/Google";
-import { Avatar, Box, Button, Chip, IconButton, Paper, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Box, Button, Chip, IconButton, Paper, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import "@uiw/react-markdown-preview/markdown.css";
 import MDEditor from "@uiw/react-md-editor";
 import "@uiw/react-md-editor/markdown-editor.css";
@@ -17,14 +16,6 @@ import React from "react";
 
 
 
-
-const FORM_MODES = [ "content", "download" ] as const;
-type FormMode = typeof FORM_MODES[number];
-
-const DL_TYPES = [ "file", "url" ] as const;
-type DownloadType = typeof DL_TYPES[number];
-
-const EXTS = [ ".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".md", ".txt" ];
 
 function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onContentSubmitted: (value: AthContent) => void; onDownloadSubmitted: (value: AthDownload[]) => void; }) {
 	  const [ mode, setMode ] = React.useState<FormMode>("content");

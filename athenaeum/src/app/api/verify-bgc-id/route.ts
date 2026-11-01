@@ -7,15 +7,18 @@ import { NextRequest } from "next/server";
 
 
 export async function POST(request: NextRequest) {
-	  const json = await request.json();
-	  
-	  const { bgcIdsNodeRef } = await invokeServerApp(request);
-	  
-	  const snapshot = await get(child(bgcIdsNodeRef, String(json.bgcId)));
-	  // if (snapshot.exists() && snapshot.val()) return successResponse(snapshot.val());
-	  if (snapshot.exists()) {
-			 const email = snapshot.val();
-			 return successResponse({ email });
+	  try {
+			 const json = await request.json();
+			 
+			 const { bgcIdsNodeRef } = await invokeServerApp(request);
+			 
+			 const snapshot = await get(child(bgcIdsNodeRef, String(json.bgcId)));
+			 if (snapshot.exists()) {
+					const email = snapshot.val();
+					return successResponse({ email });
+			 }
+			 return errorOccurred("Invalid BGC ID", { email: null });
+	  } catch (error) {
+			 return errorOccurred(error, { email: null });
 	  }
-	  return errorOccurred("Invalid BGC ID", { email: null });
 }
