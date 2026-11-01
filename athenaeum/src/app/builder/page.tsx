@@ -1,8 +1,8 @@
 "use client";
 
 import { Branding } from "@/app/(public)/layout";
-import type { AthContent, AthDownload, DownloadType, FormMode, MatKey } from "@/app/AthenaeumMaster";
-import { APP_NAME, DL_TYPES, EXTS, FORM_MODES, MAT_MAP, MAX_FILE_BYTES, MAX_FILE_MB, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
+import type { AthContent, AthDownload, DownloadType, EntryMode, MatKey } from "@/app/AthenaeumMaster";
+import { APP_NAME, DL_TYPES, EXTS, ENTRY_MODES, MAT_MAP, MAX_FILE_BYTES, MAX_FILE_MB, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
 import { bridgeBgcId } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid, useFirebaseUserData } from "@/firebase/FirebaseApp";
@@ -18,7 +18,7 @@ import React from "react";
 
 
 function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onContentSubmitted: (value: AthContent) => void; onDownloadSubmitted: (value: AthDownload[]) => void; }) {
-	  const [ mode, setMode ] = React.useState<FormMode>("content");
+	  const [ mode, setMode ] = React.useState<EntryMode>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey>("");
 	  const [ matKey, setMatKey ] = React.useState<MatKey>("");
 	  
@@ -134,13 +134,13 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 									 <ToggleButtonGroup
 												value={ mode }
 												exclusive
-												onChange={ (_, newMode: FormMode | null) => {
+												onChange={ (_, newMode: EntryMode | null) => {
 													  /*TRUTHY->*/
 													  !! newMode && setMode(newMode);
 												} }
 												color={ "primary" }
 									 >
-											{ FORM_MODES.map((m) => (
+											{ ENTRY_MODES.map((m) => (
 													  <ToggleButton key={ m } value={ m } sx={ { px: 4, textTransform: "capitalize" } }>
 															 { m }
 													  </ToggleButton>
