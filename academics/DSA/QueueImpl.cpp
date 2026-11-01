@@ -4,6 +4,7 @@
 using namespace std;
 
 const int MAX = 100;
+const string OF = "Queue overflow", UF = "Queue underflow";
 
 struct QueueA
 {
@@ -25,7 +26,7 @@ struct QueueA
       {
             if (is_full())
             {
-                  cout << "Queue overflow" << endl;
+                  cout << OF << endl;
                   return;
             }
 
@@ -39,7 +40,7 @@ struct QueueA
       {
             if (is_empty())
             {
-                  cout << "Queue underflow" << endl;
+                  cout << UF << endl;
                   return -1;
             }
             int item = items[f];
@@ -58,7 +59,7 @@ struct QueueA
       {
             if (is_empty())
             {
-                  cout << "Queue underflow" << endl;
+                  cout << UF << endl;
                   return -1;
             }
             return items[f];
@@ -69,7 +70,7 @@ struct QueueA
       {
             if (is_empty())
             {
-                  cout << "Queue underflow" << endl;
+                  cout << UF << endl;
                   return -1;
             }
             return items[r];
@@ -135,7 +136,7 @@ struct QueueL
       {
             if (is_empty())
             {
-                  cout << "Queue underflow" << endl;
+                  cout << UF<< endl;
                   return -1;
             }
             QLItem *item = f;
@@ -153,7 +154,7 @@ struct QueueL
       {
             if (is_empty())
             {
-                  cout << "Queue underflow" << endl;
+                  cout << UF << endl;
                   return -1;
             }
             return f->data;
@@ -164,7 +165,7 @@ struct QueueL
       {
             if (is_empty())
             {
-                  cout << "Queue underflow" << endl;
+                  cout << UF << endl;
                   return -1;
             }
             return r->data;
