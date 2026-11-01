@@ -260,6 +260,7 @@ void do_menu(auto *q)
                   break;
             default:
                   cout << "Invalid choice" << endl;
+                  break;      
             }
       } while (choice != 7);
 }
