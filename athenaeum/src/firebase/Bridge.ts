@@ -16,10 +16,10 @@ export type ApiStatus = { status: Status, message: string }
 
 const verifyBgcId = "/verify-bgc-id";
 
-export async function bridgeBgcId(bgcId: string) {
+export async function bridgeBgcId(bgcId: string): Promise<{ email: string } & ApiStatus> {
 	  if ( /*NOT->*/ ! bgcId) return;
 	  const response = await api.post(verifyBgcId, { bgcId });
-	  return response.data.status === "SUCCESS";
+	  return response.data;
 }
 
 

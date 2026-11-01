@@ -318,11 +318,13 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 export default function AdminPage() {
 	  const { displayName, email, photoURL } = useFirebaseUserData();
 	  const uid = useFirebaseUid();
-	  const { signInWithGoogle, signOut } = useFirebaseAccountModifiers();
+	  const { signInWithGoogle, createUserWithEmailAndPassword } = useFirebaseAccountModifiers();
 	  const [ bgcId, setBgcId ] = React.useState("");
+	  const [ bgcEmail, setBgcEmail ] = React.useState("");
+	  const [ pw, setPw ] = React.useState("");
 	  const [ verified, setVerified ] = React.useState(undefined);
 	  
-	  const invalidId = bgcId?.trim()?.length < 10 || bgcId?.trim()?.length > 12;
+	  const invalidId = bgcId?.trim()?.length != 11;
 	  
 	  const [ timer, setTimer ] = React.useState<number>(-1);
 	  
@@ -335,11 +337,11 @@ export default function AdminPage() {
 			 if (timer === 0) {
 					bridgeBgcId(bgcId).then(
 							  (value) => {
-									 setVerified(value === true);
+									 setVerified(value.status === "SUCCESS" ? value.email : null);
 									 setTimer(-1);
 							  },
 							  (reason) => {
-									 setVerified(false);
+									 setVerified(null);
 									 setTimer(-1);
 							  }
 					);
@@ -353,14 +355,18 @@ export default function AdminPage() {
 	  
 	  if ( /*NOT->*/ ! uid) return (
 				 <Stack spacing={ 1 } sx={ { height: "100vh", mx: "auto", p: { xs: 2, md: 4 } } } maxWidth={ 360 } justifyContent={ "center" }>
-						{ /*NOT->*/ ! verified && <>
+						{ verified == null && <>
 							  <TextField label={ "Enter BGC ID" } value={ bgcId } onChange={ (e) => setBgcId(e.target.value) } fullWidth required/>
-							  { verified === false && <Typography color={ "error" } fontSize={ 12 } textAlign={ "center" }>{ "Unauthorised BGC ID" }</Typography> }
+							  { verified === null && <Typography color={ "error" } fontSize={ 12 } textAlign={ "center" }>{ "Unauthorised BGC ID" }</Typography> }
 							  <Button variant={ "contained" } fullWidth onClick={ () => verifyBGCId() } disabled={ invalidId || timer >= 0 }>{ timer > 0 ? "Verifying..." : "Verify" }</Button>
 						</>
 						}
-						{ verified && <>
-							  <Button variant={ "contained" } fullWidth onClick={ () => signInWithGoogle() } startIcon={ <GoogleIcon/> }>{ "Sign-In with Google" }</Button>
+						{ typeof verified === "string" && <>
+							  {/* <Button variant={ "contained" } fullWidth onClick={ () => signInWithGoogle() } startIcon={ <GoogleIcon/> }>{ "Sign-In with Google" }</Button> */ }
+							  <TextField label={ "Enter BGC Email" } value={ bgcEmail } onChange={ (e) => setBgcEmail(e.target.value) } fullWidth required/>
+							  <TextField label={ "Enter Password" } value={ pw } onChange={ (e) => setPw(e.target.value) } fullWidth required/>
+							  <Button variant={ "contained" } fullWidth onClick={ () => createUserWithEmailAndPassword(bgcEmail, pw) } disabled={ verified !== bgcEmail }>{ "Sign-In" }</Button>
+						
 						</> }
 				 </Stack>
 	  );
