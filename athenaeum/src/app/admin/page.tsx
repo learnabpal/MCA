@@ -1,5 +1,6 @@
 "use client";
 
+import { Branding } from "@/app/(public)/layout";
 import type { AthContent, AthDownload } from "@/app/AthenaeumMaster";
 import { APP_NAME, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
@@ -316,7 +317,7 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 
 
 export default function AdminPage() {
-	  const { displayName, email, photoURL } = useFirebaseUserData();
+	  const { email } = useFirebaseUserData();
 	  const uid = useFirebaseUid();
 	  const { signInWithGoogle, createUserWithEmailAndPassword } = useFirebaseAccountModifiers();
 	  const [ bgcId, setBgcId ] = React.useState("");
@@ -371,12 +372,13 @@ export default function AdminPage() {
 				 </Stack>
 	  );
 	  return (
-				 <Stack spacing={ 3 } sx={ { mx: "auto", p: { xs: 2, md: 4 } } }>
-						<Stack direction={ "row" } spacing={ 2 } alignSelf={ "center" }>
-							  <Avatar src={ photoURL } alt={ displayName } sx={ { width: 48, height: 48 } }/>
-							  <Stack spacing={ 1 }>
-									 <Typography variant={ "h3" }>{ APP_NAME + " Admin" }</Typography>
-									 <Typography variant={ "body1" }>{ displayName + " " + email }</Typography>
+				 <Stack spacing={ 3 } sx={ { mx: "auto", p: { xs: 2, sm: 3 } } }>
+						<Stack direction={ { xs: "column", sm: "row" } } spacing={ 2 } alignSelf={ "center" } alignItems={ "center" }>
+							  {/* <Avatar src={ photoURL } alt={ displayName } sx={ { width: 48, height: 48 } }/> */ }
+							  <Branding showAppName={ false }/>
+							  <Stack alignItems={ { xs: "center", sm: "flex-start" } }>
+									 <Typography variant={ "h4" }>{ APP_NAME + " Builder" }</Typography>
+									 <Typography variant={ "body1" }>{ email }</Typography>
 							  </Stack>
 						</Stack>
 						<Paper variant={ "outlined" } sx={ { p: { xs: 2, md: 3 } } }>

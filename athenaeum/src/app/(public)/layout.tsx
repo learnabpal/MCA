@@ -13,7 +13,7 @@ import React from "react";
 
 
 
-function Branding({ showAppName = true, showAppLogo = true }) {
+export function Branding({ showAppName = true, showAppLogo = true }) {
 	  return (
 				 <Box component={ Link } href={ "/" } gap={ 1 } sx={ { whiteSpace: "nowrap", display: "flex", alignItems: "center", color: "inherit", textDecoration: "none" } }>
 						{ showAppLogo && <Image src={ AppIcon } alt={ DEV_NAME + " " + BGC_NAME } height={ 48 } style={ { borderRadius: 6 } }/> }
