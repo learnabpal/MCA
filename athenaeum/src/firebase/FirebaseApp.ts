@@ -1,3 +1,4 @@
+import { APP_NAME } from "@/app/AthenaeumMaster";
 import { isInRestrictedList } from "@/components/mui/apx/ts/Utils";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "@firebase/auth";
 import { child } from "@firebase/database";
@@ -25,7 +26,7 @@ const firebaseConfig = {
 
 
 // INITIALISE FIREBASE
-const firebaseClientApp = initializeApp(firebaseConfig, "athenaeum");
+const firebaseClientApp = initializeApp(firebaseConfig);
 // INITIALISE SERVICES
 const rtDb = getDatabase(firebaseClientApp);
 const fsDb = getFirestore(firebaseClientApp);
@@ -175,12 +176,12 @@ const invokeServerApp = (request?: NextRequest) => {
 			 
 			 const enquiriesNodeRef = child(RTDB_ROOT_REF, ENQUIRIES_NODE);
 			 
-			 const bgcIdsNodeRef = child(RTDB_ROOT_REF, BGC_IDS_NODE);
+			 const bgcIdsNodeRef = child(RTDB_ROOT_REF, [ APP_NAME, BGC_IDS_NODE ].join("/"));
 			 
 			 return ({
 					uid: user?.uid,
 					email: user?.email,
-					createStorageRef: (path: string) => storageRef(storageRoot, path),
+					createStorageRef: (path: string) => storageRef(storageRoot, [ APP_NAME, path ].join("/")),
 					rtdbRoot, firestoreRoot, storageRoot,
 					// handleMapNodeRef, hostNodeRef, claimNodeRef,
 					/* contentCollectionRef, gatewayCollectionRef */

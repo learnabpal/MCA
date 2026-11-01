@@ -21,7 +21,7 @@ export const SUB_MAP = {
 	  dsa: "Data Structure and Algorithm",
 	  coa: "Computer Organisation and Architecture",
 	  bmc: "Basic Mathematics for Computing",
-	  ecom: "E-Commerce and Digital Business",
+	  ecom: "E-Commerce and Digital Business"
 	  
 	  // rdbms: "Database Management System",
 	  // os: "Operating System",
@@ -32,6 +32,15 @@ export const SUB_MAP = {
 	  // webt: "Web Technology"
 } as const;
 export type SubKey = keyof typeof SUB_MAP;
+
+export const MAT_MAP = {
+	  sdm: "Study Materials",
+	  res: "Resources",
+	  asn: "Assignments",
+	  qna: "Questions & Answers",
+	  xxx: "Others"
+};
+export type MatKey = keyof typeof MAT_MAP;
 export const SUBS: Readonly<Record<Sem, SubKey[]>> = {
 	  sem1: [ "pc", "dsa", "coa", "bmc", "ecom" ],
 	  sem2: [],

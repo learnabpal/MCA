@@ -319,12 +319,12 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 export default function AdminPage() {
 	  const { email } = useFirebaseUserData();
 	  const uid = useFirebaseUid();
-	  const { signInWithGoogle, createUserWithEmailAndPassword } = useFirebaseAccountModifiers();
+	  const { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } = useFirebaseAccountModifiers();
 	  const [ bgcId, setBgcId ] = React.useState("");
 	  const [ bgcEmail, setBgcEmail ] = React.useState("");
 	  const [ pw, setPw ] = React.useState("");
 	  const [ verified, setVerified ] = React.useState(undefined);
-	  
+
 	  const invalidId = bgcId?.trim()?.length != 11;
 	  
 	  const [ timer, setTimer ] = React.useState<number>(-1);
@@ -366,7 +366,8 @@ export default function AdminPage() {
 							  {/* <Button variant={ "contained" } fullWidth onClick={ () => signInWithGoogle() } startIcon={ <GoogleIcon/> }>{ "Sign-In with Google" }</Button> */ }
 							  <TextField label={ "Enter BGC Email" } value={ bgcEmail } onChange={ (e) => setBgcEmail(e.target.value) } fullWidth required/>
 							  <TextField label={ "Enter Password" } value={ pw } onChange={ (e) => setPw(e.target.value) } fullWidth required/>
-							  <Button variant={ "contained" } fullWidth onClick={ () => createUserWithEmailAndPassword(bgcEmail, pw) } disabled={ verified !== bgcEmail }>{ "Sign-In" }</Button>
+							  <Button variant={ "contained" } fullWidth onClick={ () => signInWithEmailAndPassword(bgcEmail, pw) } disabled={ verified !== bgcEmail }>{ "Sign-In" }</Button>
+							  <Button variant={ "outlined" } fullWidth onClick={ () => createUserWithEmailAndPassword(bgcEmail, pw) } disabled={ verified !== bgcEmail }>{ "Sign-Up" }</Button>
 						
 						</> }
 				 </Stack>
@@ -387,6 +388,7 @@ export default function AdminPage() {
 										 onDownloadSubmitted={ (val) => console.log("Download:", val) }
 							  />
 						</Paper>
+						<Stack alignSelf={ "center" }><Button variant={ "text" } sx={ { fontSize: 12, color: "text.secondary" } } onClick={ () => signOut() }>{ "Sign-Out" }</Button></Stack>
 				 </Stack>
 	  );
 }
