@@ -54,7 +54,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 	  const availableTags = [ ...new Set(indexedContents.flatMap(({ content }) => content.tags)) ];
 	  const filteredContents = selectedTag ? indexedContents.filter(({ content }) => content.tags.includes(selectedTag)) : indexedContents;
 	  
-	  if ( ! subjectName) return <Alert severity={ "warning" }>{ "Subject not found." }</Alert>;
+	  if (  /*NOT->*/ ! subjectName) return <Alert severity={ "warning" }>{ "Subject not found." }</Alert>;
 	  
 	  return <Stack spacing={ 3 }>
 			 <Button component={ Link } variant={ "text" } href={ NAV_ITEMS.subjects.href } startIcon={ <ArrowBackRoundedIcon/> } sx={ { alignSelf: "flex-start" } }>
