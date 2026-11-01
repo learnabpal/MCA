@@ -2,7 +2,7 @@
 
 import { Branding } from "@/app/(public)/layout";
 import type { AthContent, AthDownload, MatKey } from "@/app/AthenaeumMaster";
-import { APP_NAME, MAT_MAP, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
+import { APP_NAME, MAT_MAP, MAX_FILE_BYTES, MAX_FILE_MB, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
 import { bridgeBgcId } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid, useFirebaseUserData } from "@/firebase/FirebaseApp";
@@ -73,16 +73,30 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 			 setSelectedFiles((prev) => Array.from(new Set([ ...prev, ...filesArray ])));
 			 /* TODO: Upload files in background to storage and update URLs accordingly */
 	  };
+	  const handleFilesValidate = (files: File[]) => {
+			 const validFiles = files.filter(file => file.size <= MAX_FILE_BYTES);
+			 const rejectedFiles = files.filter(file => file.size > MAX_FILE_BYTES);
+			 if (rejectedFiles.length) {
+					alert(`Maximum file size is ${ MAX_FILE_MB } MB. Rejected: ${ rejectedFiles.map(file => file.name).join(", ") }`);
+			 }
+			 return validFiles;
+	  };
 	  const handleFilesDrop = (event: React.DragEvent<HTMLDivElement>) => {
 			 event.preventDefault();
-			 if (/*TRUTHY->*/ !! event.dataTransfer.files && event.dataTransfer.files.length > 0) {
-					upload(event.dataTransfer.files);
+			 if (/*TRUTHY->*/ !! event.dataTransfer.files) {
+					const files = handleFilesValidate(Array.from(event.dataTransfer.files) || []);
+					if (files.length > 0) {
+						  upload(event.dataTransfer.files);
+					}
 			 }
 	  };
 	  
 	  const handleFilesSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-			 if (/*TRUTHY->*/ !! event.target.files && event.target.files.length > 0) {
-					upload(event.target.files);
+			 if (/*TRUTHY->*/ !! event.target.files) {
+					const files = handleFilesValidate(Array.from(event.target.files) || []);
+					if (files.length > 0) {
+						  upload(event.target.files);
+					}
 			 }
 	  };
 	  
