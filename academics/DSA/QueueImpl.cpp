@@ -288,16 +288,16 @@ void do_queue_with_linked_list()
 
 int main()
 {
-      int pick;
+      int pick_ds;
       cout << "1. Queue with Array" << endl;
       cout << "2. Queue with Linked List" << endl;
       cout << "Enter your choice: ";
-      cin >> pick;
-      if (pick == 1)
+      cin >> pick_ds;
+      if (pick_ds == 1)
       {
             do_queue_with_array();
       }
-      else if (pick == 2)
+      else if (pick_ds == 2)
       {
             do_queue_with_linked_list();
       }
