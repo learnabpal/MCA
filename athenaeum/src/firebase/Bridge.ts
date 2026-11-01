@@ -1,5 +1,4 @@
-import { api, BGC_IDS_NODE } from "@/firebase/FirebaseApp";
-import { child, get } from "@firebase/database";
+import { api } from "@/firebase/FirebaseApp";
 import { NextResponse } from "next/server";
 
 

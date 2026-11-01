@@ -123,11 +123,8 @@ const BGC_IDS_NODE = "BGC_IDS";
 
 
 export {
-	  HOST_NODE, HANDLE_MAP_NODE, SERVICE_COLLECTION, PROFILE_COLLECTION, CLAIM_NODE, CONTENT_COLLECTION,
-	  RTDB_ROOT_REF, FIRESTORE_ROOT_REF, STORAGE_ROOT_REF, GATEWAY_NODE, ARCHIVE_NODE, TRASHED_NODE,
-	  SHARDS_COLLECTION, SHARD_PREFIX,
-	  
-	  BGC_IDS_NODE
+	  // RTDB_ROOT_REF, FIRESTORE_ROOT_REF, STORAGE_ROOT_REF,
+	  // BGC_IDS_NODE
 };
 
 
@@ -170,11 +167,11 @@ const invokeServerApp = (request?: NextRequest) => {
 			 // const contentGuideShardsCollectionRef = collection(contentCollectionRef, guide, SHARDS_COLLECTION);
 			 // const contentEventShardsCollectionRef = collection(contentCollectionRef, event, SHARDS_COLLECTION);
 			 
-			 const gatewayNodeRef = child(rtdbRoot, GATEWAY_NODE);
-			 const archiveNodeRef = child(rtdbRoot, ARCHIVE_NODE);
-			 const trashedNodeRef = child(rtdbRoot, TRASHED_NODE);
-			 
-			 const enquiriesNodeRef = child(RTDB_ROOT_REF, ENQUIRIES_NODE);
+			 // const gatewayNodeRef = child(rtdbRoot, GATEWAY_NODE);
+			 // const archiveNodeRef = child(rtdbRoot, ARCHIVE_NODE);
+			 // const trashedNodeRef = child(rtdbRoot, TRASHED_NODE);
+			 //
+			 // const enquiriesNodeRef = child(RTDB_ROOT_REF, ENQUIRIES_NODE);
 			 
 			 const bgcIdsNodeRef = child(RTDB_ROOT_REF, [ APP_NAME, BGC_IDS_NODE ].join("/"));
 			 
@@ -182,7 +179,7 @@ const invokeServerApp = (request?: NextRequest) => {
 					uid: user?.uid,
 					email: user?.email,
 					createStorageRef: (path: string) => storageRef(storageRoot, [ APP_NAME, path ].join("/")),
-					rtdbRoot, firestoreRoot, storageRoot,
+					// rtdbRoot, firestoreRoot, storageRoot,
 					// handleMapNodeRef, hostNodeRef, claimNodeRef,
 					/* contentCollectionRef, gatewayCollectionRef */
 					// profileCollectionRef, serviceCollectionRef,
