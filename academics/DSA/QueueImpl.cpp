@@ -63,6 +63,21 @@ struct QueueA
             return items[front];
       }
 
+      int rear()
+      {
+            if (is_empty())
+            {
+                  cout << "Queue underflow" << endl;
+                  return -1;
+            }
+            return items[rear];
+      }
+
+      int size()
+      {
+            return rear - front + 1;
+      }
+
       void display()
       {
             if (is_empty())
@@ -145,6 +160,28 @@ struct QueueL
             return front->data;
       }
 
+      int rear()
+      {
+            if (is_empty())
+            {
+                  cout << "Queue underflow" << endl;
+                  return -1;
+            }
+            return rear->data;
+      }
+
+      int size()
+      {
+            int count = 0;
+            QLItem *temp = front;
+            while (temp != nullptr)
+            {
+                  count++;
+                  temp = temp->next;
+            }
+            return count;
+      }
+
       void display()
       {
             if (is_empty())
@@ -168,7 +205,7 @@ void do_menu(auto *q)
       int choice;
       do
       {
-            cout << "1. Enqueue | 2. Dequeue | 3. Display | 4. Peek | 5. Exit" << endl;
+            cout << "1. Enqueue | 2. Dequeue | 3. Display | 4. Peek | 5. Rear | 6. Size | 7. Exit" << endl;
             cout << "Enter your choice: ";
             cin >> choice;
             switch (choice)
@@ -200,16 +237,34 @@ void do_menu(auto *q)
                   int item = q->peek();
                   if (item != -1)
                   {
-                        cout << "Peeked item: " << item << endl;
+                        cout << "Front item: " << item << endl;
                   }
                   break;
             }
             case 5:
+            {
+                  int item = q->rear();
+                  if (item != -1)
+                  {
+                        cout << "Rear item: " << item << endl;
+                  }
+                  break;
+            }
+            case 6:
+            {
+                  int item = q->size();
+                  if (item != -1)
+                  {
+                        cout << "Size: " << item << endl;
+                  }
+                  break;
+            }
+            case 7:
                   break;
             default:
                   cout << "Invalid choice" << endl;
             }
-      } while (choice != 5);
+      } while (choice != 7);
 }
 
 void do_queue_with_array()
