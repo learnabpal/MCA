@@ -26,4 +26,7 @@ export const bridgeUploadFiles = (files: File[]): Promise<{ url: string, title: 
 	  return api.post(uploadFiles, formData).then(response => response.data);
 };
 
+const pushDownload = "push-download";
+const pushContent = "push-content";
+
 
