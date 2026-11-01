@@ -46,7 +46,7 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 	  /* Derived State for Content */
 	  const tags = tagsInput.split(",").map((tag) => tag.trim()).filter(Boolean);
 	  const validTags = tagsInput.trim().length > 0 && tags.every(Boolean) && new Set(tags).size === tags.length;
-	  const isContentValid =   /*TRUTHY->*/ !! (subKey && contentTitle.trim() && content.trim() && validTags);
+	  const isContentValid =   /*TRUTHY->*/ !! (subKey && matKey && contentTitle.trim() && content.trim() && validTags);
 	  
 	  /* Helper for URL validation */
 	  const validateUrl = (rawUrl: string) => {
@@ -88,6 +88,7 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 	  
 	  const handleReset = () => {
 			 setSubKey("");
+			 setMatKey("");
 			 setTagsInput("");
 			 setContentTitle("");
 			 setContent("");
@@ -98,7 +99,7 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 	  const handleSubmit = () => {
 			 if (mode === "content") {
 					if (/*NOT->*/ ! isContentValid || /*NOT->*/ ! subKey) return;
-					onContentSubmitted({ sub: subKey, tags, title: contentTitle.trim(), content });
+					onContentSubmitted({ sub: subKey, mat: matKey, tags, title: contentTitle.trim(), content });
 			 }
 			 if (mode === "download") {
 					if (/*NOT->*/ ! isDownloadValid || /*NOT->*/ ! subKey) return;
@@ -106,12 +107,12 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 					const downloads: AthDownload[] = [];
 					if (downloadType === "file") {
 						  selectedFiles.forEach((file) => {
-								 downloads.push({ title: file.name, url: URL.createObjectURL(file) });
+								 downloads.push({ sub: subKey, mat: matKey, title: file.name, url: URL.createObjectURL(file) });
 						  });
 					}
 					if (downloadType === "url") {
 						  urlPairs.forEach((pair) => {
-								 downloads.push({ title: pair.title.trim(), url: pair.url.trim() });
+								 downloads.push({ sub: subKey, mat: matKey, title: pair.title.trim(), url: pair.url.trim() });
 						  });
 					}
 					downloads.length > 0 && onDownloadSubmitted(downloads);
@@ -394,8 +395,8 @@ export default function AdminPage() {
 							  {/* <Avatar src={ photoURL } alt={ displayName } sx={ { width: 48, height: 48 } }/> */ }
 							  <Branding showAppName={ false }/>
 							  <Stack alignItems={ { xs: "center", sm: "flex-start" } }>
-									 <Typography variant={ "h4" }>{ APP_NAME + " Builder" }</Typography>
-									 <Typography variant={ "body1" }>{ email }</Typography>
+									 <Typography variant={ "h4" } color={ "primary" }>{ APP_NAME + " Builder" }</Typography>
+									 <Typography variant={ "body1" } color={ "text.secondary" }>{ email }</Typography>
 							  </Stack>
 						</Stack>
 						<Paper variant={ "outlined" } sx={ { p: { xs: 2, md: 3 } } }>
