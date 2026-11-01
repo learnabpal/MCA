@@ -1,9 +1,10 @@
 {
-	  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
 	  "rules": {
-			 "BGC_IDS": {
-					".read": true,
-					".write": false
+			 "Athenaeum": {
+					"BGC_IDS": {
+						  ".read": true,
+						  ".write": false
+					}
 			 }
 	  }
 }
