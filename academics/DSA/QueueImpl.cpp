@@ -10,19 +10,19 @@ struct QueueA
       int front = -1;
       int rear = -1;
 
-      bool isEmpty()
+      bool is_empty()
       {
             return front == -1;
       }
 
-      bool isFull()
+      bool is_full()
       {
             return rear == MAX - 1;
       }
 
       void enqueue(int value)
       {
-            if (isFull())
+            if (is_full())
             {
                   cout << "Queue overflow" << endl;
                   return;
@@ -36,7 +36,7 @@ struct QueueA
 
       int dequeue()
       {
-            if (isEmpty())
+            if (is_empty())
             {
                   cout << "Queue underflow" << endl;
                   return -1;
@@ -55,7 +55,7 @@ struct QueueA
 
       int peek()
       {
-            if (isEmpty())
+            if (is_empty())
             {
                   cout << "Queue underflow" << endl;
                   return -1;
@@ -65,7 +65,7 @@ struct QueueA
 
       void display()
       {
-            if (isEmpty())
+            if (is_empty())
             {
                   cout << "Queue is empty" << endl;
                   return;
@@ -89,7 +89,7 @@ struct QueueL
 {
       QLItem *front, *rear;
 
-      bool isEmpty()
+      bool is_empty()
       {
             return front == nullptr;
       }
@@ -119,7 +119,7 @@ struct QueueL
 
       int dequeue()
       {
-            if (isEmpty())
+            if (is_empty())
             {
                   cout << "Queue underflow" << endl;
                   return -1;
@@ -137,7 +137,7 @@ struct QueueL
 
       int peek()
       {
-            if (isEmpty())
+            if (is_empty())
             {
                   cout << "Queue underflow" << endl;
                   return -1;
@@ -147,7 +147,7 @@ struct QueueL
 
       void display()
       {
-            if (isEmpty())
+            if (is_empty())
             {
                   cout << "Queue is empty" << endl;
                   return;
