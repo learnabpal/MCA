@@ -289,8 +289,7 @@ void do_queue_with_linked_list()
 int main()
 {
       int pick_ds;
-      cout << "1. Queue with Array" << endl;
-      cout << "2. Queue with Linked List" << endl;
+      cout << "Queue with: 1. Array | 2. Linked List" << endl;
       cout << "Enter your choice: ";
       cin >> pick_ds;
       if (pick_ds == 1)
