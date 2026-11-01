@@ -13,13 +13,19 @@ export const successResponse = <T>(obj: Omit<T, keyof Pick<ApiStatus, "status">>
 export type Status = "SUCCESS" | "FAILURE" | "ERROR";
 export type ApiStatus = { status: Status, message: string }
 
-const verifyBgcId = "/verify-bgc-id";
+const verifyBgcId = "verify-bgc-id";
 
-export async function bridgeBgcId(bgcId: string): Promise<{ email: string } & ApiStatus> {
+export const bridgeBgcId = (bgcId: string): Promise<{ email: string } & ApiStatus> => {
 	  if ( /*NOT->*/ ! bgcId) return;
-	  const response = await api.post(verifyBgcId, { bgcId });
-	  return response.data;
-}
+	  return api.post(verifyBgcId, { bgcId }).then(response => response.data);
+};
 
+const uploadFiles = "upload-files";
+
+export const bridgeUploadFiles = (files: File[]) => {
+	  const formData = new FormData();
+	  files.forEach(file => formData.append("files", file, file.name));
+	  return api.post(uploadFiles, formData).then(response => response.data);
+};
 
 
