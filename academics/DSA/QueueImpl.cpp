@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -7,17 +8,17 @@ const int MAX = 100;
 struct QueueA
 {
       int items[MAX];
-      int front = -1;
-      int rear = -1;
+      int f = -1;
+      int r = -1;
 
       bool is_empty()
       {
-            return front == -1;
+            return f == -1;
       }
 
       bool is_full()
       {
-            return rear == MAX - 1;
+            return r == MAX - 1;
       }
 
       void enqueue(int value)
@@ -28,10 +29,10 @@ struct QueueA
                   return;
             }
 
-            if (front == -1)
-                  front = 0;
+            if (f == -1)
+                  f = 0;
 
-            items[++rear] = value;
+            items[++r] = value;
       }
 
       int dequeue()
@@ -41,14 +42,14 @@ struct QueueA
                   cout << "Queue underflow" << endl;
                   return -1;
             }
-            int item = items[front];
-            if (front == rear)
+            int item = items[f];
+            if (f == r)
             {
-                  front = rear = -1;
+                  f = r = -1;
             }
             else
             {
-                  front++;
+                  f++;
             }
             return item;
       }
@@ -60,8 +61,9 @@ struct QueueA
                   cout << "Queue underflow" << endl;
                   return -1;
             }
-            return items[front];
+            return items[f];
       }
+      int front() { return peek(); }
 
       int rear()
       {
@@ -70,13 +72,10 @@ struct QueueA
                   cout << "Queue underflow" << endl;
                   return -1;
             }
-            return items[rear];
+            return items[r];
       }
 
-      int size()
-      {
-            return rear - front + 1;
-      }
+      int size() { return is_empty() ? 0 : r - f + 1; }
 
       void display()
       {
@@ -86,7 +85,7 @@ struct QueueA
                   return;
             }
             cout << "Queue: ";
-            for (int i = front; i <= rear; i++)
+            for (int i = f; i <= r; i++)
             {
                   cout << items[i] << " ";
             }
@@ -102,11 +101,11 @@ struct QLItem
 
 struct QueueL
 {
-      QLItem *front, *rear;
+      QLItem *f, *r;
 
       bool is_empty()
       {
-            return front == nullptr;
+            return f == nullptr;
       }
 
       void enqueue(int value)
@@ -121,14 +120,14 @@ struct QueueL
 
             nn->data = value;
             nn->next = nullptr;
-            if (rear == nullptr)
+            if (r == nullptr)
             {
-                  front = rear = nn;
+                  f = r = nn;
             }
             else
             {
-                  rear->next = nn;
-                  rear = nn;
+                  r->next = nn;
+                  r = nn;
             }
       }
 
@@ -139,12 +138,12 @@ struct QueueL
                   cout << "Queue underflow" << endl;
                   return -1;
             }
-            QLItem *item = front;
+            QLItem *item = f;
             int value = item->data;
-            if (front == rear)
-                  front = rear = nullptr;
+            if (f == r)
+                  f = r = nullptr;
             else
-                  front = front->next;
+                  f = f->next;
 
             delete item;
             return value;
@@ -157,8 +156,9 @@ struct QueueL
                   cout << "Queue underflow" << endl;
                   return -1;
             }
-            return front->data;
+            return f->data;
       }
+      int front() { return peek(); }
 
       int rear()
       {
@@ -167,13 +167,13 @@ struct QueueL
                   cout << "Queue underflow" << endl;
                   return -1;
             }
-            return rear->data;
+            return r->data;
       }
 
       int size()
       {
             int count = 0;
-            QLItem *temp = front;
+            QLItem *temp = f;
             while (temp != nullptr)
             {
                   count++;
@@ -190,7 +190,7 @@ struct QueueL
                   return;
             }
             cout << "Queue: ";
-            QLItem *temp = front;
+            QLItem *temp = f;
             while (temp != nullptr)
             {
                   cout << temp->data << " ";
@@ -278,13 +278,13 @@ void do_queue_with_linked_list()
 {
       QueueL *q = new QueueL;
       do_menu(q);
-      while (q->front != nullptr)
+      while (q->f != nullptr)
       {
-            QLItem *temp = q->front;
-            q->front = q->front->next;
+            QLItem *temp = q->f;
+            q->f = q->f->next;
             delete temp;
       }
-      q->front = q->rear = nullptr;
+      q->f = q->r = nullptr;
       delete q;
 }
 
