@@ -97,12 +97,13 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 	  };
 	  
 	  const handleSubmit = () => {
+			 if (/*NOT->*/ ! subKey || /*NOT->*/ ! matKey) return;
 			 if (mode === "content") {
-					if (/*NOT->*/ ! isContentValid || /*NOT->*/ ! subKey) return;
+					if (/*NOT->*/ ! isContentValid) return;
 					onContentSubmitted({ sub: subKey, mat: matKey, tags, title: contentTitle.trim(), content });
 			 }
 			 if (mode === "download") {
-					if (/*NOT->*/ ! isDownloadValid || /*NOT->*/ ! subKey) return;
+					if (/*NOT->*/ ! isDownloadValid) return;
 					// Submitting download entries accordingly
 					const downloads: AthDownload[] = [];
 					if (downloadType === "file") {
