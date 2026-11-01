@@ -1,8 +1,8 @@
 "use client";
 
 import { Branding } from "@/app/(public)/layout";
-import type { AthContent, AthDownload } from "@/app/AthenaeumMaster";
-import { APP_NAME, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
+import type { AthContent, AthDownload, MatKey } from "@/app/AthenaeumMaster";
+import { APP_NAME, MAT_MAP, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
 import { bridgeBgcId } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid, useFirebaseUserData } from "@/firebase/FirebaseApp";
@@ -28,7 +28,8 @@ const EXTS = [ ".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf", ".doc", ".docx"
 
 function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onContentSubmitted: (value: AthContent) => void; onDownloadSubmitted: (value: AthDownload[]) => void; }) {
 	  const [ mode, setMode ] = React.useState<FormMode>("content");
-	  const [ subKey, setSubKey ] = React.useState<SubKey | "">("");
+	  const [ subKey, setSubKey ] = React.useState<SubKey>("");
+	  const [ matKey, setMatKey ] = React.useState<MatKey>("");
 	  
 	  const { setUi, close, open, WiPView } = useWipView();
 	  
@@ -140,7 +141,7 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 									 </ToggleButtonGroup>
 							  </Box>
 							  
-							  {/* Common Subject Selection */ }
+							  {/* Common Subject and Material Selection */ }
 							  <Box>
 									 <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Subject *" }</Typography>
 									 <Stack direction={ "row" } spacing={ 1 } useFlexGap flexWrap={ "wrap" }>
@@ -152,6 +153,21 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 																 color={ subKey === key ? "primary" : "default" }
 																 variant={ subKey === key ? "filled" : "outlined" }
 																 onClick={ () => setSubKey(subKey === key ? "" : key as SubKey) }
+													  />
+											)) }
+									 </Stack>
+							  </Box>
+							  <Box>
+									 <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Material *" }</Typography>
+									 <Stack direction={ "row" } spacing={ 1 } useFlexGap flexWrap={ "wrap" }>
+											{ Object.entries(MAT_MAP).map(([ key, value ]) => (
+													  <Chip
+																 key={ key }
+																 label={ value }
+																 clickable
+																 color={ matKey === key ? "primary" : "default" }
+																 variant={ matKey === key ? "filled" : "outlined" }
+																 onClick={ () => setMatKey(matKey === key ? "" : key as MatKey) }
 													  />
 											)) }
 									 </Stack>
@@ -324,7 +340,7 @@ export default function AdminPage() {
 	  const [ bgcEmail, setBgcEmail ] = React.useState("");
 	  const [ pw, setPw ] = React.useState("");
 	  const [ verified, setVerified ] = React.useState(undefined);
-
+	  
 	  const invalidId = bgcId?.trim()?.length != 11;
 	  
 	  const [ timer, setTimer ] = React.useState<number>(-1);
