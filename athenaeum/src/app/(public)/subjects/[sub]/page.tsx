@@ -32,7 +32,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 			 setLoading(true);
 			 setSelectedTag(null);
 			 setSelectedContent(null);
-			 if ( ! subjectName) {
+			 if (  /*NOT->*/ ! subjectName) {
 					setContents({});
 					setDownloads({});
 					setLoading(false);
@@ -41,7 +41,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 			 const cacheKey = `athenaeum-index-${ subject }`;
 			 const cachedIndex = localStorage.getItem(cacheKey);
 			 const index: NonNullable<AthRtdbMap["subject"][SubKey]> = cachedIndex ? JSON.parse(cachedIndex) : ATHENAEUM_DEMO_DATA.subject[subject] || { contents: {}, downloads: {} };
-			 if ( ! cachedIndex) localStorage.setItem(cacheKey, JSON.stringify(index));
+			 if (  /*NOT->*/ ! cachedIndex) localStorage.setItem(cacheKey, JSON.stringify(index));
 			 setContents(index.contents || {});
 			 setDownloads(index.downloads || {});
 			 setLoading(false);

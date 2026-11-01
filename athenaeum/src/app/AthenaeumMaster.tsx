@@ -53,14 +53,13 @@ export type AthRtdbMap = {
 			 downloads?: { [rtdb_key: string]: AthDownload }
 	  }>>
 };
-
-export type AthContent = {
-	  sub: SubKey,
+type AthKeys = { sub: SubKey, mat: MatKey };
+export type AthContent = AthKeys & {
 	  tags: string[],
 	  title: string,
 	  content: string,
 };
-export type AthDownload = {
+export type AthDownload = AthKeys & {
 	  title: string,
 	  url: string
 };
@@ -77,7 +76,7 @@ export const APP_NAME = "Athenaeum";
 export const APP_TAGLINE = "Our MCA Buddy";
 export const BGC_NAME = "Bhawanipur Global Campus";
 export const BGC_HEX = "#800000";
-export const DEV_NAME = "Arnab Pal | apxdgtl";
+export const DEV_NAME = "Arnab Pal";
 export const GITHUB_REPOSITORY_URL = "https://github.com/learnabpal/MCA";
 export const HISTORY_KEY = "athenaeum-local-history";
 export const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
