@@ -45,13 +45,9 @@ struct QueueA
             }
             int item = items[f];
             if (f == r)
-            {
                   f = r = -1;
-            }
             else
-            {
                   f++;
-            }
             return item;
       }
 
@@ -136,7 +132,7 @@ struct QueueL
       {
             if (is_empty())
             {
-                  cout << UF<< endl;
+                  cout << UF << endl;
                   return -1;
             }
             QLItem *item = f;
