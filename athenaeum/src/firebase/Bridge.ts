@@ -14,14 +14,12 @@ export type Status = "SUCCESS" | "FAILURE" | "ERROR";
 export type ApiStatus = { status: Status, message: string }
 
 const verifyBgcId = "verify-bgc-id";
-
 export const bridgeBgcId = (bgcId: string): Promise<{ email: string } & ApiStatus> => {
 	  if ( /*NOT->*/ ! bgcId) return;
 	  return api.post(verifyBgcId, { bgcId }).then(response => response.data);
 };
 
 const uploadFiles = "upload-files";
-
 export const bridgeUploadFiles = (files: File[]): Promise<{ url: string, title: string }[] & ApiStatus> => {
 	  const formData = new FormData();
 	  files.forEach(file => formData.append("files", file, file.name));
