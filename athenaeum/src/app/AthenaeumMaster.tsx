@@ -43,7 +43,7 @@ export const SUB_MAP = {
 export type SubKey = keyof typeof SUB_MAP;
 
 export const SPCL_MAP = {
-	  aiml: "Artificial Intelligence and Machine Learning",
+	  aiml: "Artificial Intelligence & Machine Learning",
 	  ds: "Data Science",
 	  iot: "Internet of Things",
 	  robo: "Robotics"
