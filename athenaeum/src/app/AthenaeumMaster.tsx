@@ -101,7 +101,7 @@ export const BGC_HEX = "#800000";
 export const DEV_NAME = "Arnab Pal";
 export const GITHUB_REPOSITORY_URL = "https://github.com/learnabpal/MCA";
 export const HISTORY_KEY = "athenaeum-local-history";
-export const MAX_FILE_MB = 10;
+export const MAX_FILE_MB = 25;
 export const MAX_FILE_BYTES = MAX_FILE_MB * 1024 * 1024;
 export const DATE_FORMAT = DateTimeFormatter.ofPattern("d MMM yyyy, HH:mm").withLocale(Locale.ENGLISH);
 export const formatTimestamp = (at: string) => Instant.parse(at).atZone(ZoneId.systemDefault()).format(DATE_FORMAT);
