@@ -82,12 +82,12 @@ export const COURSES: Record<CrsKey, Course> = {
 } as const;
 
 export const getCourseSets = () => {
-	  const x = Object.entries(COURSES).reduce((acc, [ key, course ]) => {
-			 const f = course.titles.abbr[0]?.toUpperCase() || "#";
+	  const x = Object.entries(COURSES).reduce((acc, [ key, { titles, spcl } ]) => {
+			 const f = titles.abbr[0]?.toUpperCase() || "#";
 			 if ( /*NOT->*/ ! acc[f]) acc[f] = {};
-			 acc[f][key] = course.titles;
+			 acc[f][key] = { titles, spcl };
 			 return acc;
-	  }, {} as Record<string, Record<CrsKey, Course["titles"]>>);
+	  }, {} as Record<string, Record<CrsKey, Pick<Course, "titles" | "spcl">>>);
 	  return Object.entries(x).sort(([ f1, v1 ], [ f2, v2 ]) => f1.localeCompare(f2));
 };
 
@@ -141,3 +141,5 @@ export const EXTS = [
 ] as const;
 
 export const joiner = (...str: string[]) => str.join("/");
+const opacity = 0.75;
+export { opacity };

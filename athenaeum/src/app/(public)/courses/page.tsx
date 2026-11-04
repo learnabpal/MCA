@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowForwardRoundedIcon, getCourseSets, NAV_ITEMS } from "@/app/AthenaeumMaster";
+import { ArrowForwardRoundedIcon, getCourseSets, NAV_ITEMS, opacity, SPCL_MAP } from "@/app/AthenaeumMaster";
 import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
@@ -10,8 +10,8 @@ import Link from "next/link";
 export default function SubjectsPage() {
 	  return <Stack spacing={ 3 }>
 			 <Box>
-					<Typography variant={ "h3" } sx={ { fontWeight: 800, mb: 1 } }>{ "Subjects" }</Typography>
-					<Typography color={ "text.secondary" }>{ "Select a subject to view its available study material and downloads." }</Typography>
+					<Typography variant={ "h3" } sx={ { fontWeight: 800, mb: 1 } }>{ "Courses" }</Typography>
+					<Typography color={ "text.secondary" }>{ "Select a course to view its available subjects." }</Typography>
 			 </Box>
 			 { getCourseSets().map(([ alpha, courses ]) =>
 						<Box key={ alpha } sx={ { mb: 4 } }>
@@ -19,7 +19,7 @@ export default function SubjectsPage() {
 									 { alpha }
 							  </Typography>
 							  <Grid container spacing={ 2 }>
-									 { Object.entries(courses).map(([ crs, titles ]) => <Grid item xs={ 12 } sm={ 6 } md={ 4 } key={ crs }>
+									 { Object.entries(courses).map(([ crs, { titles, spcl } ]) => <Grid item xs={ 12 } sm={ 6 } md={ 4 } key={ crs }>
 											<Card variant={ "outlined" } sx={ { height: "100%", bgcolor: "background.paper" } }>
 												  <CardActionArea component={ Link } href={ `${ NAV_ITEMS.courses.href }/${ crs }` } sx={ { height: "100%" } }>
 														 <CardContent sx={ { p: 2.5 } }>
@@ -28,6 +28,10 @@ export default function SubjectsPage() {
 																	  {/* <Typography variant={ "h6" }>{ titles.abbr }</Typography> */ }
 																	  <ArrowForwardRoundedIcon fontSize={ "small" } color={ "action" }/>
 																</Stack>
+																<Stack sx={ { opacity } }>
+																	  { spcl.map(s => <Typography key={ s } variant={ "subtitle2" }>{ SPCL_MAP[s] }</Typography>) }
+																</Stack>
+														 
 														 </CardContent>
 												  </CardActionArea>
 											</Card>
