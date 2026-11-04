@@ -1,8 +1,8 @@
 "use client";
 
 import { Branding } from "@/app/(public)/layout";
-import type { AthContent, AthDownload, DownloadType, EntryMode, MatKey } from "@/app/AthenaeumMaster";
-import { APP_NAME, DL_TYPES, EXTS, ENTRY_MODES, MAT_MAP, MAX_FILE_BYTES, MAX_FILE_MB, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
+import type { AthContent, AthDownload, DownloadType, EntryMode, AssetKey } from "@/app/AthenaeumMaster";
+import { APP_NAME, DL_TYPES, EXTS, ENTRY_MODES, ASSET_MAP, MAX_FILE_BYTES, MAX_FILE_MB, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
 import { bridgeBgcId } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid, useFirebaseUserData } from "@/firebase/FirebaseApp";
@@ -20,7 +20,7 @@ import React from "react";
 function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onContentSubmitted: (value: AthContent) => void; onDownloadSubmitted: (value: AthDownload[]) => void; }) {
 	  const [ mode, setMode ] = React.useState<EntryMode>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey>("");
-	  const [ matKey, setMatKey ] = React.useState<MatKey>("");
+	  const [ matKey, setMatKey ] = React.useState<AssetKey>("");
 	  
 	  const { setUi, close, open, WiPView } = useWipView();
 	  
@@ -167,14 +167,14 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 							  <Box>
 									 <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Material *" }</Typography>
 									 <Stack direction={ "row" } spacing={ 1 } useFlexGap flexWrap={ "wrap" }>
-											{ Object.entries(MAT_MAP).map(([ key, value ]) => (
+											{ Object.entries(ASSET_MAP).map(([ key, value ]) => (
 													  <Chip
 																 key={ key }
 																 label={ value }
 																 clickable
 																 color={ matKey === key ? "primary" : "default" }
 																 variant={ matKey === key ? "filled" : "outlined" }
-																 onClick={ () => setMatKey(matKey === key ? "" : key as MatKey) }
+																 onClick={ () => setMatKey(matKey === key ? "" : key as AssetKey) }
 													  />
 											)) }
 									 </Stack>

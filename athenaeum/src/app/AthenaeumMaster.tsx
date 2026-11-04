@@ -15,7 +15,16 @@ import React from "react";
 
 
 
-export type Sem = "sem1" | "sem2" | "sem3" | "sem4";
+export const ASSET_MAP = {
+	  sdm: "Study Materials",
+	  res: "Resources",
+	  asn: "Assignments",
+	  qna: "Questions & Answers",
+	  xxx: "Others"
+};
+export type AssetKey = keyof typeof ASSET_MAP;
+
+export type Sem = "sem1" | "sem2" | "sem3" | "sem4" | "sem5" | "sem6" | "sem7" | "sem8";
 export const SUB_MAP = {
 	  pc: "Programming Concept",
 	  dsa: "Data Structure and Algorithm",
@@ -33,19 +42,41 @@ export const SUB_MAP = {
 } as const;
 export type SubKey = keyof typeof SUB_MAP;
 
-export const MAT_MAP = {
-	  sdm: "Study Materials",
-	  res: "Resources",
-	  asn: "Assignments",
-	  qna: "Questions & Answers",
-	  xxx: "Others"
+export const SPCL_MAP = {
+	  aiml: "Artificial Intelligence and Machine Learning",
+	  ds: "Data Science",
+	  iot: "Internet of Things",
+	  robo: "Robotics"
+} as const;
+export type SpclKey = keyof typeof SPCL_MAP;
+
+export type Courses = {
+	  [code: string]: {
+			 titles: { short: string, long: string },
+			 spcl: SpclKey[],
+			 subs: Partial<Record<Sem, SubKey[]>>,
+	  }
 };
-export type MatKey = keyof typeof MAT_MAP;
-export const SUBS: Readonly<Record<Sem, SubKey[]>> = {
-	  sem1: [ "pc", "dsa", "coa", "bmc", "ecom" ],
-	  sem2: [],
-	  sem3: [],
-	  sem4: []
+export const COURSES: Courses = {
+	  mca: {
+			 titles: { short: "MCA", long: "Master of Computer Applications" },
+			 spcl: [ "aiml", "ds", "iot" ],
+			 subs: {
+					sem1: [ "pc", "dsa", "coa", "bmc", "ecom" ],
+					sem2: [],
+					sem3: [],
+					sem4: []
+			 }
+	  }
+} as const;
+export type CrsKey = keyof typeof COURSES;
+export const SUBS: Readonly<Record<CrsKey, Partial<Record<Sem, SubKey[]>>>> = {
+	  mca: {
+			 sem1: [ "pc", "dsa", "coa", "bmc", "ecom" ],
+			 sem2: [],
+			 sem3: [],
+			 sem4: []
+	  }
 };
 export type AthRtdbMap = {
 	  subject: Partial<Record<SubKey, {
@@ -53,7 +84,7 @@ export type AthRtdbMap = {
 			 downloads?: { [rtdb_key: string]: AthDownload }
 	  }>>
 };
-type AthKeys = { sub: SubKey, mat: MatKey };
+type AthKeys = { sub: SubKey, mat: AssetKey };
 export type AthContent = AthKeys & {
 	  tags: string[],
 	  title: string,
