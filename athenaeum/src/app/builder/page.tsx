@@ -165,7 +165,7 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 									 </Stack>
 							  </Box>
 							  <Box>
-									 <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Material *" }</Typography>
+									 <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Asset *" }</Typography>
 									 <Stack direction={ "row" } spacing={ 1 } useFlexGap flexWrap={ "wrap" }>
 											{ Object.entries(ASSET_MAP).map(([ key, value ]) => (
 													  <Chip
