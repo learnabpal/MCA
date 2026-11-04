@@ -44,10 +44,10 @@ export const SUB_MAP = {
 export type SubKey = keyof typeof SUB_MAP;
 
 export const getSubjectSets = () => {
-	  const x = Object.entries(SUB_MAP).reduce((acc, [ key, name ]) => {
-			 const f = name[0]?.toUpperCase() || "#";
+	  const x = Object.entries(SUB_MAP).reduce((acc, [ key, title ]) => {
+			 const f = title[0]?.toUpperCase() || "#";
 			 if ( /*NOT->*/ ! acc[f]) acc[f] = {};
-			 acc[f][key] = name;
+			 acc[f][key] = title;
 			 return acc;
 	  }, {} as Record<string, Record<SubKey, string>>);
 	  return Object.entries(x).sort(([ f1, v1 ], [ f2, v2 ]) => f1.localeCompare(f2));
@@ -83,7 +83,7 @@ export const COURSES: Record<CrsKey, Course> = {
 
 export const getCourseSets = () => {
 	  const x = Object.entries(COURSES).reduce((acc, [ key, { titles, spcl } ]) => {
-			 const f = titles.abbr[0]?.toUpperCase() || "#";
+			 const f = titles.full[0]?.toUpperCase() || "#";
 			 if ( /*NOT->*/ ! acc[f]) acc[f] = {};
 			 acc[f][key] = { titles, spcl };
 			 return acc;
