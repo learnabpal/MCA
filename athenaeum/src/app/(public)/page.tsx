@@ -1,6 +1,6 @@
 "use client";
 
-import { APP_NAME, BGC_HEX, NAV_ITEMS, ArrowForwardRoundedIcon } from "@/app/AthenaeumMaster";
+import { APP_NAME, BGC_HEX_M, NAV_ITEMS, ArrowForwardRoundedIcon, BGC_HEX_O } from "@/app/AthenaeumMaster";
 import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
@@ -9,14 +9,13 @@ import Link from "next/link";
 
 export default function HomePage() {
 	  return <Stack spacing={ { xs: 4, md: 5 } }>
-			 <Box sx={ { position: "relative", overflow: "hidden", p: { xs: 3, sm: 5, md: 7 }, borderRadius: 4, border: 1, borderColor: "divider", background: `radial-gradient(ellipse at top right, ${ BGC_HEX }99 0%, #000000 50%)`, color: "#ffffff", minHeight: { xs: 300, md: 360 }, display: "flex", alignItems: "center" } }>
+			 <Box sx={ { position: "relative", overflow: "hidden", p: { xs: 3, sm: 5, md: 7 }, borderRadius: 4, border: 1, borderColor: "divider", background: BGC_HEX_M, color: "#ffffff", minHeight: { xs: 300, md: 360 }, display: "flex", alignItems: "center" } }>
 					<Stack spacing={ 2.5 } maxWidth={ "md" } sx={ { position: "relative", zIndex: 1 } }>
-						  <Typography variant={ "overline" } sx={ { fontWeight: 800, letterSpacing: "0.16em", color: "rgba(255,255,255,0.72)" } }>{ APP_NAME }</Typography>
-						  <Typography variant={ "h1" } sx={ { fontSize: { xs: 36, sm: 48, md: 60 }, lineHeight: 1.1, letterSpacing: "-0.035em" } }>
-								 { "Your MCA studies, organised in one place." }
+						  <Typography variant={ "h1" } color={ BGC_HEX_O } sx={ { fontSize: { xs: 36, sm: 48, md: 60 }, lineHeight: 1.1, letterSpacing: "-0.035em" } }>
+								 { "Your BGC days, organised in one place." }
 						  </Typography>
-						  <Typography variant={ "h6" } sx={ { lineHeight: 1.8, color: "rgba(255,255,255,0.78)", maxWidth: 680 } }>
-								 { "Explore subject-wise study material, read individual topics, access subject-level downloads, and find the source code for the MCA monorepo." }
+						  <Typography variant={ "h5" } sx={ { lineHeight: 1.8, maxWidth: 680 } }>
+								 { "Explore subject-wise study material, read individual topics, and access subject-level downloads." }
 						  </Typography>
 					</Stack>
 			 </Box>
