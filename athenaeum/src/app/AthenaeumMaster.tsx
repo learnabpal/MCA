@@ -56,7 +56,7 @@ export const getSubjectSets = () => {
 export const SPCL_MAP = {
 	  core: "Core",
 	  aiml: "Artificial Intelligence & Machine Learning",
-	  ds: "Data Science",
+	  dtsc: "Data Science",
 	  iot: "Internet of Things",
 	  robo: "Robotics"
 } as const;
@@ -71,7 +71,7 @@ export type CrsKey = "mca";
 export const COURSES: Record<CrsKey, Course> = {
 	  mca: {
 			 titles: { abbr: "MCA", full: "Master of Computer Applications" },
-			 spcl: [ "aiml", "ds", "iot" ],
+			 spcl: [ "aiml", "dtsc", "iot" ],
 			 subs: {
 					1: [ "pc", "dsa", "coa", "bmc", "ecom" ],
 					2: [],
