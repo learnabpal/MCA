@@ -148,7 +148,7 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 									 </ToggleButtonGroup>
 							  </Box>
 							  
-							  {/* Common Subject and Material Selection */ }
+							  {/* Common Subject and Asset Selection */ }
 							  <Box>
 									 <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Subject *" }</Typography>
 									 <Stack direction={ "row" } spacing={ 1 } useFlexGap flexWrap={ "wrap" }>
