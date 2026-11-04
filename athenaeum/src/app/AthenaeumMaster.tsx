@@ -10,7 +10,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBook";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
-import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import SchoolOutlinedIcon from "@mui/icons-material/School";
 import React from "react";
 
 
@@ -43,6 +43,16 @@ export const SUB_MAP = {
 } as const;
 export type SubKey = keyof typeof SUB_MAP;
 
+export const getSubjectSets = () => {
+	  const x = Object.entries(SUB_MAP).reduce((acc, [ key, name ]) => {
+			 const f = name[0]?.toUpperCase() || "#";
+			 if ( /*NOT->*/ ! acc[f]) acc[f] = {};
+			 acc[f][key] = name;
+			 return acc;
+	  }, {} as Record<string, Record<SubKey, string>>);
+	  return Object.entries(x).sort(([ f1, v1 ], [ f2, v2 ]) => f1.localeCompare(f2));
+};
+
 export const SPCL_MAP = {
 	  core: "Core",
 	  aiml: "Artificial Intelligence & Machine Learning",
@@ -70,14 +80,7 @@ export const COURSES: Record<CrsKey, Course> = {
 			 }
 	  }
 } as const;
-export const SUBS: Readonly<Record<keyof typeof COURSES, Partial<Record<Sem, SubKey[]>>>> = {
-	  mca: {
-			 1: [ "pc", "dsa", "coa", "bmc", "ecom" ],
-			 2: [],
-			 3: [],
-			 4: []
-	  }
-};
+
 export type AthRtdbMap = {
 	  subject: Partial<Record<SubKey, {
 			 contents?: { [fs_key: string]: string }
@@ -111,7 +114,7 @@ export const formatTimestamp = (at: string) => Instant.parse(at).atZone(ZoneId.s
 export const NAV_ITEMS = {
 	  home: { label: "Home", href: "/", icon: <HomeIcon fontSize={ "small" }/>, desc: `Return to the ${ APP_NAME } homepage.` },
 	  courses: { label: "Courses", href: "/courses", icon: <SchoolOutlinedIcon fontSize={ "small" }/>, desc: "Browse courses and their subjects." },
-	  subjects: { label: "Subjects", href: "/subjects", icon: <MenuBookOutlinedIcon fontSize={ "small" }/>, desc: "Browse subjects by semester and access their topics and available downloads." },
+	  subjects: { label: "Subjects", href: "/subjects", icon: <MenuBookOutlinedIcon fontSize={ "small" }/>, desc: "Browse subjects by semester and access their topics and available downloads." }
 	  // github: { label: "GitHub", href: "/github", icon: <GitHubIcon fontSize={ "small" }/>, desc: "Explore the MCA monorepo and all its project files." }
 } as const;
 

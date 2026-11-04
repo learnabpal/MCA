@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowForwardRoundedIcon, SUB_MAP, SUBS } from "@/app/AthenaeumMaster";
+import { ArrowForwardRoundedIcon, SUB_MAP } from "@/app/AthenaeumMaster";
 import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
@@ -13,7 +13,7 @@ export default function SubjectsPage() {
 					<Typography variant={ "h3" } sx={ { fontWeight: 800, mb: 1 } }>{ "Subjects" }</Typography>
 					<Typography color={ "text.secondary" }>{ "Select a subject to view its available study material and downloads." }</Typography>
 			 </Box>
-			 { Object.entries(SUBS).map(([ sem, subjects ]) => subjects.length > 0 && (
+			 { Object.entries({}).map(([ sem, subjects ]) => subjects.length > 0 && (
 						<Box key={ sem } sx={ { mb: 4 } }>
 							  <Typography variant={ "h5" } sx={ { mb: 2 } }>
 									 { "Semester " + sem.replace("sem", "") }
