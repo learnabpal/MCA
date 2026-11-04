@@ -25,7 +25,7 @@ export default function HomePage() {
 					<Grid container spacing={ 2 }>
 						  { Object.entries(NAV_ITEMS).filter(([ key ]) => key !== "home").map(([ key, item ]) => (
 									 <Grid key={ key } size={ { xs: 12, sm: 6 } } sx={ { flexGrow: 1 } }>
-											<Card variant={ "outlined" } sx={ { height: "100%", bgcolor: "background.paper", transition: "border-color 180ms ease", "&:hover": { borderColor: "primary.main" } } }>
+											<Card variant={ "outlined" } sx={ { height: "100%", bgcolor: "background.paper", transition: "border-color 180ms ease", "&:hover": { borderColor: BGC_HEX_O } } }>
 												  <CardActionArea component={ Link } href={ item.href } sx={ { height: "100%" } }>
 														 <CardContent sx={ { p: { xs: 2.5, md: 3 }, minHeight: 155 } }>
 																<Stack direction={ "row" } alignItems={ "flex-start" } justifyContent={ "space-between" } spacing={ 2 }>
@@ -34,7 +34,7 @@ export default function HomePage() {
 																	  </Box>
 																	  <ArrowForwardRoundedIcon sx={ { mt: 1, color: "text.secondary" } }/>
 																</Stack>
-																<Typography variant={ "h6" } sx={ { mt: 2 } }>{ item.label }</Typography>
+																<Typography variant={ "h4" } sx={ { mt: 2 } }>{ item.label }</Typography>
 																<Typography variant={ "body2" } color={ "text.secondary" } sx={ { mt: 0.75, lineHeight: 1.7 } }>{ item.desc }</Typography>
 														 </CardContent>
 												  </CardActionArea>

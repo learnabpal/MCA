@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowForwardRoundedIcon, getCourseSets, NAV_ITEMS, opacity, SPCL_MAP, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { ArrowForwardRoundedIcon, BGC_HEX_O, getCourseSets, NAV_ITEMS, opacity, SPCL_MAP, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
@@ -23,10 +23,10 @@ export default function SubjectsPage() {
 											<Card variant={ "outlined" } sx={ { height: "100%", bgcolor: "background.paper" } }>
 												  <CardActionArea component={ Link } href={ `${ NAV_ITEMS.courses.href }/${ crs }` } sx={ { height: "100%" } }>
 														 <CardContent sx={ { p: 2.5 } }>
-																<Stack direction={ "row" } alignItems={ "center" } spacing={ 2 } justifyContent={ "space-between" }>
+																<Stack direction={ "row" } alignItems={ "center" } spacing={ 2 } justifyContent={ "space-between" } color={ BGC_HEX_O }>
 																	  <Typography variant={ "h6" }>{ titles.full }</Typography>
 																	  {/* <Typography variant={ "h6" }>{ titles.abbr }</Typography> */ }
-																	  <ArrowForwardRoundedIcon fontSize={ "small" } color={ "action" }/>
+																	  <ArrowForwardRoundedIcon fontSize={ "small" } color={ "inherit" }/>
 																</Stack>
 																<Stack sx={ { opacity } }>
 																	  { spcl.map(s => <Typography key={ s } variant={ "subtitle2" }>{ SPCL_MAP[s] }</Typography>) }

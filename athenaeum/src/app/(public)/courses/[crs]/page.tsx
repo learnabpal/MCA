@@ -1,7 +1,7 @@
 "use client";
 
 import { SubjectCard } from "@/app/(public)/subjects/page";
-import { COURSES, CrsKey, SPCL_MAP, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { BGC_HEX_O, COURSES, CrsKey, SPCL_MAP, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { Alert, Box, Grid, Stack, Typography } from "@mui/material";
 import React, { use } from "react";
 import { gruvboxDark as ColourScheme } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -24,7 +24,7 @@ export default function CoursePage({ params }: { params: Promise<{ crs: string }
 	  
 	  return <Stack spacing={ 3 }>
 			 <Box>
-					<Typography variant={ "h3" } sx={ { fontWeight: 800, mb: 1 } }>{ course.titles.abbr }</Typography>
+					<Typography variant={ "h3" } color={ BGC_HEX_O } sx={ { fontWeight: 800, mb: 1 } }>{ course.titles.abbr }</Typography>
 					<Typography color={ "text.secondary" }>{ UI_TEXTS.subject }</Typography>
 			 </Box>
 			 { Object.entries(course.subs).map(([ sem, subject_map ]) => Object.keys(subject_map).length > 0 &&
