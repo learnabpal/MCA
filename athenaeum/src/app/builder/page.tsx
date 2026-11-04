@@ -105,7 +105,7 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 			 if (/*NOT->*/ ! subKey || /*NOT->*/ ! matKey) return;
 			 if (mode === "content") {
 					if (/*NOT->*/ ! isContentValid) return;
-					onContentSubmitted({ sub: subKey, mat: matKey, tags, title: contentTitle.trim(), content });
+					onContentSubmitted({ sub: subKey, ast: matKey, tags, title: contentTitle.trim(), content });
 			 }
 			 if (mode === "download") {
 					if (/*NOT->*/ ! isDownloadValid) return;
@@ -113,12 +113,12 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 					const downloads: AthDownload[] = [];
 					if (downloadType === "file") {
 						  selectedFiles.forEach((file) => {
-								 downloads.push({ sub: subKey, mat: matKey, title: file.name, url: URL.createObjectURL(file) });
+								 downloads.push({ sub: subKey, ast: matKey, title: file.name, url: URL.createObjectURL(file) });
 						  });
 					}
 					if (downloadType === "url") {
 						  urlPairs.forEach((pair) => {
-								 downloads.push({ sub: subKey, mat: matKey, title: pair.title.trim(), url: pair.url.trim() });
+								 downloads.push({ sub: subKey, ast: matKey, title: pair.title.trim(), url: pair.url.trim() });
 						  });
 					}
 					downloads.length > 0 && onDownloadSubmitted(downloads);

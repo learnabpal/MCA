@@ -24,7 +24,7 @@ export const ASSET_MAP = {
 };
 export type AssetKey = keyof typeof ASSET_MAP;
 
-export type Sem = "sem1" | "sem2" | "sem3" | "sem4" | "sem5" | "sem6" | "sem7" | "sem8";
+export type Sem = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 export const SUB_MAP = {
 	  pc: "Programming Concept",
 	  dsa: "Data Structure and Algorithm",
@@ -50,32 +50,30 @@ export const SPCL_MAP = {
 } as const;
 export type SpclKey = keyof typeof SPCL_MAP;
 
-export type Courses = {
-	  [code: string]: {
-			 titles: { short: string, long: string },
-			 spcl: SpclKey[],
-			 subs: Partial<Record<Sem, SubKey[]>>,
-	  }
-};
-export const COURSES: Courses = {
+export type Course = {
+	  titles: { abbr: string, full: string },
+	  spcl: SpclKey[],
+	  subs: Partial<Record<Sem, SubKey[]>>,
+}
+export type CrsKey = "mca";
+export const COURSES: Record<CrsKey, Course> = {
 	  mca: {
-			 titles: { short: "MCA", long: "Master of Computer Applications" },
+			 titles: { abbr: "MCA", full: "Master of Computer Applications" },
 			 spcl: [ "aiml", "ds", "iot" ],
 			 subs: {
-					sem1: [ "pc", "dsa", "coa", "bmc", "ecom" ],
-					sem2: [],
-					sem3: [],
-					sem4: []
+					1: [ "pc", "dsa", "coa", "bmc", "ecom" ],
+					2: [],
+					3: [],
+					4: []
 			 }
 	  }
 } as const;
-export type CrsKey = keyof typeof COURSES;
-export const SUBS: Readonly<Record<CrsKey, Partial<Record<Sem, SubKey[]>>>> = {
+export const SUBS: Readonly<Record<keyof typeof COURSES, Partial<Record<Sem, SubKey[]>>>> = {
 	  mca: {
-			 sem1: [ "pc", "dsa", "coa", "bmc", "ecom" ],
-			 sem2: [],
-			 sem3: [],
-			 sem4: []
+			 1: [ "pc", "dsa", "coa", "bmc", "ecom" ],
+			 2: [],
+			 3: [],
+			 4: []
 	  }
 };
 export type AthRtdbMap = {
@@ -84,16 +82,9 @@ export type AthRtdbMap = {
 			 downloads?: { [rtdb_key: string]: AthDownload }
 	  }>>
 };
-type AthKeys = { sub: SubKey, mat: AssetKey };
-export type AthContent = AthKeys & {
-	  tags: string[],
-	  title: string,
-	  content: string,
-};
-export type AthDownload = AthKeys & {
-	  title: string,
-	  url: string
-};
+type AthKeys = { sub: SubKey, ast: AssetKey };
+export type AthContent = AthKeys & { tags: string[], title: string, content: string, };
+export type AthDownload = AthKeys & { title: string, url: string };
 
 
 export {
