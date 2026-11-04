@@ -63,6 +63,9 @@ export const SPCL_MAP = {
 } as const;
 export type SpclKey = keyof typeof SPCL_MAP;
 
+// Added check to ensure course.spcl and course.subs[sem][spcl] matches
+export const revalSpcl = (crs_spcl: SpclKey[], spcl: string) => ([ ...crs_spcl, "core" ] as SpclKey[]).includes(spcl);
+
 export type Course = {
 	  titles: { abbr: string, full: string },
 	  spcl: SpclKey[],
