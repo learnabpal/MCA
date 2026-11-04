@@ -116,6 +116,11 @@ export const BGC_HEX_M = "#500000";
 export const BGC_HEX_O = "#FF8000";
 export const DEV_NAME = "Arnab Pal";
 export const GITHUB_REPOSITORY_URL = "https://github.com/learnabpal/MCA";
+
+export const UI_TEXTS = {
+	  subject: "Select a subject to view its available study materials and downloads.",
+	  course: "Select a course to view its available semester-wise subjects."
+};
 export const HISTORY_KEY = "athenaeum-local-history";
 export const MAX_FILE_MB = 25;
 export const MAX_FILE_BYTES = MAX_FILE_MB * 1024 * 1024;

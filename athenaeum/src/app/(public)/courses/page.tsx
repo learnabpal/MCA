@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowForwardRoundedIcon, getCourseSets, NAV_ITEMS, opacity, SPCL_MAP } from "@/app/AthenaeumMaster";
+import { ArrowForwardRoundedIcon, getCourseSets, NAV_ITEMS, opacity, SPCL_MAP, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ export default function SubjectsPage() {
 	  return <Stack spacing={ 3 }>
 			 <Box>
 					<Typography variant={ "h3" } sx={ { fontWeight: 800, mb: 1 } }>{ "Courses" }</Typography>
-					<Typography color={ "text.secondary" }>{ "Select a course to view its available semester-wise subjects." }</Typography>
+					<Typography color={ "text.secondary" }>{ UI_TEXTS.course }</Typography>
 			 </Box>
 			 { getCourseSets().map(([ alpha, courses ]) =>
 						<Box key={ alpha } sx={ { mb: 4 } }>

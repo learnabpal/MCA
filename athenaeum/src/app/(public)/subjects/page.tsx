@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowForwardRoundedIcon, getSubjectSets, NAV_ITEMS, SUB_MAP } from "@/app/AthenaeumMaster";
+import { ArrowForwardRoundedIcon, getSubjectSets, NAV_ITEMS, SUB_MAP, SUBJECT_HINT, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ export default function SubjectsPage() {
 	  return <Stack spacing={ 3 }>
 			 <Box>
 					<Typography variant={ "h3" } sx={ { fontWeight: 800, mb: 1 } }>{ "Subjects" }</Typography>
-					<Typography color={ "text.secondary" }>{ "Select a subject to view its available study material and downloads." }</Typography>
+					<Typography color={ "text.secondary" }>{ UI_TEXTS.subject }</Typography>
 			 </Box>
 			 { getSubjectSets().map(([ alpha, subjects ]) =>
 						<Box key={ alpha } sx={ { mb: 4 } }>
