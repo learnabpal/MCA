@@ -10,6 +10,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBook";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import React from "react";
 
 
@@ -43,6 +44,7 @@ export const SUB_MAP = {
 export type SubKey = keyof typeof SUB_MAP;
 
 export const SPCL_MAP = {
+	  core: "Core",
 	  aiml: "Artificial Intelligence & Machine Learning",
 	  ds: "Data Science",
 	  iot: "Internet of Things",
@@ -106,11 +108,11 @@ export const MAX_FILE_BYTES = MAX_FILE_MB * 1024 * 1024;
 export const DATE_FORMAT = DateTimeFormatter.ofPattern("d MMM yyyy, HH:mm").withLocale(Locale.ENGLISH);
 export const formatTimestamp = (at: string) => Instant.parse(at).atZone(ZoneId.systemDefault()).format(DATE_FORMAT);
 
-
 export const NAV_ITEMS = {
 	  home: { label: "Home", href: "/", icon: <HomeIcon fontSize={ "small" }/>, desc: `Return to the ${ APP_NAME } homepage.` },
+	  courses: { label: "Courses", href: "/courses", icon: <SchoolOutlinedIcon fontSize={ "small" }/>, desc: "Browse courses and their subjects." },
 	  subjects: { label: "Subjects", href: "/subjects", icon: <MenuBookOutlinedIcon fontSize={ "small" }/>, desc: "Browse subjects by semester and access their topics and available downloads." },
-	  github: { label: "GitHub", href: "/github", icon: <GitHubIcon fontSize={ "small" }/>, desc: "Explore the MCA monorepo and all its project files." }
+	  // github: { label: "GitHub", href: "/github", icon: <GitHubIcon fontSize={ "small" }/>, desc: "Explore the MCA monorepo and all its project files." }
 } as const;
 
 
