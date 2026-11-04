@@ -1,13 +1,9 @@
 "use client";
 
 import { SubjectCard } from "@/app/(public)/subjects/page";
-import React, { use, useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
-import { NAV_ITEMS, SUB_MAP, type AthContent, type AthDownload, type AthRtdbMap, type SubKey, MenuBookOutlinedIcon, DownloadIcon, ArrowBackRoundedIcon, ArrowForwardRoundedIcon, FullscreenIcon, FileIcon, CrsKey, COURSES, SUBJECT_HINT, UI_TEXTS } from "@/app/AthenaeumMaster";
-import { Alert, Box, Button, Card, CardActionArea, CardContent, Chip, Divider, Grid, IconButton, Stack, Typography } from "@mui/material";
-import Link from "next/link";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { COURSES, CrsKey, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { Alert, Box, Grid, Stack, Typography } from "@mui/material";
+import React, { use } from "react";
 import { gruvboxDark as ColourScheme } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 

@@ -65,7 +65,7 @@ export type SpclKey = keyof typeof SPCL_MAP;
 export type Course = {
 	  titles: { abbr: string, full: string },
 	  spcl: SpclKey[],
-	  subs: Partial<Record<Sem, SubKey[]>>,
+	  subs: Partial<Record<Sem, Partial<Record<SpclKey, SubKey[]>>>>,
 }
 export type CrsKey = "mca";
 export const COURSES: Record<CrsKey, Course> = {
@@ -73,10 +73,10 @@ export const COURSES: Record<CrsKey, Course> = {
 			 titles: { abbr: "MCA", full: "Master of Computer Applications" },
 			 spcl: [ "aiml", "dtsc", "iot" ],
 			 subs: {
-					1: [ "pc", "dsa", "coa", "bmc", "ecom" ],
-					2: [],
-					3: [],
-					4: []
+					1: { core: [ "pc", "dsa", "coa", "bmc", "ecom" ] },
+					2: {},
+					3: {},
+					4: {}
 			 }
 	  }
 } as const;

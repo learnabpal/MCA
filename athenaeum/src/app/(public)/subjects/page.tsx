@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowForwardRoundedIcon, getSubjectSets, NAV_ITEMS, SUB_MAP, SUBJECT_HINT, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { ArrowForwardRoundedIcon, getSubjectSets, NAV_ITEMS, SUB_MAP, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
