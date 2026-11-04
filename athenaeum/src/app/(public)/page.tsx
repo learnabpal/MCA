@@ -14,7 +14,7 @@ export default function HomePage() {
 						  <Typography variant={ "h1" } color={ BGC_HEX_O } sx={ { fontSize: { xs: 36, sm: 48, md: 60 }, lineHeight: 1.1, letterSpacing: "-0.035em" } }>
 								 { "Your BGC days, organised in one place." }
 						  </Typography>
-						  <Typography variant={ "h5" } sx={ { lineHeight: 1.8, maxWidth: 680 } }>
+						  <Typography variant={ "h5" } sx={ { fontSize: { xs: 16, sm: 18, md: 20 }, lineHeight: 1.8, maxWidth: 640 } }>
 								 { "Explore subject-wise study material, read individual topics, and access subject-level downloads." }
 						  </Typography>
 					</Stack>
