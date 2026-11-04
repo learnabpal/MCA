@@ -11,7 +11,7 @@ export default function SubjectsPage() {
 	  return <Stack spacing={ 3 }>
 			 <Box>
 					<Typography variant={ "h3" } sx={ { fontWeight: 800, mb: 1 } }>{ "Courses" }</Typography>
-					<Typography color={ "text.secondary" }>{ "Select a course to view its available subjects." }</Typography>
+					<Typography color={ "text.secondary" }>{ "Select a course to view its available semester-wise subjects." }</Typography>
 			 </Box>
 			 { getCourseSets().map(([ alpha, courses ]) =>
 						<Box key={ alpha } sx={ { mb: 4 } }>
