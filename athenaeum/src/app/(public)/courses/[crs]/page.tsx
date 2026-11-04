@@ -1,5 +1,6 @@
 "use client";
 
+import { Heading } from "@/app/(public)/layout";
 import { SubjectCard } from "@/app/(public)/subjects/page";
 import { BGC_HEX_O, COURSES, CrsKey, revalSpcl, SPCL_MAP, SpclKey, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { Alert, Box, Grid, Stack, Typography } from "@mui/material";
@@ -23,10 +24,7 @@ export default function CoursePage({ params }: { params: Promise<{ crs: string }
 	  if (  /*NOT->*/ ! course) return <Alert severity={ "warning" }>{ "Course not found." }</Alert>;
 	  
 	  return <Stack spacing={ 3 }>
-			 <Box>
-					<Typography variant={ "h3" } color={ BGC_HEX_O } sx={ { fontWeight: 800, mb: 1 } }>{ course.titles.abbr }</Typography>
-					<Typography color={ "text.secondary" }>{ UI_TEXTS.subject }</Typography>
-			 </Box>
+			 <Heading title={ course.titles.abbr } subtitle={ UI_TEXTS.subjects }/>
 			 { Object.entries(course.subs).map(([ sem, subject_map ]) => Object.keys(subject_map).length > 0 &&
 						<Box key={ sem } sx={ { mb: 4 } }>
 							  <Typography variant={ "h4" } sx={ { mb: 2 } }>

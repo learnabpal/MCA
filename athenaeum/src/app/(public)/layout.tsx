@@ -1,5 +1,5 @@
 "use client";
-import { APP_NAME, APP_TAGLINE, AppIcon, BGC_NAME, DEV_NAME, NAV_ITEMS } from "@/app/AthenaeumMaster";
+import { APP_NAME, APP_TAGLINE, AppIcon, BGC_HEX_O, BGC_NAME, DEV_NAME, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { AppThemeModeToggleButton } from "@/components/mui/apx/tsx/AppThemeModeProvider";
 import CloseOutlined from "@mui/icons-material/CloseOutlined";
 import MenuOutlined from "@mui/icons-material/MenuOutlined";
@@ -99,6 +99,15 @@ export default function PublicLayout({ children }: Readonly<{ children: React.Re
 									 </Typography>
 							  </Stack>
 						</Box>
+				 </Box>
+	  );
+}
+
+export function Heading({ title, subtitle }) {
+	  return (
+				 <Box>
+						<Typography variant={ "h3" } sx={ { mb: 1 } } color={ BGC_HEX_O }>{ title }</Typography>
+						<Typography color={ "text.secondary" }>{ subtitle }</Typography>
 				 </Box>
 	  );
 }

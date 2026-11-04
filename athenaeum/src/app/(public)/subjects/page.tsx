@@ -1,5 +1,6 @@
 "use client";
 
+import { Heading } from "@/app/(public)/layout";
 import { ArrowForwardRoundedIcon, BGC_HEX_M, BGC_HEX_O, getSubjectSets, NAV_ITEMS, SUB_MAP, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
@@ -9,10 +10,7 @@ import Link from "next/link";
 
 export default function SubjectsPage() {
 	  return <Stack spacing={ 3 }>
-			 <Box>
-					<Typography variant={ "h3" } sx={ { fontWeight: 800, mb: 1 } }>{ "Subjects" }</Typography>
-					<Typography color={ "text.secondary" }>{ UI_TEXTS.subject }</Typography>
-			 </Box>
+			 <Heading title={ "Subjects" } subtitle={ UI_TEXTS.subjects }/>
 			 { getSubjectSets().map(([ alpha, subjects ]) =>
 						<Box key={ alpha } sx={ { mb: 4 } }>
 							  <Typography variant={ "h5" } sx={ { mb: 2 } }>

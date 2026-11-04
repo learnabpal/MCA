@@ -1,9 +1,10 @@
 "use client";
 
+import { Heading } from "@/app/(public)/layout";
 import React, { use, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
-import { NAV_ITEMS, SUB_MAP, type AthContent, type AthDownload, type AthRtdbMap, type SubKey, MenuBookOutlinedIcon, DownloadIcon, ArrowBackRoundedIcon, ArrowForwardRoundedIcon, FullscreenIcon, FileIcon, BGC_HEX_O } from "@/app/AthenaeumMaster";
+import { NAV_ITEMS, SUB_MAP, type AthContent, type AthDownload, type AthRtdbMap, type SubKey, MenuBookOutlinedIcon, DownloadIcon, ArrowBackRoundedIcon, ArrowForwardRoundedIcon, FullscreenIcon, FileIcon, BGC_HEX_O, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { Alert, Box, Button, Card, CardActionArea, CardContent, Chip, Divider, Grid, IconButton, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -60,10 +61,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 			 <Button component={ Link } variant={ "text" } href={ NAV_ITEMS.subjects.href } startIcon={ <ArrowBackRoundedIcon/> } sx={ { px: 0, color: BGC_HEX_O, alignSelf: "flex-start" } }>
 					{ "All Subjects" }
 			 </Button>
-			 <Box>
-					<Typography variant={ "h3" } sx={ { mb: 1 } } color={ BGC_HEX_O }>{ subjectName }</Typography>
-					<Typography color={ "text.secondary" }>{ "Browse the available content and subject resources." }</Typography>
-			 </Box>
+			 <Heading title={ subjectName } subtitle={ UI_TEXTS.subject }/>
 			 { loading ? <Typography color={ "text.secondary" }>{ "Loading..." }</Typography> : <>
 					{ Object.keys(downloads).length > 0 && <Box>
 						  <Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Downloads" }</Typography>

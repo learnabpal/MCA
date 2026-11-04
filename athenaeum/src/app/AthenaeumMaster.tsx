@@ -122,8 +122,9 @@ export const DEV_NAME = "Arnab Pal";
 export const GITHUB_REPOSITORY_URL = "https://github.com/learnabpal/MCA";
 
 export const UI_TEXTS = {
-	  subject: "Select a subject to view its available study materials and downloads.",
-	  course: "Select a course to view its available semester-wise subjects."
+	  subjects: "Select a subject to view its available study materials and downloads.",
+	  courses: "Select a course to view its available semester-wise subjects.",
+	  subject: "Browse the available content and subject resources."
 };
 export const HISTORY_KEY = "athenaeum-local-history";
 export const MAX_FILE_MB = 25;
