@@ -63,9 +63,6 @@ export const SPCL_MAP = {
 } as const;
 export type SpclKey = keyof typeof SPCL_MAP;
 
-// Added check to ensure course.spcl and course.subs[sem][spcl] matches
-export const revalSpcl = (crs_spcl: SpclKey[], spcl: string) => ([ ...crs_spcl, "core" ] as SpclKey[]).includes(spcl);
-
 export type Course = {
 	  titles: { abbr: string, full: string },
 	  spcl: SpclKey[],
@@ -94,6 +91,9 @@ export const getCourseSets = () => {
 	  }, {} as Record<string, Record<CrsKey, Pick<Course, "titles" | "spcl">>>);
 	  return Object.entries(x).sort(([ f1, v1 ], [ f2, v2 ]) => f1.localeCompare(f2));
 };
+
+// Added check to ensure course.spcl and course.subs[sem][spcl] matches
+export const revalSpcl = (crs_spcl: SpclKey[], spcl: SpclKey) => ([ ...crs_spcl, "core" ] as SpclKey[]).includes(spcl);
 
 export type AthRtdbMap = {
 	  subject: Partial<Record<SubKey, {
