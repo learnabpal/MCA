@@ -81,6 +81,16 @@ export const COURSES: Record<CrsKey, Course> = {
 	  }
 } as const;
 
+export const getCourseSets = () => {
+	  const x = Object.entries(COURSES).reduce((acc, [ key, course ]) => {
+			 const f = course.titles.abbr[0]?.toUpperCase() || "#";
+			 if ( /*NOT->*/ ! acc[f]) acc[f] = {};
+			 acc[f][key] = course.titles;
+			 return acc;
+	  }, {} as Record<string, Record<CrsKey, Course["titles"]>>);
+	  return Object.entries(x).sort(([ f1, v1 ], [ f2, v2 ]) => f1.localeCompare(f2));
+};
+
 export type AthRtdbMap = {
 	  subject: Partial<Record<SubKey, {
 			 contents?: { [fs_key: string]: string }
