@@ -57,7 +57,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 	  if (  /*NOT->*/ ! subjectName) return <Alert severity={ "warning" }>{ "Subject not found." }</Alert>;
 	  
 	  return <Stack spacing={ 3 }>
-			 <Button component={ Link } variant={ "text" } href={ NAV_ITEMS.subjects.href } startIcon={ <ArrowBackRoundedIcon/> } sx={ { alignSelf: "flex-start" } }>
+			 <Button component={ Link } variant={ "text" } href={ NAV_ITEMS.subjects.href } startIcon={ <ArrowBackRoundedIcon/> } sx={ { px: 0, color: BGC_HEX_O, alignSelf: "flex-start" } }>
 					{ "All Subjects" }
 			 </Button>
 			 <Box>

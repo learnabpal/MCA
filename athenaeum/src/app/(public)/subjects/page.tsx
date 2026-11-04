@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowForwardRoundedIcon, BGC_HEX_O, getSubjectSets, NAV_ITEMS, SUB_MAP, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { ArrowForwardRoundedIcon, BGC_HEX_M, BGC_HEX_O, getSubjectSets, NAV_ITEMS, SUB_MAP, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
@@ -28,7 +28,7 @@ export default function SubjectsPage() {
 
 export function SubjectCard({ sub, title }: { sub: string }) {
 	  return <Grid item xs={ 12 } sm={ 6 } md={ 4 }>
-			 <Card variant={ "outlined" } sx={ { height: "100%", bgcolor: "background.paper" } }>
+			 <Card variant={ "outlined" } sx={ { height: "100%", bgcolor: BGC_HEX_M } }>
 					<CardActionArea component={ Link } href={ `${ NAV_ITEMS.subjects.href }/${ sub }` } sx={ { height: "100%" } }>
 						  <CardContent sx={ { p: 2.5 } }>
 								 <Stack direction={ "row" } alignItems={ "center" } spacing={ 2 } justifyContent={ "space-between" } color={ BGC_HEX_O }>

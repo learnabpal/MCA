@@ -33,7 +33,7 @@ export default function CoursePage({ params }: { params: Promise<{ crs: string }
 									 { "Semester " + sem }
 							  </Typography>
 							  { Object.entries(subject_map).map(([ spcl, subjects ]) => subjects.length > 0 &&
-										 <Stack key={ spcl } sx={ { borderLeft: 1, pl: 1 } }>
+										 <Stack key={ spcl } sx={ { borderLeft: 1, pl: 2, borderColor: BGC_HEX_O } }>
 												<Typography variant={ "h6" } sx={ { mb: 2 } }>
 													  { SPCL_MAP[spcl] }
 												</Typography>
