@@ -19,9 +19,7 @@ export default function SubjectsPage() {
 									 { alpha }
 							  </Typography>
 							  <Grid container spacing={ 2 }>
-									 { Object.entries(subjects).map(([ sub, title ]) =>
-												<SubjectCard key={ sub } sub={ sub }/>
-									 ) }
+									 { Object.entries(subjects).map(([ sub, title ]) => <SubjectCard key={ sub } sub={ sub }/>) }
 							  </Grid>
 						</Box>
 			 ) }

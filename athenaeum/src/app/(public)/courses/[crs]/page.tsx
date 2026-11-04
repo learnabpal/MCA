@@ -1,7 +1,7 @@
 "use client";
 
 import { SubjectCard } from "@/app/(public)/subjects/page";
-import { COURSES, CrsKey, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { COURSES, CrsKey, SPCL_MAP, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { Alert, Box, Grid, Stack, Typography } from "@mui/material";
 import React, { use } from "react";
 import { gruvboxDark as ColourScheme } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -27,17 +27,22 @@ export default function CoursePage({ params }: { params: Promise<{ crs: string }
 					<Typography variant={ "h3" } sx={ { fontWeight: 800, mb: 1 } }>{ course.titles.abbr }</Typography>
 					<Typography color={ "text.secondary" }>{ UI_TEXTS.subject }</Typography>
 			 </Box>
-			 { Object.entries(course.subs).map(([ sem, subjects ]) => subjects.length > 0 && (
+			 { Object.entries(course.subs).map(([ sem, subject_map ]) => Object.keys(subject_map).length > 0 &&
 						<Box key={ sem } sx={ { mb: 4 } }>
-							  <Typography variant={ "h5" } sx={ { mb: 2 } }>
+							  <Typography variant={ "h4" } sx={ { mb: 2 } }>
 									 { "Semester " + sem }
 							  </Typography>
-							  <Grid container spacing={ 2 }>
-									 { subjects.map((sub) =>
-												<SubjectCard key={ sub } sub={ sub }/>
-									 ) }
-							  </Grid>
+							  { Object.entries(subject_map).map(([ spcl, subjects ]) => subjects.length > 0 &&
+										 <Stack key={ spcl } sx={ { borderLeft: 1, pl: 1 } }>
+												<Typography variant={ "h6" } sx={ { mb: 2 } }>
+													  { SPCL_MAP[spcl] }
+												</Typography>
+												<Grid container spacing={ 2 } px={ 2 }>
+													  { subjects.map((sub) => <SubjectCard key={ sub } sub={ sub }/>) }
+												</Grid>
+										 </Stack>
+							  ) }
 						</Box>
-			 )) }
+			 ) }
 	  </Stack>;
 }

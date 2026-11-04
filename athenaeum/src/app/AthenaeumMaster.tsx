@@ -57,6 +57,7 @@ export const SPCL_MAP = {
 	  core: "Core",
 	  aiml: "Artificial Intelligence & Machine Learning",
 	  dtsc: "Data Science",
+	  cyse: "Cyber Security",
 	  iot: "Internet of Things",
 	  robo: "Robotics"
 } as const;
@@ -71,7 +72,7 @@ export type CrsKey = "mca";
 export const COURSES: Record<CrsKey, Course> = {
 	  mca: {
 			 titles: { abbr: "MCA", full: "Master of Computer Applications" },
-			 spcl: [ "aiml", "dtsc", "iot" ],
+			 spcl: [ "dtsc", "cyse", "iot" ],
 			 subs: {
 					1: { core: [ "pc", "dsa", "coa", "bmc", "ecom" ] },
 					2: {},
