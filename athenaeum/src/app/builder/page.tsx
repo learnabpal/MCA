@@ -19,6 +19,30 @@ import React from "react";
 
 
 
+const HINT = `Generate structured educational Markdown content. Follow these rules strictly:
+
+1. Use standard Markdown headings, bold, italics, lists and tables where appropriate.
+2. LaTeX: Use \`\\(...\\)\` for inline mathematics and \`\\[...\\]\` for block mathematics. Never use \`$\` or \`$$\` delimiters. Preserve all backslashes and ensure mathematically valid LaTeX syntax.
+3. Inline code: Use single backticks. Example: \`int count = 10;\`
+4. Block code: Use triple backticks with the correct language identifier. Example:
+
+\`\`\`
+int a = 10;
+int b = 20;
+System.out.println(a + b);
+\`\`\`
+
+5\\. LaTeX examples:
+
+Inline: \\\\(A\\_{m \\times n}\\\\)
+
+Block:
+
+\\\\[ A = \\begin{bmatrix} 1 & 2 \\\\\\ 3 & 4 \\end{bmatrix} \\\\]
+
+6\\. Return only the requested educational content. No introductory commentary, closing remarks or enclosing Markdown code fences. Do not replace mathematical notation with plain text or Unicode approximations.`;
+
+
 function AdminFormContainer({
 											meta,
 											onContentSubmitted, onDownloadSubmitted
@@ -208,11 +232,10 @@ function AdminFormContainer({
 												<Stack spacing={ 1 }>
 													  <Typography variant={ "body2" } color={ "text.secondary" }>{ "Content *" }</Typography>
 													  <MDEditor
-																 value={ content }
+																 value={ content || HINT }
 																 onChange={ (val) => setContent(val ?? "") }
 																 height={ 480 }
 																 preview={ "edit" }
-																 textareaProps={ { placeholder: "Write content using Markdown..." } }
 													  />
 												</Stack>
 										 </Stack>
