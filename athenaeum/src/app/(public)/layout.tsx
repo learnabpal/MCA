@@ -41,8 +41,7 @@ export default function PublicLayout({ children }: Readonly<{ children: React.Re
 									 <Toolbar sx={ { minHeight: 64, px: 2, py: 1, gap: 2 } }>
 											<Branding/>
 											<Box sx={ { flexGrow: 1 } }/>
-											{/* <AppThemeModeToggleButton/> */ }
-											<IconButton aria-label={ "Open navigation menu" } onClick={ () => setMenuOpen(true) } color={ "inherit" }>
+											<IconButton sx={ { p: 0 } } aria-label={ "Open navigation menu" } onClick={ () => setMenuOpen(true) } color={ "inherit" }>
 												  <MenuOutlined/>
 											</IconButton>
 									 </Toolbar>
@@ -88,9 +87,9 @@ export default function PublicLayout({ children }: Readonly<{ children: React.Re
 									 )) }
 							  </List>
 						</Drawer>
-						<Stack component={ "main" } maxWidth={ "lg" } minHeight={ "85vh" } sx={ { py: { xs: 3, md: 5 }, px: { xs: 2, sm: 3 } } }>
+						<Container component={ "main" } maxWidth={ "lg" } sx={ { minHeight: "85vh", py: { xs: 3, md: 5 }, px: { xs: 2, sm: 3 } } }>
 							  { children }
-						</Stack>
+						</Container>
 						<Box component={ "footer" } sx={ { py: 3, borderTop: 1, borderColor: "divider" } }>
 							  <Stack sx={ { justifyContent: "center", alignItems: "center", gap: 1 } }>
 									 <Branding showAppName={ false }/>
