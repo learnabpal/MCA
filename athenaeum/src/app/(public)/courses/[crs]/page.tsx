@@ -2,7 +2,8 @@
 
 import { Heading } from "@/app/(public)/layout";
 import { SubjectCard } from "@/app/(public)/subjects/page";
-import { BGC_HEX_O, COURSES, CrsKey, revalSpcl, SPCL_MAP, SpclKey, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { BGC_HEX_O, revalSpcl, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { COURSES, CrsKey, SPCL_MAP, SpclKey } from "@/app/BgcMaster";
 import { Alert, Box, Grid, Stack, Typography } from "@mui/material";
 import React, { use } from "react";
 import { gruvboxDark as ColourScheme } from "react-syntax-highlighter/dist/esm/styles/prism";

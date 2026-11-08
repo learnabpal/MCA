@@ -1,4 +1,6 @@
+import { AthBuilderMeta, BgcId } from "@/app/AthenaeumMaster";
 import { api } from "@/firebase/FirebaseApp";
+import { AxiosResponse } from "axios";
 import { NextResponse } from "next/server";
 
 
@@ -13,11 +15,20 @@ export const successResponse = <T>(obj: Omit<T, keyof Pick<ApiStatus, "status">>
 export type Status = "SUCCESS" | "FAILURE" | "ERROR";
 export type ApiStatus = { status: Status, message: string }
 
-const verifyBgcId = "verify-bgc-id";
-export const bridgeBgcId = (bgcId: string): Promise<{ email: string } & ApiStatus> => {
+const onboarding = (bgcId: string) => `onboarding/${ bgcId }`;
+export const bridgeOnboarding = (bgcId: string): Promise<AxiosResponse<BgcId & { obStatus: boolean | string } & ApiStatus>> => {
 	  if ( /*NOT->*/ ! bgcId) return;
-	  return api.post(verifyBgcId, { bgcId }).then(response => response.data);
+	  return api.post(onboarding(bgcId), { bgcId });
 };
+
+export const bridgeOnboardingBuilderMetaPOST = (meta: AthBuilderMeta): Promise<AxiosResponse<ApiStatus>> => {
+	  if ( /*NOT->*/ ! meta.bgcId || /*NOT->*/ ! meta.crs ||  /*NOT->*/ ! meta.email) return;
+	  return api.post(onboarding("builder"), meta);
+};
+export const bridgeOnboardingBuilderMetaGET = (): Promise<AxiosResponse<AthBuilderMeta & ApiStatus>> => {
+	  return api.get(onboarding("builder"));
+};
+
 
 const uploadFiles = "upload-files";
 export const bridgeUploadFiles = (files: File[]): Promise<{ url: string, title: string }[] & ApiStatus> => {

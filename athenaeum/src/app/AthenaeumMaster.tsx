@@ -1,4 +1,5 @@
 import AppIcon from "@/app/bgc_apxdgtl.png";
+import { CrsKey, SpclKey, SubKey } from "@/app/BgcMaster";
 import { DateTimeFormatter, Instant, ZoneId } from "@js-joda/core";
 import { Locale } from "@js-joda/locale_en";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
@@ -14,84 +15,6 @@ import SchoolOutlinedIcon from "@mui/icons-material/School";
 import React from "react";
 
 
-
-
-export const ASSET_MAP = {
-	  sdm: "Study Materials",
-	  res: "Resources",
-	  asn: "Assignments",
-	  qna: "Questions & Answers",
-	  xxx: "Others"
-};
-export type AssetKey = keyof typeof ASSET_MAP;
-
-export type Sem = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-export const SUB_MAP = {
-	  pc: "Programming Concept",
-	  dsa: "Data Structure and Algorithm",
-	  coa: "Computer Organisation and Architecture",
-	  bmc: "Basic Mathematics for Computing",
-	  ecom: "E-Commerce and Digital Business"
-	  
-	  // rdbms: "Database Management System",
-	  // os: "Operating System",
-	  // oopj: "Object Oriented Programming with Java",
-	  // prst: "Probability and Statistics",
-	  //
-	  // sweng: "Software Engineering",
-	  // webt: "Web Technology"
-} as const;
-export type SubKey = keyof typeof SUB_MAP;
-
-export const getSubjectSets = () => {
-	  const x = Object.entries(SUB_MAP).reduce((acc, [ key, title ]) => {
-			 const f = title[0]?.toUpperCase() || "#";
-			 if ( /*NOT->*/ ! acc[f]) acc[f] = {};
-			 acc[f][key] = title;
-			 return acc;
-	  }, {} as Record<string, Record<SubKey, string>>);
-	  return Object.entries(x).sort(([ f1, v1 ], [ f2, v2 ]) => f1.localeCompare(f2));
-};
-
-export const SPCL_MAP = {
-	  core: "Core",
-	  aiml: "Artificial Intelligence & Machine Learning",
-	  dtsc: "Data Science",
-	  cyse: "Cyber Security",
-	  iot: "Internet of Things",
-	  robo: "Robotics"
-} as const;
-export type SpclKey = keyof typeof SPCL_MAP;
-
-export type Course = {
-	  titles: { abbr: string, full: string },
-	  spcl: SpclKey[],
-	  subs: Partial<Record<Sem, Partial<Record<SpclKey, SubKey[]>>>>,
-}
-export type CrsKey = "mca";
-export const COURSES: Record<CrsKey, Course> = {
-	  mca: {
-			 titles: { abbr: "MCA", full: "Master of Computer Applications" },
-			 spcl: [ "dtsc", "cyse", "iot" ],
-			 subs: {
-					1: { core: [ "pc", "dsa", "coa", "bmc", "ecom" ] },
-					2: {},
-					3: {},
-					4: {}
-			 }
-	  }
-} as const;
-
-export const getCourseSets = () => {
-	  const x = Object.entries(COURSES).reduce((acc, [ key, { titles, spcl } ]) => {
-			 const f = titles.full[0]?.toUpperCase() || "#";
-			 if ( /*NOT->*/ ! acc[f]) acc[f] = {};
-			 acc[f][key] = { titles, spcl };
-			 return acc;
-	  }, {} as Record<string, Record<CrsKey, Pick<Course, "titles" | "spcl">>>);
-	  return Object.entries(x).sort(([ f1, v1 ], [ f2, v2 ]) => f1.localeCompare(f2));
-};
-
 // Added check to ensure course.spcl and course.subs[sem][spcl] matches
 export const revalSpcl = (crs_spcl: SpclKey[], spcl: SpclKey) => ([ ...crs_spcl, "core" ] as SpclKey[]).includes(spcl);
 
@@ -101,9 +24,21 @@ export type AthRtdbMap = {
 			 downloads?: { [rtdb_key: string]: AthDownload }
 	  }>>
 };
+
+export const ASSET_MAP = {
+	  sdm: "Study Materials",
+	  res: "Resources",
+	  asn: "Assignments",
+	  qna: "Questions & Answers",
+	  xxx: "Others"
+};
+export type AssetKey = keyof typeof ASSET_MAP;
 type AthKeys = { sub: SubKey, ast: AssetKey };
 export type AthContent = AthKeys & { tags: string[], title: string, content: string, };
 export type AthDownload = AthKeys & { title: string, url: string };
+
+export type BgcId = { bgcId: string }
+export type AthBuilderMeta = { crs: CrsKey, spcl?: SpclKey, email: string } & BgcId
 
 
 export {

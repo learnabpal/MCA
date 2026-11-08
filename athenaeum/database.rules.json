@@ -1,9 +1,17 @@
 {
 	  "rules": {
 			 "Athenaeum": {
-					"BGC_IDS": {
-						  ".read": true,
-						  ".write": false
+					"BGC_ID": {
+						  "$bgcId": {
+								 ".read": true,
+								 ".write": "auth !== null"
+						  }
+					},
+					"BUILDER_META": {
+						  "$uid": {
+								 ".read": "auth !== null && auth.uid === $uid",
+								 ".write": "auth !== null && auth.uid === $uid"
+						  }
 					}
 			 }
 	  }

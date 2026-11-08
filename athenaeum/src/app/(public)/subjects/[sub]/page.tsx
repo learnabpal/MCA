@@ -1,14 +1,18 @@
 "use client";
 
 import { Heading } from "@/app/(public)/layout";
+import { SUB_MAP, SubKey } from "@/app/BgcMaster";
 import React, { use, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
-import { NAV_ITEMS, SUB_MAP, type AthContent, type AthDownload, type AthRtdbMap, type SubKey, MenuBookOutlinedIcon, DownloadIcon, ArrowBackRoundedIcon, ArrowForwardRoundedIcon, FullscreenIcon, FileIcon, BGC_HEX_O, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { NAV_ITEMS, type AthContent, type AthDownload, type AthRtdbMap, MenuBookOutlinedIcon, DownloadIcon, ArrowBackRoundedIcon, ArrowForwardRoundedIcon, FullscreenIcon, FileIcon, BGC_HEX_O, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { Alert, Box, Button, Card, CardActionArea, CardContent, Chip, Divider, Grid, IconButton, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { gruvboxDark as ColourScheme } from "react-syntax-highlighter/dist/esm/styles/prism";
+import rehypeKatex from "rehype-katex";
+import remarkMath from "remark-math";
+import "katex/dist/katex.min.css";
 
 
 
@@ -130,6 +134,8 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 								 {/* <ReactMarkdown>{ selectedContent.content }</ReactMarkdown> */ }
 								 <ReactMarkdown
 											children={ selectedContent.content }
+											remarkPlugins={ [ remarkMath ] }
+											rehypePlugins={ [ rehypeKatex ] }
 											components={ {
 												  h1: mdHighlighter("h1"),
 												  h2: mdHighlighter("h2"),

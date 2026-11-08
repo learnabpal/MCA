@@ -1,14 +1,15 @@
 "use client";
 
 import { Heading } from "@/app/(public)/layout";
-import { ArrowForwardRoundedIcon, BGC_HEX_M, BGC_HEX_O, getCourseSets, NAV_ITEMS, SPCL_MAP, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { ArrowForwardRoundedIcon, BGC_HEX_M, BGC_HEX_O, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { getCourseSets, SPCL_MAP } from "@/app/BgcMaster";
 import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
 
 
 
-export default function SubjectsPage() {
+export default function CoursesPage() {
 	  return <Stack spacing={ 3 }>
 			 <Heading title={ "Courses" } subtitle={ UI_TEXTS.courses }/>
 			 { getCourseSets().map(([ alpha, courses ]) =>

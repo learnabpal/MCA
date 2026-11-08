@@ -1,13 +1,15 @@
 "use client";
 
 import { Branding } from "@/app/(public)/layout";
-import type { AthContent, AthDownload, DownloadType, EntryMode, AssetKey } from "@/app/AthenaeumMaster";
-import { APP_NAME, DL_TYPES, EXTS, ENTRY_MODES, ASSET_MAP, MAX_FILE_BYTES, MAX_FILE_MB, SUB_MAP, type SubKey } from "@/app/AthenaeumMaster";
+import type { AssetKey, AthBuilderMeta, AthContent, AthDownload, DownloadType, EntryMode } from "@/app/AthenaeumMaster";
+import { APP_NAME, ASSET_MAP, DL_TYPES, ENTRY_MODES, EXTS, MAX_FILE_BYTES, MAX_FILE_MB } from "@/app/AthenaeumMaster";
+import { CrsKey, getCourseSubs, SubKey } from "@/app/BgcMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
-import { bridgeBgcId } from "@/firebase/Bridge";
-import { useFirebaseAccountModifiers, useFirebaseUid, useFirebaseUserData } from "@/firebase/FirebaseApp";
+import { bridgeOnboardingBuilderMetaGET } from "@/firebase/Bridge";
+import { useFirebaseAccountModifiers, useFirebaseUid } from "@/firebase/FirebaseApp";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import GoogleIcon from "@mui/icons-material/Google";
 import { Box, Button, Chip, IconButton, Paper, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import "@uiw/react-markdown-preview/markdown.css";
 import MDEditor from "@uiw/react-md-editor";
@@ -17,7 +19,15 @@ import React from "react";
 
 
 
-function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onContentSubmitted: (value: AthContent) => void; onDownloadSubmitted: (value: AthDownload[]) => void; }) {
+function AdminFormContainer({
+											meta,
+											onContentSubmitted, onDownloadSubmitted
+									 }: {
+											meta: AthBuilderMeta,
+											onContentSubmitted: (value: AthContent) => void; onDownloadSubmitted: (value: AthDownload[]) => void;
+									 }
+) {
+	  const { crs } = meta;
 	  const [ mode, setMode ] = React.useState<EntryMode>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey>("");
 	  const [ matKey, setMatKey ] = React.useState<AssetKey>("");
@@ -152,7 +162,7 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 							  <Box>
 									 <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Subject *" }</Typography>
 									 <Stack direction={ "row" } spacing={ 1 } useFlexGap flexWrap={ "wrap" }>
-											{ Object.entries(SUB_MAP).map(([ key, value ]) => (
+											{ getCourseSubs(crs).map(([ key, value ]) => (
 													  <Chip
 																 key={ key }
 																 label={ value }
@@ -183,14 +193,14 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 							  {/* Mode-Specific Forms */ }
 							  { mode === "content" && (
 										 <Stack spacing={ 2.5 }>
+												<Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Title *" }</Typography>
 												<TextField
-														  label={ "Title" }
 														  value={ contentTitle }
 														  onChange={ (event) => setContentTitle(event.target.value) }
 														  required fullWidth
 												/>
+												<Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Tags *" }</Typography>
 												<TextField
-														  label={ "Tags" }
 														  value={ tagsInput }
 														  onChange={ (event) => setTagsInput(event.target.value) }
 														  required fullWidth
@@ -338,80 +348,50 @@ function AdminFormContainer({ onContentSubmitted, onDownloadSubmitted }: { onCon
 	  );
 }
 
-
-export default function AdminPage() {
-	  const { email } = useFirebaseUserData();
+export default function BuilderPage() {
 	  const uid = useFirebaseUid();
-	  const { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } = useFirebaseAccountModifiers();
-	  const [ bgcId, setBgcId ] = React.useState("");
-	  const [ bgcEmail, setBgcEmail ] = React.useState("");
-	  const [ pw, setPw ] = React.useState("");
-	  const [ verified, setVerified ] = React.useState(undefined);
-	  
-	  const invalidId = bgcId?.trim()?.length != 11;
-	  
-	  const [ timer, setTimer ] = React.useState<number>(-1);
-	  
-	  const verifyBGCId = () => {
-			 if (/*TRUTHY->*/ !! invalidId || timer > -1) return;
-			 setTimer(5);
-	  };
+	  const { signInWithGoogle, signOut } = useFirebaseAccountModifiers();
+	  const [ builderMeta, setBuilderMeta ] = React.useState<AthBuilderMeta>(undefined);
 	  
 	  React.useEffect(() => {
-			 if (timer === 0) {
-					bridgeBgcId(bgcId).then(
-							  (value) => {
-									 setVerified(value.status === "SUCCESS" ? value.email : null);
-									 setTimer(-1);
-							  },
-							  (reason) => {
-									 setVerified(null);
-									 setTimer(-1);
+			 if (uid) {
+					bridgeOnboardingBuilderMetaGET().then(
+							  value => {
+									 const { status, message, ...meta } = value.data;
+									 if (status === "SUCCESS") {
+											setBuilderMeta(meta);
+									 }
 							  }
 					);
-			 } else if (timer > 0) {
-					const iid = setTimeout(() => {
-						  setTimer((prev) => prev - 1);
-					}, 1000);
-					return () => clearTimeout(iid);
 			 }
-	  }, [ timer, bgcId ]);
+	  }, [ uid ]);
 	  
 	  if ( /*NOT->*/ ! uid) return (
 				 <Stack spacing={ 1 } sx={ { height: "100vh", mx: "auto", p: { xs: 2, md: 4 } } } maxWidth={ 360 } justifyContent={ "center" }>
-						{ verified == null && <>
-							  <TextField label={ "Enter BGC ID" } value={ bgcId } onChange={ (e) => setBgcId(e.target.value) } fullWidth required/>
-							  { verified === null && <Typography color={ "error" } fontSize={ 12 } textAlign={ "center" }>{ "Unauthorised BGC ID" }</Typography> }
-							  <Button variant={ "contained" } fullWidth onClick={ () => verifyBGCId() } disabled={ invalidId || timer >= 0 }>{ timer > 0 ? "Verifying..." : "Verify" }</Button>
-						</>
-						}
-						{ typeof verified === "string" && <>
-							  {/* <Button variant={ "contained" } fullWidth onClick={ () => signInWithGoogle() } startIcon={ <GoogleIcon/> }>{ "Sign-In with Google" }</Button> */ }
-							  <TextField label={ "Enter BGC Email" } value={ bgcEmail } onChange={ (e) => setBgcEmail(e.target.value) } fullWidth required/>
-							  <TextField label={ "Enter Password" } value={ pw } onChange={ (e) => setPw(e.target.value) } fullWidth required/>
-							  <Button variant={ "contained" } fullWidth onClick={ () => signInWithEmailAndPassword(bgcEmail, pw) } disabled={ verified !== bgcEmail }>{ "Sign-In" }</Button>
-							  <Button variant={ "outlined" } fullWidth onClick={ () => createUserWithEmailAndPassword(bgcEmail, pw) } disabled={ verified !== bgcEmail }>{ "Sign-Up" }</Button>
-						
-						</> }
+						<Button variant={ "contained" } fullWidth onClick={ () => signInWithGoogle() } startIcon={ <GoogleIcon/> }>{ "Sign-In with Google" }</Button>
 				 </Stack>
 	  );
-	  return (
+	  
+	  if (uid && builderMeta) return (
 				 <Stack spacing={ 3 } sx={ { mx: "auto", p: { xs: 2, sm: 3 } } }>
 						<Stack direction={ { xs: "column", sm: "row" } } spacing={ 2 } alignSelf={ "center" } alignItems={ "center" }>
-							  {/* <Avatar src={ photoURL } alt={ displayName } sx={ { width: 48, height: 48 } }/> */ }
 							  <Branding showAppName={ false }/>
 							  <Stack alignItems={ { xs: "center", sm: "flex-start" } }>
 									 <Typography variant={ "h4" } color={ "primary" }>{ APP_NAME + " Builder" }</Typography>
-									 <Typography variant={ "body1" } color={ "text.secondary" }>{ email }</Typography>
+									 <Typography variant={ "body1" } color={ "text.secondary" }>{ builderMeta.email }</Typography>
+									 <Typography variant={ "body1" } color={ "text.secondary" }>{ builderMeta.bgcId }</Typography>
 							  </Stack>
 						</Stack>
 						<Paper variant={ "outlined" } sx={ { p: { xs: 2, md: 3 } } }>
 							  <AdminFormContainer
+										 meta={ builderMeta }
 										 onContentSubmitted={ (val) => console.log("Content:", val) }
 										 onDownloadSubmitted={ (val) => console.log("Download:", val) }
 							  />
 						</Paper>
-						<Stack alignSelf={ "center" }><Button variant={ "text" } sx={ { fontSize: 12, color: "text.secondary" } } onClick={ () => signOut() }>{ "Sign-Out" }</Button></Stack>
+						<Stack alignSelf={ "center" }>
+							  <Button variant={ "text" } sx={ { fontSize: 12, color: "text.secondary" } } onClick={ () => signOut() }>{ "Sign-Out" }</Button>
+						</Stack>
 				 </Stack>
 	  );
 }

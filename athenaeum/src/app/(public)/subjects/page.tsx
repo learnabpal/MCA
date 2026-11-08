@@ -1,7 +1,8 @@
 "use client";
 
 import { Heading } from "@/app/(public)/layout";
-import { ArrowForwardRoundedIcon, BGC_HEX_M, BGC_HEX_O, getSubjectSets, NAV_ITEMS, SUB_MAP, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { ArrowForwardRoundedIcon, BGC_HEX_M, BGC_HEX_O, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { getSubjectSets, SUB_MAP } from "@/app/BgcMaster";
 import { Box, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 

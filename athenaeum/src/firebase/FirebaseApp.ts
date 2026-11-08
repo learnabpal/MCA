@@ -119,12 +119,13 @@ const SHARD_PREFIX = "SHARD";
 const ENQUIRIES_NODE = "ENQUIRIES";
 
 
-const BGC_IDS_NODE = "BGC_IDS";
+const BGC_ID_NODE = "BGC_ID";
+const BUILDER_META_NODE = "BUILDER_META";
 
 
 export {
 	  // RTDB_ROOT_REF, FIRESTORE_ROOT_REF, STORAGE_ROOT_REF,
-	  // BGC_IDS_NODE
+	  // BGC_ID_NODE
 };
 
 
@@ -170,10 +171,10 @@ const invokeServerApp = (request?: NextRequest) => {
 			 // const gatewayNodeRef = child(rtdbRoot, GATEWAY_NODE);
 			 // const archiveNodeRef = child(rtdbRoot, ARCHIVE_NODE);
 			 // const trashedNodeRef = child(rtdbRoot, TRASHED_NODE);
-			 //
-			 // const enquiriesNodeRef = child(RTDB_ROOT_REF, ENQUIRIES_NODE);
 			 
-			 const bgcIdsNodeRef = child(RTDB_ROOT_REF, joiner(APP_NAME, BGC_IDS_NODE));
+			 
+			 const bgcIdNodeRef = child(rtdbRoot, joiner(APP_NAME, BGC_ID_NODE));
+			 const builderMetaNodeRef = child(rtdbRoot, joiner(APP_NAME, BUILDER_META_NODE));
 			 
 			 return ({
 					uid: user?.uid,
@@ -186,7 +187,7 @@ const invokeServerApp = (request?: NextRequest) => {
 					// contentGuideShardsCollectionRef, contentEventShardsCollectionRef,
 					// gatewayNodeRef,  archiveNodeRef, trashedNodeRef
 					// enquiriesNodeRef,
-					bgcIdsNodeRef
+					bgcIdNodeRef, builderMetaNodeRef
 					/* profileStorageRef, serviceStorageRef */
 			 });
 	  });
