@@ -19,28 +19,39 @@ import React from "react";
 
 
 
-const HINT = `Generate structured educational Markdown content. Follow these rules strictly:
-
-1. Use standard Markdown headings, bold, italics, lists and tables where appropriate.
-2. LaTeX: Use \`\\(...\\)\` for inline mathematics and \`\\[...\\]\` for block mathematics. Never use \`$\` or \`$$\` delimiters. Preserve all backslashes and ensure mathematically valid LaTeX syntax.
-3. Inline code: Use single backticks. Example: \`int count = 10;\`
-4. Block code: Use triple backticks with the correct language identifier. Example:
-
-\`\`\`
-int a = 10;
-int b = 20;
-System.out.println(a + b);
-\`\`\`
-
-5\\. LaTeX examples:
-
-Inline: \\\\(A\\_{m \\times n}\\\\)
-
-Block:
-
-\\\\[ A = \\begin{bmatrix} 1 & 2 \\\\\\ 3 & 4 \\end{bmatrix} \\\\]
-
-6\\. Return only the requested educational content. No introductory commentary, closing remarks or enclosing Markdown code fences. Do not replace mathematical notation with plain text or Unicode approximations.`;
+const HINT = "Generate structured educational Markdown content. Follow these rules strictly:\n" +
+		  "\n" +
+		  "- Use proper Markdown headings, paragraphs, bold, italics, lists and tables.\n" +
+		  "- Inline mathematics: use `\\( ... \\)` exclusively.\n" +
+		  "- Display mathematics: use `\\[ ... \\]` exclusively, with delimiters on separate lines.\n" +
+		  "- Never use `$` or `$$` as mathematical delimiters.\n" +
+		  "- Preserve all LaTeX backslashes, braces, subscripts and superscripts.\n" +
+		  "- Inline code: use single backticks, e.g. `int count = 10;`.\n" +
+		  "- Block code: use triple backticks with the correct language identifier, e.g. ` ```java `, ` ```javascript ` or ` ```python `.\n" +
+		  "- Never represent code as plain text or use inline code for multi-line code.\n" +
+		  "- Ensure code is complete, syntactically correct and properly indented.\n" +
+		  "\n" +
+		  "Examples:\n" +
+		  "\n" +
+		  "Inline mathematics: \\\\(A\\_{m \\times n}\\\\)\n" +
+		  "\n" +
+		  "Display mathematics:\n" +
+		  "\n" +
+		  "\\\\[ A = \\begin{bmatrix} 1 & 2 \\\\\\ 3 & 4 \\end{bmatrix} \\\\]\n" +
+		  "\n" +
+		  "Inline code: `System.out.println(\"Hello\");`\n" +
+		  "\n" +
+		  "Block code:\n" +
+		  "\n" +
+		  "```\n" +
+		  "public class Main {\n" +
+		  "    public static void main(String[] args) {\n" +
+		  "        System.out.println(\"Hello\");\n" +
+		  "    }\n" +
+		  "}\n" +
+		  "```\n" +
+		  "\n" +
+		  "Return ONLY the generated Markdown content. Do not include introductory commentary, explanations or closing remarks.";
 
 
 function AdminFormContainer({
