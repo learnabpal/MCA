@@ -137,23 +137,25 @@ function AdminFormContainer({
 	  
 	  const handleSubmit = () => {
 			 if (/*NOT->*/ ! subKey || /*NOT->*/ ! matKey) return;
-			 if (mode === "content") {
-					if (/*NOT->*/ ! isContentValid) return;
-					onContentSubmitted({ sub: subKey, ast: matKey, tags, title: contentTitle.trim(), content });
-			 }
-			 if (mode === "download") {
-					if (/*NOT->*/ ! isDownloadValid) return;
-					// Submitting download entries accordingly
-					const downloads: AthDownload[] = [];
-					switch (dlType) {
-						  case "file":
-								 selectedFiles.forEach((file) => downloads.push({ sub: subKey, ast: matKey, title: file.name, url: URL.createObjectURL(file) }));
-								 break;
-						  case "url":
-								 urlPairs.forEach((pair) => downloads.push({ sub: subKey, ast: matKey, title: pair.title.trim(), url: pair.url.trim() }));
-								 break;
-					}
-					downloads.length > 0 && onDownloadSubmitted(downloads);
+			 switch (mode) {
+					case "content":
+						  if (/*NOT->*/ ! isContentValid) return;
+						  onContentSubmitted({ sub: subKey, ast: matKey, tags, title: contentTitle.trim(), content });
+						  break;
+					case "download":
+						  if (/*NOT->*/ ! isDownloadValid) return;
+						  // Submitting download entries accordingly
+						  const downloads: AthDownload[] = [];
+						  switch (dlType) {
+								 case "file":
+										selectedFiles.forEach((file) => downloads.push({ sub: subKey, ast: matKey, title: file.name, url: URL.createObjectURL(file) }));
+										break;
+								 case "url":
+										urlPairs.forEach((pair) => downloads.push({ sub: subKey, ast: matKey, title: pair.title.trim(), url: pair.url.trim() }));
+										break;
+						  }
+						  downloads.length > 0 && onDownloadSubmitted(downloads);
+						  break;
 			 }
 	  };
 	  
