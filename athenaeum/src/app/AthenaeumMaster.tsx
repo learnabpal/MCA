@@ -24,6 +24,7 @@ export const ASSET_MAP = {
 	  res: "Resources",
 	  asn: "Assignments",
 	  qna: "Questions & Answers",
+	  sgn: "Suggestions",
 	  xxx: "Others"
 };
 export type AssetKey = keyof typeof ASSET_MAP;
