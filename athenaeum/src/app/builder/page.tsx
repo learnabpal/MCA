@@ -95,7 +95,7 @@ function AdminFormContainer({
 	  const { crs } = meta;
 	  const [ mode, setMode ] = React.useState<EntryMode>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey>("");
-	  const [ matKey, setMatKey ] = React.useState<AssetKey>("");
+	  const [ astKey, setAstKey ] = React.useState<AssetKey>("");
 	  
 	  const { setUi, close, open, WiPView } = useWipView();
 	  
@@ -112,7 +112,7 @@ function AdminFormContainer({
 	  /* Derived State for Content */
 	  const tags = tagsInput.split(",").map((tag) => tag.trim()).filter(Boolean);
 	  const validTags = tagsInput.trim().length > 0 && tags.every(Boolean) && new Set(tags).size === tags.length;
-	  const isContentValid =   /*TRUTHY->*/ !! (subKey && matKey && contentTitle.trim() && content.trim() && validTags);
+	  const isContentValid =   /*TRUTHY->*/ !! (subKey && astKey && contentTitle.trim() && content.trim() && validTags);
 	  
 	  
 	  const isDownloadValid = dlType === "file"
@@ -127,7 +127,7 @@ function AdminFormContainer({
 	  
 	  const handleReset = () => {
 			 setSubKey("");
-			 setMatKey("");
+			 setAstKey("");
 			 setTagsInput("");
 			 setContentTitle("");
 			 setContent("");
@@ -136,11 +136,11 @@ function AdminFormContainer({
 	  };
 	  
 	  const handleSubmit = () => {
-			 if (/*NOT->*/ ! subKey || /*NOT->*/ ! matKey) return;
+			 if (/*NOT->*/ ! subKey || /*NOT->*/ ! astKey) return;
 			 switch (mode) {
 					case "content":
 						  if (/*NOT->*/ ! isContentValid) return;
-						  onContentSubmitted({ sub: subKey, ast: matKey, tags, title: contentTitle.trim(), content });
+						  onContentSubmitted({ sub: subKey, ast: astKey, tags, title: contentTitle.trim(), content });
 						  break;
 					case "download":
 						  if (/*NOT->*/ ! isDownloadValid) return;
@@ -148,10 +148,10 @@ function AdminFormContainer({
 						  const downloads: AthDownload[] = [];
 						  switch (dlType) {
 								 case "file":
-										selectedFiles.forEach((file) => downloads.push({ sub: subKey, ast: matKey, title: file.name, url: URL.createObjectURL(file) }));
+										selectedFiles.forEach((file) => downloads.push({ sub: subKey, ast: astKey, title: file.name, url: URL.createObjectURL(file) }));
 										break;
 								 case "url":
-										urlPairs.forEach((pair) => downloads.push({ sub: subKey, ast: matKey, title: pair.title.trim(), url: pair.url.trim() }));
+										urlPairs.forEach((pair) => downloads.push({ sub: subKey, ast: astKey, title: pair.title.trim(), url: pair.url.trim() }));
 										break;
 						  }
 						  downloads.length > 0 && onDownloadSubmitted(downloads);
@@ -206,9 +206,9 @@ function AdminFormContainer({
 																 key={ key }
 																 label={ value }
 																 clickable
-																 color={ matKey === key ? "primary" : "default" }
-																 variant={ matKey === key ? "filled" : "outlined" }
-																 onClick={ () => setMatKey(matKey === key ? "" : key as AssetKey) }
+																 color={ astKey === key ? "primary" : "default" }
+																 variant={ astKey === key ? "filled" : "outlined" }
+																 onClick={ () => setAstKey(astKey === key ? "" : key as AssetKey) }
 													  />
 											)) }
 									 </Stack>
