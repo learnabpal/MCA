@@ -18,12 +18,6 @@ import React from "react";
 // Added check to ensure course.spcl and course.subs[sem][spcl] matches
 export const revalSpcl = (crs_spcl: SpclKey[], spcl: SpclKey) => ([ ...crs_spcl, "core" ] as SpclKey[]).includes(spcl);
 
-export type AthRtdbMap = {
-	  subject: Partial<Record<SubKey, {
-			 contents?: { [fs_key: string]: string }
-			 downloads?: { [rtdb_key: string]: AthDownload }
-	  }>>
-};
 
 export const ASSET_MAP = {
 	  sdm: "Study Materials",
@@ -33,9 +27,17 @@ export const ASSET_MAP = {
 	  xxx: "Others"
 };
 export type AssetKey = keyof typeof ASSET_MAP;
+
 type AthKeys = { sub: SubKey, ast: AssetKey };
+
 export type AthContent = AthKeys & { tags: string[], title: string, content: string, };
 export type AthDownload = AthKeys & { title: string, url: string };
+export type AthRtdbMap = {
+	  subject: Partial<Record<SubKey, {
+			 contents?: { [fs_key: string]: string }
+			 downloads?: { [rtdb_key: string]: AthDownload }
+	  }>>
+};
 
 export type BgcId = { bgcId: string }
 export type AthBuilderMeta = { crs: CrsKey, spcl?: SpclKey, email: string } & BgcId
