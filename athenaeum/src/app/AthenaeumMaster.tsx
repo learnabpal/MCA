@@ -20,10 +20,10 @@ export const revalSpcl = (crs_spcl: SpclKey[], spcl: SpclKey) => ([ ...crs_spcl,
 
 
 export const ASSET_MAP = {
-	  sdm: "Study Materials",
-	  res: "Resources",
 	  asn: "Assignments",
 	  qna: "Questions & Answers",
+	  res: "Resources",
+	  sdm: "Study Materials",
 	  sgn: "Suggestions",
 	  xxx: "Others"
 };
