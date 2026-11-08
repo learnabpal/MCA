@@ -96,11 +96,13 @@ function AdminFormContainer({
 	  const [ mode, setMode ] = React.useState<EntryMode>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey>("");
 	  const [ astKey, setAstKey ] = React.useState<AssetKey>("");
+	  const [ assetTags, setAssetTags ] = React.useState("");
+	  const tags = assetTags.split(",").map((tag) => tag.trim()).filter(Boolean);
+	  const validTags = assetTags.trim().length > 0 && tags.every(Boolean) && new Set(tags).size === tags.length;
 	  
 	  const { setUi, close, open, WiPView } = useWipView();
 	  
 	  /* Content Form State */
-	  const [ tagsInput, setTagsInput ] = React.useState("");
 	  const [ contentTitle, setContentTitle ] = React.useState("");
 	  const [ content, setContent ] = React.useState("");
 	  
@@ -109,15 +111,13 @@ function AdminFormContainer({
 	  const [ selectedFiles, setSelectedFiles ] = React.useState<File[]>([]);
 	  const [ urlPairs, setUrlPairs ] = React.useState<Array<{ title: string; url: string }>>([ { title: "", url: "" } ]);
 	  
-	  /* Derived State for Content */
-	  const tags = tagsInput.split(",").map((tag) => tag.trim()).filter(Boolean);
-	  const validTags = tagsInput.trim().length > 0 && tags.every(Boolean) && new Set(tags).size === tags.length;
-	  const isContentValid =   /*TRUTHY->*/ !! (subKey && astKey && contentTitle.trim() && content.trim() && validTags);
+	  const isContentValid = subKey && astKey && contentTitle.trim() && content.trim() && validTags;
 	  
-	  
-	  const isDownloadValid = dlType === "file"
-				 ? /*TRUTHY->*/ !! (subKey && selectedFiles.length > 0 && selectedFiles.every(isValidFile))
-				 : /*TRUTHY->*/ !! (subKey && urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)));
+	  const isDownloadValid = subKey && (
+				 dlType === "file"
+							? (selectedFiles.length > 0 && selectedFiles.every(isValidFile))
+							: (urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)))
+	  ) && validTags;
 	  
 	  
 	  const upload = (files: File[]) => {
@@ -128,7 +128,7 @@ function AdminFormContainer({
 	  const handleReset = () => {
 			 setSubKey("");
 			 setAstKey("");
-			 setTagsInput("");
+			 setAssetTags("");
 			 setContentTitle("");
 			 setContent("");
 			 setSelectedFiles([]);
@@ -140,7 +140,7 @@ function AdminFormContainer({
 			 switch (mode) {
 					case "content":
 						  if (/*NOT->*/ ! isContentValid) return;
-						  onContentSubmitted({ sub: subKey, ast: astKey, tags, title: contentTitle.trim(), content });
+						  onContentSubmitted({ sub: subKey, ast: astKey, tags, title: contentTitle.trim(), src: content });
 						  break;
 					case "download":
 						  if (/*NOT->*/ ! isDownloadValid) return;
@@ -213,6 +213,14 @@ function AdminFormContainer({
 											)) }
 									 </Stack>
 							  </Box>
+							  <Box>
+									 <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Tags *" }</Typography>
+									 <TextField
+												value={ assetTags }
+												onChange={ (event) => setAssetTags(event.target.value) }
+												required fullWidth
+									 />
+							  </Box>
 							  
 							  {/* Mode-Specific Forms */ }
 							  { mode === "content" && (
@@ -221,12 +229,6 @@ function AdminFormContainer({
 												<TextField
 														  value={ contentTitle }
 														  onChange={ (event) => setContentTitle(event.target.value) }
-														  required fullWidth
-												/>
-												<Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Tags *" }</Typography>
-												<TextField
-														  value={ tagsInput }
-														  onChange={ (event) => setTagsInput(event.target.value) }
 														  required fullWidth
 												/>
 												<Stack spacing={ 1 }>

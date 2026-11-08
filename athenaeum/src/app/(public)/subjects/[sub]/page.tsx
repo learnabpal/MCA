@@ -135,7 +135,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 								 <Box sx={ { height: 2, width: "100%", backgroundColor: ColourScheme.keyword.color, borderRadius: 1 } }/>
 								 {/* <ReactMarkdown>{ selectedContent.content }</ReactMarkdown> */ }
 								 <ReactMarkdown
-											children={ selectedContent.content }
+											children={ selectedContent.src }
 											remarkPlugins={ [ [ remarkMath, { backslashDelimiters: true } ] ] }
 											rehypePlugins={ [ rehypeKatex ] }
 											components={ {
