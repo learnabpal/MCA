@@ -61,7 +61,6 @@ export const UI_TEXTS = {
 	  courses: "Select a course to view its available semester-wise subjects.",
 	  subject: "Browse the available content and subject resources."
 };
-export const HISTORY_KEY = "athenaeum-local-history";
 export const MAX_FILE_MB = 25;
 export const MAX_FILE_BYTES = MAX_FILE_MB * 1024 * 1024;
 export const DATE_FORMAT = DateTimeFormatter.ofPattern("d MMM yyyy, HH:mm").withLocale(Locale.ENGLISH);

@@ -1,18 +1,15 @@
 import type { AthContent, AthRtdbMap } from "@/app/AthenaeumMaster";
 
+
+
+
 export const ATHENAEUM_DEMO_DATA: AthRtdbMap = {
 	  subject: {
 			 pc: { contents: { "pc-001": "Programming Fundamentals", "pc-002": "Control Structures", "pc-003": "Functions" }, downloads: {} },
 			 dsa: { contents: { "dsa-001": "Introduction to Data Structures", "dsa-002": "Arrays and Linked Lists" }, downloads: {} },
 			 coa: { contents: { "coa-001": "Number Systems", "coa-002": "Boolean Algebra" }, downloads: {} },
 			 bmc: { contents: { "bmc-001": "Sets and Relations", "bmc-002": "Matrices" }, downloads: {} },
-			 ecom: { contents: { "ecom-001": "Introduction to E-Commerce", "ecom-002": "Digital Business Models" }, downloads: {} },
-			 rdbms: { contents: {}, downloads: {} },
-			 os: { contents: {}, downloads: {} },
-			 oopj: { contents: {}, downloads: {} },
-			 prst: { contents: {}, downloads: {} },
-			 sweng: { contents: {}, downloads: {} },
-			 webt: { contents: {}, downloads: {} }
+			 ecom: { contents: { "ecom-001": "Introduction to E-Commerce", "ecom-002": "Digital Business Models" }, downloads: {} }
 	  }
 };
 
@@ -121,15 +118,46 @@ A **relation** describes associations between elements of one or more sets.
 Relations can be examined through properties such as reflexivity, symmetry and transitivity.`
 	  },
 	  "bmc-002": {
-			 sub: "bmc", title: "Matrices", tags: [ "Mathematical Foundations" ], content: `A **matrix** is a rectangular arrangement of elements in rows and columns.
+			 sub: "bmc", title: "Matrices", tags: [ "Mathematical Foundations" ], content: String.raw`A **matrix** is a rectangular arrangement of elements in rows and columns. Each element is represented by \(a_{ij}\), where \(i\) denotes the row and \(j\) denotes the column.
 
-The order of a matrix is expressed as *m × n*, where *m* is the number of rows and *n* is the number of columns.
+The order of a matrix is expressed as \(m \times n\), where \(m\) is the number of rows and \(n\) is the number of columns.
+
+A general matrix can be represented as:
+
+\[
+A = \begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{bmatrix}
+\]
 
 ### Common Operations
 
-- Matrix addition and subtraction require matrices of the same order.
-- Scalar multiplication multiplies every element by a scalar.
-- Matrix multiplication requires the number of columns in the first matrix to equal the number of rows in the second matrix.`
+- **Matrix Addition and Subtraction** — Require matrices of the same order.
+
+\[
+A \pm B = [a_{ij} \pm b_{ij}]
+\]
+
+- **Scalar Multiplication** — Multiplies every element by a scalar.
+
+\[
+kA = [ka_{ij}]
+\]
+
+- **Matrix Multiplication** — Requires the number of columns in the first matrix to equal the number of rows in the second matrix.
+
+\[
+A_{m \times n} \times B_{n \times p} = C_{m \times p}
+\]
+
+Each element of the resulting matrix is calculated as:
+
+\[
+c_{ij} = \sum_{k=1}^{n} a_{ik}b_{kj}
+\]`
 	  },
 	  "ecom-001": {
 			 sub: "ecom", title: "Introduction to E-Commerce", tags: [ "Digital Business" ], content: `**Electronic commerce** involves commercial transactions conducted through electronic networks.

@@ -1,18 +1,18 @@
 "use client";
 
 import { Heading } from "@/app/(public)/layout";
+import { APP_NAME, ArrowBackRoundedIcon, type AthContent, type AthDownload, type AthRtdbMap, BGC_HEX_O, DownloadIcon, FileIcon, FullscreenIcon, MenuBookOutlinedIcon, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { SUB_MAP, SubKey } from "@/app/BgcMaster";
-import React, { use, useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
 import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
-import { NAV_ITEMS, type AthContent, type AthDownload, type AthRtdbMap, MenuBookOutlinedIcon, DownloadIcon, ArrowBackRoundedIcon, ArrowForwardRoundedIcon, FullscreenIcon, FileIcon, BGC_HEX_O, UI_TEXTS } from "@/app/AthenaeumMaster";
-import { Alert, Box, Button, Card, CardActionArea, CardContent, Chip, Divider, Grid, IconButton, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardActionArea, CardContent, Chip, Grid, Stack, Typography } from "@mui/material";
+import "katex/dist/katex.min.css";
 import Link from "next/link";
+import React, { use } from "react";
+import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { gruvboxDark as ColourScheme } from "react-syntax-highlighter/dist/esm/styles/prism";
 import rehypeKatex from "rehype-katex";
-import remarkMath from "remark-math";
-import "katex/dist/katex.min.css";
+import remarkMath from "remark-math-extended";
 
 
 
@@ -26,14 +26,14 @@ const mdHighlighter = (Tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "strong") 
 export default function SubjectPage({ params }: { params: Promise<{ sub: string }> }) {
 	  const { sub } = use(params);
 	  const subject = sub as SubKey;
-	  const subjectName = SUB_MAP[subject];
-	  const [ contents, setContents ] = useState<Record<string, string>>({});
-	  const [ downloads, setDownloads ] = useState<Record<string, AthDownload>>({});
-	  const [ selectedTag, setSelectedTag ] = useState<string | null>(null);
-	  const [ selectedContent, setSelectedContent ] = useState<AthContent | null>(null);
-	  const [ loading, setLoading ] = useState(true);
+	  const subjectName = React.useMemo(() => SUB_MAP[subject], []);
+	  const [ contents, setContents ] = React.useState<Record<string, string>>({});
+	  const [ downloads, setDownloads ] = React.useState<Record<string, AthDownload>>({});
+	  const [ selectedTag, setSelectedTag ] = React.useState<string | null>(null);
+	  const [ selectedContent, setSelectedContent ] = React.useState<AthContent | null>(null);
+	  const [ loading, setLoading ] = React.useState(true);
 	  
-	  useEffect(() => {
+	  React.useEffect(() => {
 			 setLoading(true);
 			 setSelectedTag(null);
 			 setSelectedContent(null);
@@ -43,10 +43,13 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 					setLoading(false);
 					return;
 			 }
-			 const cacheKey = `athenaeum-index-${ subject }`;
-			 const cachedIndex = localStorage.getItem(cacheKey);
-			 const index: NonNullable<AthRtdbMap["subject"][SubKey]> = cachedIndex ? JSON.parse(cachedIndex) : ATHENAEUM_DEMO_DATA.subject[subject] || { contents: {}, downloads: {} };
-			 if (  /*NOT->*/ ! cachedIndex) localStorage.setItem(cacheKey, JSON.stringify(index));
+			 const cacheKey = `${ APP_NAME }-map-${ subject }`;
+			 const cached = localStorage.getItem(cacheKey);
+			 const index: NonNullable<AthRtdbMap["subject"][SubKey]> =
+						cached ?
+								  JSON.parse(cached) :
+								  (ATHENAEUM_DEMO_DATA.subject[subject] || { contents: {}, downloads: {} }) as AthRtdbMap["subject"][SubKey];
+			 if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(index));
 			 setContents(index.contents || {});
 			 setDownloads(index.downloads || {});
 			 setLoading(false);
@@ -110,10 +113,10 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 											<Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
 												  <Card variant={ "outlined" } sx={ { height: "100%", borderColor: selectedContent?.title === content.title ? "primary.main" : "divider" } }>
 														 <CardActionArea onClick={ () => {
-																const cacheKey = `athenaeum-content-${ subject }-${ id }`;
+																const cacheKey = `${ APP_NAME }-content-${ subject }-${ id }`;
 																const cached = localStorage.getItem(cacheKey);
 																const selected = cached ? JSON.parse(cached) as AthContent : content;
-																if ( ! cached) localStorage.setItem(cacheKey, JSON.stringify(selected));
+																if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(selected));
 																setSelectedContent(selected);
 														 } } sx={ { height: "100%" } }>
 																<CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
@@ -134,7 +137,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 								 {/* <ReactMarkdown>{ selectedContent.content }</ReactMarkdown> */ }
 								 <ReactMarkdown
 											children={ selectedContent.content }
-											remarkPlugins={ [ remarkMath ] }
+											remarkPlugins={ [ [ remarkMath, { backslashDelimiters: true } ] ] }
 											rehypePlugins={ [ rehypeKatex ] }
 											components={ {
 												  h1: mdHighlighter("h1"),
