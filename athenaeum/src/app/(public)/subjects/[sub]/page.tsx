@@ -26,7 +26,7 @@ const mdHighlighter = (Tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "strong") 
 export default function SubjectPage({ params }: { params: Promise<{ sub: string }> }) {
 	  const { sub } = use(params);
 	  const subject = sub as SubKey;
-	  const subjectName = React.useMemo(() => SUB_MAP[subject], []);
+	  const subjectName = SUB_MAP[subject];
 	  const [ contents, setContents ] = React.useState<Record<string, string>>({});
 	  const [ downloads, setDownloads ] = React.useState<Record<string, AthDownload>>({});
 	  const [ selectedTag, setSelectedTag ] = React.useState<string | null>(null);
@@ -43,7 +43,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 					setLoading(false);
 					return;
 			 }
-			 const cacheKey = `${ APP_NAME }-map-${ subject }`;
+			 const cacheKey = `${ APP_NAME }-subject-map-${ subject }`;
 			 const cached = localStorage.getItem(cacheKey);
 			 const index: NonNullable<AthRtdbMap["subject"][SubKey]> = cached ?
 						JSON.parse(cached) :
@@ -112,7 +112,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 											<Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
 												  <Card variant={ "outlined" } sx={ { height: "100%", borderColor: selectedContent?.title === content.title ? "primary.main" : "divider" } }>
 														 <CardActionArea onClick={ () => {
-																const cacheKey = `${ APP_NAME }-content-${ subject }-${ id }`;
+																const cacheKey = `${ APP_NAME }-content-map-${ subject }-${ id }`;
 																const cached = localStorage.getItem(cacheKey);
 																const selected = cached ? JSON.parse(cached) as AthContent : content;
 																if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(selected));
