@@ -54,6 +54,36 @@ const HINT = "Generate structured educational Markdown content. Follow these rul
 		  "Return ONLY the generated Markdown content. Do not include introductory commentary, explanations or closing remarks.";
 
 
+/* Helper for URL validation */
+const validateUrl = (rawUrl: string) => {
+	  try {
+			 const parsed = new URL(rawUrl.trim());
+			 return (parsed.protocol === "https:" || parsed.protocol === "http:") && /*TRUTHY->*/ !! parsed.hostname;
+	  } catch {
+			 return false;
+	  }
+};
+
+const isValidFile = (file: File) => {
+	  const name = file.name.toLowerCase();
+	  return EXTS.some((ext) => name.endsWith(ext));
+};
+
+const handleFilesValidate = (files: FileList | File[], onValidated: (files: File[]) => void) => {
+	  if ( /*TRUTHY->*/ !! files) {
+			 files = Array.from(files);
+			 const validFiles = files.filter(file => file.size <= MAX_FILE_BYTES).filter(isValidFile);
+			 const rejectedFiles = files.filter(file =>  /*NOT->*/ ! validFiles.includes(file));
+			 if (rejectedFiles.length) {
+					alert(`Maximum file size is ${ MAX_FILE_MB } MB. Rejected: ${ rejectedFiles.map(file => file.name).join(", ") }`);
+			 }
+			 if (validFiles.length > 0) {
+					onValidated(validFiles);
+			 }
+	  }
+};
+
+
 function AdminFormContainer({
 											meta,
 											onContentSubmitted, onDownloadSubmitted
@@ -75,7 +105,7 @@ function AdminFormContainer({
 	  const [ content, setContent ] = React.useState("");
 	  
 	  /* Download Form State */
-	  const [ downloadType, setDownloadType ] = React.useState<DownloadType>("file");
+	  const [ dlType, setDlType ] = React.useState<DownloadType>("file");
 	  const [ selectedFiles, setSelectedFiles ] = React.useState<File[]>([]);
 	  const [ urlPairs, setUrlPairs ] = React.useState<Array<{ title: string; url: string }>>([ { title: "", url: "" } ]);
 	  
@@ -84,56 +114,15 @@ function AdminFormContainer({
 	  const validTags = tagsInput.trim().length > 0 && tags.every(Boolean) && new Set(tags).size === tags.length;
 	  const isContentValid =   /*TRUTHY->*/ !! (subKey && matKey && contentTitle.trim() && content.trim() && validTags);
 	  
-	  /* Helper for URL validation */
-	  const validateUrl = (rawUrl: string) => {
-			 try {
-					const parsed = new URL(rawUrl.trim());
-					return (parsed.protocol === "https:" || parsed.protocol === "http:") && /*TRUTHY->*/ !! parsed.hostname;
-			 } catch {
-					return false;
-			 }
-	  };
 	  
-	  const isValidFile = (file: File) => {
-			 const name = file.name.toLowerCase();
-			 return EXTS.some((ext) => name.endsWith(ext));
-	  };
-	  
-	  const isDownloadValid = downloadType === "file"
+	  const isDownloadValid = dlType === "file"
 				 ? /*TRUTHY->*/ !! (subKey && selectedFiles.length > 0 && selectedFiles.every(isValidFile))
 				 : /*TRUTHY->*/ !! (subKey && urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)));
 	  
 	  
-	  const upload = (files: FileList) => {
-			 const filesArray = Array.from(files).filter(isValidFile);
-			 setSelectedFiles((prev) => Array.from(new Set([ ...prev, ...filesArray ])));
+	  const upload = (files: File[]) => {
+			 setSelectedFiles((prev) => Array.from(new Set([ ...prev, ...files ])));
 			 /* TODO: Upload files in background to storage and update URLs accordingly */
-	  };
-	  const handleFilesValidate = (files: File[]) => {
-			 const validFiles = files.filter(file => file.size <= MAX_FILE_BYTES);
-			 const rejectedFiles = files.filter(file => file.size > MAX_FILE_BYTES);
-			 if (rejectedFiles.length) {
-					alert(`Maximum file size is ${ MAX_FILE_MB } MB. Rejected: ${ rejectedFiles.map(file => file.name).join(", ") }`);
-			 }
-			 return validFiles;
-	  };
-	  const handleFilesDrop = (event: React.DragEvent<HTMLDivElement>) => {
-			 event.preventDefault();
-			 if (/*TRUTHY->*/ !! event.dataTransfer.files) {
-					const files = handleFilesValidate(Array.from(event.dataTransfer.files) || []);
-					if (files.length > 0) {
-						  upload(event.dataTransfer.files);
-					}
-			 }
-	  };
-	  
-	  const handleFilesSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-			 if (/*TRUTHY->*/ !! event.target.files) {
-					const files = handleFilesValidate(Array.from(event.target.files) || []);
-					if (files.length > 0) {
-						  upload(event.target.files);
-					}
-			 }
 	  };
 	  
 	  const handleReset = () => {
@@ -156,15 +145,13 @@ function AdminFormContainer({
 					if (/*NOT->*/ ! isDownloadValid) return;
 					// Submitting download entries accordingly
 					const downloads: AthDownload[] = [];
-					if (downloadType === "file") {
-						  selectedFiles.forEach((file) => {
-								 downloads.push({ sub: subKey, ast: matKey, title: file.name, url: URL.createObjectURL(file) });
-						  });
-					}
-					if (downloadType === "url") {
-						  urlPairs.forEach((pair) => {
-								 downloads.push({ sub: subKey, ast: matKey, title: pair.title.trim(), url: pair.url.trim() });
-						  });
+					switch (dlType) {
+						  case "file":
+								 selectedFiles.forEach((file) => downloads.push({ sub: subKey, ast: matKey, title: file.name, url: URL.createObjectURL(file) }));
+								 break;
+						  case "url":
+								 urlPairs.forEach((pair) => downloads.push({ sub: subKey, ast: matKey, title: pair.title.trim(), url: pair.url.trim() }));
+								 break;
 					}
 					downloads.length > 0 && onDownloadSubmitted(downloads);
 			 }
@@ -256,12 +243,9 @@ function AdminFormContainer({
 										 <Stack spacing={ 2.5 }>
 												<Box sx={ { display: "flex", justifyContent: "center", mb: 1 } }>
 													  <ToggleButtonGroup
-																 value={ downloadType }
+																 value={ dlType }
 																 exclusive
-																 onChange={ (_, newType: DownloadType | null) => {
-																		/*TRUTHY->*/
-																		!! newType && setDownloadType(newType);
-																 } }
+																 onChange={ (_, newType: DownloadType | null) => (/*TRUTHY->*/ !! newType) && setDlType(newType) }
 																 size={ "small" }
 																 color={ "primary" }
 													  >
@@ -273,11 +257,14 @@ function AdminFormContainer({
 													  </ToggleButtonGroup>
 												</Box>
 												
-												{ downloadType === "file" && (
+												{ dlType === "file" && (
 														  <Stack spacing={ 2 }>
 																 <Box
 																			onDragOver={ (event) => event.preventDefault() }
-																			onDrop={ handleFilesDrop }
+																			onDrop={ event => {
+																				  event.preventDefault();
+																				  handleFilesValidate(event.dataTransfer.files, upload);
+																			} }
 																			sx={ {
 																				  border: "2px dashed",
 																				  borderColor: "divider",
@@ -296,7 +283,7 @@ function AdminFormContainer({
 																				  multiple
 																				  accept={ EXTS.join(",") }
 																				  style={ { display: "none" } }
-																				  onChange={ handleFilesSelect }
+																				  onChange={ event => handleFilesValidate(event.target.files, upload) }
 																		/>
 																		<Typography variant={ "body1" } color={ "text.secondary" }>
 																			  { "Drag & drop files here, or click to select (Images, PDF, Office, MD)" }
@@ -318,7 +305,7 @@ function AdminFormContainer({
 														  </Stack>
 												) }
 												
-												{ downloadType === "url" && (
+												{ dlType === "url" && (
 														  <Stack spacing={ 3 }>
 																 { urlPairs.map((pair, index) => (
 																			<Stack key={ index } direction={ "row" } spacing={ 1.5 }>
