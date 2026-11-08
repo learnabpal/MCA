@@ -45,10 +45,9 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 			 }
 			 const cacheKey = `${ APP_NAME }-map-${ subject }`;
 			 const cached = localStorage.getItem(cacheKey);
-			 const index: NonNullable<AthRtdbMap["subject"][SubKey]> =
-						cached ?
-								  JSON.parse(cached) :
-								  (ATHENAEUM_DEMO_DATA.subject[subject] || { contents: {}, downloads: {} }) as AthRtdbMap["subject"][SubKey];
+			 const index: NonNullable<AthRtdbMap["subject"][SubKey]> = cached ?
+						JSON.parse(cached) :
+						(ATHENAEUM_DEMO_DATA.subject[subject] || { contents: {}, downloads: {} });
 			 if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(index));
 			 setContents(index.contents || {});
 			 setDownloads(index.downloads || {});
