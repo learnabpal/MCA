@@ -148,10 +148,10 @@ function AdminFormContainer({
 						  const downloads: AthDownload[] = [];
 						  switch (dlType) {
 								 case "file":
-										selectedFiles.forEach((file) => downloads.push({ sub: subKey, ast: astKey, title: file.name, url: URL.createObjectURL(file) }));
+										selectedFiles.forEach((file) => downloads.push({ sub: subKey, ast: astKey, title: file.name, tags: assetTags, src: URL.createObjectURL(file) }));
 										break;
 								 case "url":
-										urlPairs.forEach((pair) => downloads.push({ sub: subKey, ast: astKey, title: pair.title.trim(), url: pair.url.trim() }));
+										urlPairs.forEach(({ title, url }) => downloads.push({ sub: subKey, ast: astKey, title: title.trim(), tags: assetTags, src: url.trim() }));
 										break;
 						  }
 						  downloads.length > 0 && onDownloadSubmitted(downloads);
