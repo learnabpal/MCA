@@ -15,6 +15,7 @@ import "@uiw/react-markdown-preview/markdown.css";
 import MDEditor from "@uiw/react-md-editor";
 import "@uiw/react-md-editor/markdown-editor.css";
 import React from "react";
+import ContentCopyOutlined from "@mui/icons-material/ContentCopyOutlined";
 
 
 
@@ -219,6 +220,15 @@ function AdminFormContainer({
 												/>
 												<Stack spacing={ 1 }>
 													  <Typography variant={ "body2" } color={ "text.secondary" }>{ "Content *" }</Typography>
+													  <Stack flexDirection={ "row" } alignItems={ "center" } sx={ { border: "1px solid", borderRadius: 2, opacity: 0.5 } } p={ 1 }>
+															 <Stack spacing={ 1 }>
+																	<Typography variant={ "body2" }>{ "Copy the following prompt to generate structured educational Markdown content." }</Typography>
+																	<Typography fontSize={ 10 }>{ HINT.substring(0, 360) + "..." }</Typography>
+															 </Stack>
+															 <IconButton onClick={ () => window.navigator.clipboard.writeText(HINT) }>
+																	<ContentCopyOutlined/>
+															 </IconButton>
+													  </Stack>
 													  <MDEditor
 																 value={ content || HINT }
 																 onChange={ (val) => setContent(val ?? "") }
