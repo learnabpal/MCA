@@ -1,11 +1,11 @@
 "use client";
 
 import { Branding } from "@/app/(public)/layout";
-import type { AssetKey, AthBuilderMeta, AthContent, AthDownload, DownloadType, AssetMode } from "@/app/AthenaeumMaster";
-import { APP_NAME, ASSET_MAP, DL_TYPES, ASSET_MODES, EXTS, MAX_FILE_BYTES, MAX_FILE_MB } from "@/app/AthenaeumMaster";
+import type { AssetKey, AthBuilderMeta, AthAsset, AthAsset, DownloadType, AssetType } from "@/app/AthenaeumMaster";
+import { APP_NAME, ASSET_MAP, DL_TYPES, ASSET_TYPES, EXTS, MAX_FILE_BYTES, MAX_FILE_MB } from "@/app/AthenaeumMaster";
 import { CrsKey, getCourseSubs, SubKey } from "@/app/BgcMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
-import { bridgeOnboardingBuilderMetaGET, bridgeUploadFiles } from "@/firebase/Bridge";
+import { bridgeOnboardingBuilderMetaGET, bridgePushAsset, bridgeUploadFiles } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid } from "@/firebase/FirebaseApp";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -87,7 +87,7 @@ const handleFilesValidate = (files: FileList | File[], onValidated: (files: File
 
 function BuilderForms({ meta }: { meta: AthBuilderMeta, }) {
 	  const { crs } = meta;
-	  const [ mode, setMode ] = React.useState<AssetMode>("content");
+	  const [ assetType, setAssetType ] = React.useState<AssetType>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey>("");
 	  const [ astKey, setAstKey ] = React.useState<AssetKey>("");
 	  
@@ -124,12 +124,14 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta, }) {
 			 setContent("");
 			 setSelectedFiles([]);
 			 setUrlPairs([ { title: "", url: "" } ]);
+			 close();
 	  };
 	  
 	  const noKey = (/*NOT->*/ ! subKey || /*NOT->*/ ! astKey);
+	  const invalidUploadables = selectedFiles.length < 1 || noKey ||  /*NOT->*/ ! selectedFiles.every(isValidFile);
 	  
 	  const handleUpload = () => {
-			 if (selectedFiles.length < 1 || noKey ||  /*NOT->*/ ! selectedFiles.every(isValidFile)) return;
+			 if (invalidUploadables) return;
 			 open();
 			 setUi("Uploading files...", false);
 			 bridgeUploadFiles(selectedFiles).then(
@@ -143,34 +145,34 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta, }) {
 									 setUi("File upload failed");
 							  }
 						},
-						reason => {
-							  setUi(reason?.message || "File upload failed");
+						error => {
+							  setUi(error?.message || "File upload failed");
 						}
 			 );
 	  };
 	  
 	  const handleSubmit = () => {
 			 if (noKey) return;
-			 switch (mode) {
+			 switch (assetType) {
 					case "content":
 						  if (/*NOT->*/ ! isContentValid) return;
 						  open();
-						  setUi("Submitting content...", false);
-						  onContentSubmitted({ sub: subKey, ast: astKey, title: contentTitle.trim(), src: content });
+						  setUi("Submitting...", false);
+						  bridgePushAsset(assetType, [ { sub: subKey, ast: astKey, title: contentTitle.trim(), src: content } ]).then(
+									 value => handleReset(),
+									 error => setUi(error?.message || "Submission failed")
+						  );
 						  break;
 					case "download":
 						  if (/*NOT->*/ ! isDownloadValid) return;
-						  // Submitting download entries accordingly
-						  const downloads: AthDownload[] = [];
-						  switch (dlType) {
-								 case "file":
-										selectedFiles.forEach((file) => downloads.push({ sub: subKey, ast: astKey, title: file.name, src: URL.createObjectURL(file) }));
-										break;
-								 case "url":
-										urlPairs.forEach(({ title, url }) => downloads.push({ sub: subKey, ast: astKey, title: title.trim(), src: url.trim() }));
-										break;
-						  }
-						  downloads.length > 0 && onDownloadSubmitted(downloads);
+						  const assets: AthAsset[] = [];
+						  urlPairs.forEach(({ title, url }) => assets.push({ sub: subKey, ast: astKey, title: title.trim(), src: url.trim() }));
+						  open();
+						  setUi("Submitting...", false);
+						  bridgePushAsset(assetType, assets).then(
+									 value => handleReset(),
+									 error => setUi(error?.message || "Submission failed")
+						  );
 						  break;
 			 }
 	  };
@@ -183,12 +185,12 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta, }) {
 							  {/* Mode Selector */ }
 							  <Box sx={ { display: "flex", justifyContent: "center" } }>
 									 <ToggleButtonGroup
-												value={ mode }
+												value={ assetType }
 												exclusive
-												onChange={ (_, newMode: AssetMode | null) => ( /*TRUTHY->*/ !! newMode) && setMode(newMode) }
+												onChange={ (_, newMode: AssetType | null) => ( /*TRUTHY->*/ !! newMode) && setAssetType(newMode) }
 												color={ "primary" }
 									 >
-											{ ASSET_MODES.map((m) => (
+											{ ASSET_TYPES.map((m) => (
 													  <ToggleButton key={ m } value={ m } sx={ { px: 4, textTransform: "capitalize" } }>{ m }</ToggleButton>
 											)) }
 									 </ToggleButtonGroup>
@@ -227,7 +229,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta, }) {
 							  </Box>
 							  
 							  {/* Mode-Specific Forms */ }
-							  { mode === "content" && (
+							  { assetType === "content" && (
 										 <Stack spacing={ 2.5 }>
 												<Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Title *" }</Typography>
 												<TextField
@@ -256,7 +258,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta, }) {
 										 </Stack>
 							  ) }
 							  
-							  { mode === "download" && (
+							  { assetType === "download" && (
 										 <Stack spacing={ 2.5 }>
 												<Box sx={ { display: "flex", justifyContent: "center", mb: 1 } }>
 													  <ToggleButtonGroup
@@ -317,7 +319,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta, }) {
 																								</IconButton>
 																						 </Paper>
 																			  )) }
-																			  <Button onClick={ handleUpload } disabled={ noKey }>{ "Upload Files" }</Button>
+																			  <Button onClick={ handleUpload } disabled={ invalidUploadables }>{ "Upload Files" }</Button>
 																		</Stack>
 																 </> }
 														  </Stack>
@@ -375,7 +377,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta, }) {
 									 <Button variant={ "outlined" } fullWidth onClick={ handleReset }>{ "Cancel" }</Button>
 									 <Button
 												variant={ "contained" }
-												disabled={ (mode === "content" && /*NOT->*/ ! isContentValid) || (mode === "download" && /*NOT->*/ ! isDownloadValid) }
+												disabled={ (assetType === "content" && /*NOT->*/ ! isContentValid) || (assetType === "download" && /*NOT->*/ ! isDownloadValid) }
 												fullWidth
 												onClick={ handleSubmit }
 									 >

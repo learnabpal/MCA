@@ -1,7 +1,7 @@
 "use client";
 
 import { Heading } from "@/app/(public)/layout";
-import { APP_NAME, ArrowBackRoundedIcon, type AthContent, type AthDownload, type AthRtdbMap, BGC_HEX_O, DownloadIcon, FileIcon, FullscreenIcon, MenuBookOutlinedIcon, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { APP_NAME, ArrowBackRoundedIcon, type AthAsset, type AthAsset, type AthRtdbMap, BGC_HEX_O, DownloadIcon, FileIcon, FullscreenIcon, MenuBookOutlinedIcon, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { SUB_MAP, SubKey } from "@/app/BgcMaster";
 import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
 import { Alert, Box, Button, Card, CardActionArea, CardContent, Chip, Grid, Stack, Typography } from "@mui/material";
@@ -28,9 +28,9 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 	  const subject = sub as SubKey;
 	  const subjectName = SUB_MAP[subject];
 	  const [ contents, setContents ] = React.useState<Record<string, string>>({});
-	  const [ downloads, setDownloads ] = React.useState<Record<string, AthDownload>>({});
+	  const [ downloads, setDownloads ] = React.useState<Record<string, AthAsset>>({});
 	  const [ selectedTag, setSelectedTag ] = React.useState<string | null>(null);
-	  const [ selectedContent, setSelectedContent ] = React.useState<AthContent | null>(null);
+	  const [ selectedContent, setSelectedContent ] = React.useState<AthAsset | null>(null);
 	  const [ loading, setLoading ] = React.useState(true);
 	  
 	  React.useEffect(() => {
@@ -114,7 +114,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 														 <CardActionArea onClick={ () => {
 																const cacheKey = `${ APP_NAME }-content-map-${ subject }-${ id }`;
 																const cached = localStorage.getItem(cacheKey);
-																const selected = cached ? JSON.parse(cached) as AthContent : content;
+																const selected = cached ? JSON.parse(cached) as AthAsset : content;
 																if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(selected));
 																setSelectedContent(selected);
 														 } } sx={ { height: "100%" } }>

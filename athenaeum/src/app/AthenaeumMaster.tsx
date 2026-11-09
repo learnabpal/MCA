@@ -31,12 +31,11 @@ export type AssetKey = keyof typeof ASSET_MAP;
 
 type AthKeys = { sub: SubKey, ast: AssetKey };
 
-export type AthContent = AthKeys & { title: string, src: string };
-export type AthDownload = AthContent;
+export type AthAsset = AthKeys & { title: string, src: string };
 export type AthRtdbMap = {
 	  subject: Partial<Record<SubKey, {
 			 contents?: { [fs_key: string]: string }
-			 downloads?: { [rtdb_key: string]: AthDownload }
+			 downloads?: { [rtdb_key: string]: AthAsset }
 	  }>>
 };
 
@@ -77,8 +76,8 @@ export const NAV_ITEMS = {
 } as const;
 
 
-export const ASSET_MODES = [ "content", "download" ] as const;
-export type AssetMode = typeof ASSET_MODES[number];
+export const ASSET_TYPES = [ "content", "download" ] as const;
+export type AssetType = typeof ASSET_TYPES[number];
 export const DL_TYPES = [ "file", "url" ] as const;
 export type DownloadType = typeof DL_TYPES[number];
 export const EXTS = [

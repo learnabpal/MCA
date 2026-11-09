@@ -1,4 +1,4 @@
-import type { AthContent, AthRtdbMap } from "@/app/AthenaeumMaster";
+import type { AthAsset, AthRtdbMap } from "@/app/AthenaeumMaster";
 
 
 
@@ -13,7 +13,7 @@ export const ATHENAEUM_DEMO_DATA: AthRtdbMap = {
 	  }
 };
 
-export const ATHENAEUM_DEMO_CONTENT: Record<string, AthContent> = {
+export const ATHENAEUM_DEMO_CONTENT: Record<string, AthAsset> = {
 	  "pc-001": {
 			 sub: "pc", title: "Programming Fundamentals", tags: [ "Programming Concepts" ], src: `Programming is the process of expressing instructions that a computer can execute.
 

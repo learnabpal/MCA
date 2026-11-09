@@ -1,4 +1,4 @@
-import { AssetMode, joiner } from "@/app/AthenaeumMaster";
+import { AssetType, joiner } from "@/app/AthenaeumMaster";
 import { errorOccurred, successResponse } from "@/firebase/Bridge";
 import { invokeServerApp } from "@/firebase/FirebaseApp";
 import { getDownloadURL, uploadBytes } from "@firebase/storage";
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 			 const { uid, createStorageRef } = await invokeServerApp(request);
 			 if ( /*NOT->*/ ! uid) return errorOccurred("UnauthorisedBuilder", []);
 			 const results = (await Promise.all(files.map(async file => {
-					const snapshot = await uploadBytes(createStorageRef((joiner("download" as AssetMode, file.name))), file);
+					const snapshot = await uploadBytes(createStorageRef((joiner("download" as AssetType, file.name))), file);
 					const url = await getDownloadURL(snapshot.ref);
 					return { title: file.name, url };
 			 }))).filter(Boolean).filter(r => r.url && r.title);

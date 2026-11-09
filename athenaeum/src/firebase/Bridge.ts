@@ -1,4 +1,4 @@
-import { AthBuilderMeta, BgcId } from "@/app/AthenaeumMaster";
+import { AssetType, AthBuilderMeta, AthAsset, BgcId } from "@/app/AthenaeumMaster";
 import { api } from "@/firebase/FirebaseApp";
 import { AxiosResponse } from "axios";
 import { NextResponse } from "next/server";
@@ -37,6 +37,10 @@ export const bridgeUploadFiles = (files: File[]): Promise<AxiosResponse<{ result
 	  return api.post(uploadFiles, formData);
 };
 
-const pushEntry = "push-entry";
+const pushAsset = "push-asset";
+
+export const bridgePushAsset = (aType: AssetType, asset: AthAsset[]): Promise<AxiosResponse<ApiStatus>> => {
+
+};
 
 
