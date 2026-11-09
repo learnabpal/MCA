@@ -157,7 +157,11 @@ function AdminFormContainer({
 	  
 	  const handleUpload = () => {
 			 if (selectedFiles.length < 1) return;
-			 bridgeUploadFiles(selectedFiles);
+			 bridgeUploadFiles(selectedFiles).then(
+						value => {
+							  const {} = value.data;
+						}
+			 );
 	  };
 	  
 	  return (

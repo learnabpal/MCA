@@ -13,14 +13,14 @@ export async function POST(request: NextRequest) {
 			 
 			 const files = formData.getAll("files") as File[];
 			 const { uid, createStorageRef } = await invokeServerApp(request);
-			 if ( /*NOT->*/ ! uid) return errorOccurred("Unauthorised", []);
-			 const results = await Promise.all(files.map(async file => {
+			 if ( /*NOT->*/ ! uid) return errorOccurred("UnauthorisedBuilder", []);
+			 const results = (await Promise.all(files.map(async file => {
 					const snapshot = await uploadBytes(createStorageRef((joiner("download" as EntryMode, file.name))), file);
 					const url = await getDownloadURL(snapshot.ref);
 					return { title: file.name, url };
-			 }));
-			 return successResponse(results);
+			 }))).filter(Boolean).filter(r => r.url && r.title);
+			 return successResponse({ results });
 	  } catch (error) {
-			 return errorOccurred(error, []);
+			 return errorOccurred(error, { results: null });
 	  }
 }
