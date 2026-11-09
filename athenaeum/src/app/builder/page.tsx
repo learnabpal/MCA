@@ -85,7 +85,7 @@ const handleFilesValidate = (files: FileList | File[], onValidated: (files: File
 };
 
 
-function AdminFormContainer({
+function BuilderForms({
 											meta,
 											onContentSubmitted, onDownloadSubmitted
 									 }: {
@@ -111,10 +111,11 @@ function AdminFormContainer({
 	  
 	  const isContentValid = subKey && astKey && contentTitle.trim() && content.trim();
 	  
-	  const isDownloadValid = subKey && (
-				 dlType === "file"
-							? (selectedFiles.length > 0 && selectedFiles.every(isValidFile))
-							: (urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)))
+	  const isDownloadValid = subKey && astKey && (
+				 // dlType === "file"
+				 // 		? (selectedFiles.length > 0 && selectedFiles.every(isValidFile))
+				 // 		:
+				 (urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)))
 	  );
 	  
 	  
@@ -131,8 +132,10 @@ function AdminFormContainer({
 			 setUrlPairs([ { title: "", url: "" } ]);
 	  };
 	  
+	  const noKey = (/*NOT->*/ ! subKey || /*NOT->*/ ! astKey);
+	  
 	  const handleSubmit = () => {
-			 if (/*NOT->*/ ! subKey || /*NOT->*/ ! astKey) return;
+			 if (noKey) return;
 			 switch (mode) {
 					case "content":
 						  if (/*NOT->*/ ! isContentValid) return;
@@ -156,12 +159,13 @@ function AdminFormContainer({
 	  };
 	  
 	  const handleUpload = () => {
-			 if (selectedFiles.length < 1) return;
+			 if (selectedFiles.length < 1 || noKey) return;
 			 bridgeUploadFiles(selectedFiles).then(
 						value => {
 							  const { results, status } = value.data;
 							  if (status === "SUCCESS" && results) {
 									 setUrlPairs(prevState => [ ...prevState, ...results ]);
+									 setSelectedFiles([]);
 							  }
 						}
 			 );
@@ -308,7 +312,7 @@ function AdminFormContainer({
 																								</IconButton>
 																						 </Paper>
 																			  )) }
-																			  <Button onClick={ handleUpload }>{ "Upload Files" }</Button>
+																			  <Button onClick={ handleUpload } disabled={ noKey }>{ "Upload Files" }</Button>
 																		</Stack>
 																 </> }
 														  </Stack>
@@ -413,7 +417,7 @@ export default function BuilderPage() {
 							  </Stack>
 						</Stack>
 						<Paper variant={ "outlined" } sx={ { p: { xs: 2, md: 3 } } }>
-							  <AdminFormContainer
+							  <BuilderForms
 										 meta={ builderMeta }
 										 onContentSubmitted={ (val) => console.log("Content:", val) }
 										 onDownloadSubmitted={ (val) => console.log("Download:", val) }
