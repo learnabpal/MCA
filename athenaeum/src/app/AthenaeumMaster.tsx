@@ -77,8 +77,8 @@ export const NAV_ITEMS = {
 } as const;
 
 
-export const ENTRY_MODES = [ "content", "download" ] as const;
-export type EntryMode = typeof ENTRY_MODES[number];
+export const ASSET_MODES = [ "content", "download" ] as const;
+export type AssetMode = typeof ASSET_MODES[number];
 export const DL_TYPES = [ "file", "url" ] as const;
 export type DownloadType = typeof DL_TYPES[number];
 export const EXTS = [

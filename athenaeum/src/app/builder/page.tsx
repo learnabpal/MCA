@@ -1,8 +1,8 @@
 "use client";
 
 import { Branding } from "@/app/(public)/layout";
-import type { AssetKey, AthBuilderMeta, AthContent, AthDownload, DownloadType, EntryMode } from "@/app/AthenaeumMaster";
-import { APP_NAME, ASSET_MAP, DL_TYPES, ENTRY_MODES, EXTS, MAX_FILE_BYTES, MAX_FILE_MB } from "@/app/AthenaeumMaster";
+import type { AssetKey, AthBuilderMeta, AthContent, AthDownload, DownloadType, AssetMode } from "@/app/AthenaeumMaster";
+import { APP_NAME, ASSET_MAP, DL_TYPES, ASSET_MODES, EXTS, MAX_FILE_BYTES, MAX_FILE_MB } from "@/app/AthenaeumMaster";
 import { CrsKey, getCourseSubs, SubKey } from "@/app/BgcMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
 import { bridgeOnboardingBuilderMetaGET, bridgeUploadFiles } from "@/firebase/Bridge";
@@ -85,16 +85,9 @@ const handleFilesValidate = (files: FileList | File[], onValidated: (files: File
 };
 
 
-function BuilderForms({
-											meta,
-											onContentSubmitted, onDownloadSubmitted
-									 }: {
-											meta: AthBuilderMeta,
-											onContentSubmitted: (value: AthContent) => void; onDownloadSubmitted: (value: AthDownload[]) => void;
-									 }
-) {
+function BuilderForms({ meta }: { meta: AthBuilderMeta, }) {
 	  const { crs } = meta;
-	  const [ mode, setMode ] = React.useState<EntryMode>("content");
+	  const [ mode, setMode ] = React.useState<AssetMode>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey>("");
 	  const [ astKey, setAstKey ] = React.useState<AssetKey>("");
 	  
@@ -116,11 +109,12 @@ function BuilderForms({
 				 // 		? (selectedFiles.length > 0 && selectedFiles.every(isValidFile))
 				 // 		:
 				 (urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)))
+				 && (dlType !== "file" || selectedFiles.length === 0)
 	  );
 	  
 	  
 	  const updateSelectedFiles = (files: File[]) => {
-			 setSelectedFiles((prev) => Array.from(new Set([ ...prev, ...files ])));
+			 setSelectedFiles(prevState => Array.from(new Set([ ...prevState, ...files ])));
 	  };
 	  
 	  const handleReset = () => {
@@ -134,11 +128,34 @@ function BuilderForms({
 	  
 	  const noKey = (/*NOT->*/ ! subKey || /*NOT->*/ ! astKey);
 	  
+	  const handleUpload = () => {
+			 if (selectedFiles.length < 1 || noKey ||  /*NOT->*/ ! selectedFiles.every(isValidFile)) return;
+			 open();
+			 setUi("Uploading files...", false);
+			 bridgeUploadFiles(selectedFiles).then(
+						value => {
+							  const { results, status } = value.data;
+							  if (status === "SUCCESS" && results?.length) {
+									 setUrlPairs(prevState => [ ...prevState, ...results ]);
+									 setSelectedFiles([]);
+									 setUi("Files uploaded successfully");
+							  } else {
+									 setUi("File upload failed");
+							  }
+						},
+						reason => {
+							  setUi(reason?.message || "File upload failed");
+						}
+			 );
+	  };
+	  
 	  const handleSubmit = () => {
 			 if (noKey) return;
 			 switch (mode) {
 					case "content":
 						  if (/*NOT->*/ ! isContentValid) return;
+						  open();
+						  setUi("Submitting content...", false);
 						  onContentSubmitted({ sub: subKey, ast: astKey, title: contentTitle.trim(), src: content });
 						  break;
 					case "download":
@@ -158,18 +175,6 @@ function BuilderForms({
 			 }
 	  };
 	  
-	  const handleUpload = () => {
-			 if (selectedFiles.length < 1 || noKey) return;
-			 bridgeUploadFiles(selectedFiles).then(
-						value => {
-							  const { results, status } = value.data;
-							  if (status === "SUCCESS" && results) {
-									 setUrlPairs(prevState => [ ...prevState, ...results ]);
-									 setSelectedFiles([]);
-							  }
-						}
-			 );
-	  };
 	  
 	  return (
 				 <>
@@ -180,10 +185,10 @@ function BuilderForms({
 									 <ToggleButtonGroup
 												value={ mode }
 												exclusive
-												onChange={ (_, newMode: EntryMode | null) => ( /*TRUTHY->*/ !! newMode) && setMode(newMode) }
+												onChange={ (_, newMode: AssetMode | null) => ( /*TRUTHY->*/ !! newMode) && setMode(newMode) }
 												color={ "primary" }
 									 >
-											{ ENTRY_MODES.map((m) => (
+											{ ASSET_MODES.map((m) => (
 													  <ToggleButton key={ m } value={ m } sx={ { px: 4, textTransform: "capitalize" } }>{ m }</ToggleButton>
 											)) }
 									 </ToggleButtonGroup>
