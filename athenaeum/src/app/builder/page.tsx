@@ -5,7 +5,7 @@ import type { AssetKey, AthBuilderMeta, AthContent, AthDownload, DownloadType, E
 import { APP_NAME, ASSET_MAP, DL_TYPES, ENTRY_MODES, EXTS, MAX_FILE_BYTES, MAX_FILE_MB } from "@/app/AthenaeumMaster";
 import { CrsKey, getCourseSubs, SubKey } from "@/app/BgcMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
-import { bridgeOnboardingBuilderMetaGET } from "@/firebase/Bridge";
+import { bridgeOnboardingBuilderMetaGET, bridgeUploadFiles } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid } from "@/firebase/FirebaseApp";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -155,6 +155,11 @@ function AdminFormContainer({
 			 }
 	  };
 	  
+	  const handleUpload = () => {
+			 if (selectedFiles.length < 1) return;
+			 bridgeUploadFiles(selectedFiles);
+	  };
+	  
 	  return (
 				 <>
 						<WiPView/>
@@ -296,7 +301,7 @@ function AdminFormContainer({
 																								</IconButton>
 																						 </Paper>
 																			  )) }
-																			  <Button>{ "Upload Files" }</Button>
+																			  <Button onClick={ handleUpload }>{ "Upload Files" }</Button>
 																		</Stack>
 																 </> }
 														  </Stack>
