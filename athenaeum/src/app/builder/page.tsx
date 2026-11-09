@@ -159,7 +159,10 @@ function AdminFormContainer({
 			 if (selectedFiles.length < 1) return;
 			 bridgeUploadFiles(selectedFiles).then(
 						value => {
-							  const {} = value.data;
+							  const { results, status } = value.data;
+							  if (status === "SUCCESS" && results) {
+									 setUrlPairs(prevState => [ ...prevState, ...results ]);
+							  }
 						}
 			 );
 	  };
