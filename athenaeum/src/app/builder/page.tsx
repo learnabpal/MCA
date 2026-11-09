@@ -96,9 +96,6 @@ function AdminFormContainer({
 	  const [ mode, setMode ] = React.useState<EntryMode>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey>("");
 	  const [ astKey, setAstKey ] = React.useState<AssetKey>("");
-	  const [ assetTags, setAssetTags ] = React.useState("");
-	  const tags = assetTags.split(",").map((tag) => tag.trim()).filter(Boolean);
-	  const validTags = assetTags.trim().length > 0 && tags.every(Boolean) && new Set(tags).size === tags.length;
 	  
 	  const { setUi, close, open, WiPView } = useWipView();
 	  
@@ -111,13 +108,13 @@ function AdminFormContainer({
 	  const [ selectedFiles, setSelectedFiles ] = React.useState<File[]>([]);
 	  const [ urlPairs, setUrlPairs ] = React.useState<Array<{ title: string; url: string }>>([ { title: "", url: "" } ]);
 	  
-	  const isContentValid = subKey && astKey && contentTitle.trim() && content.trim() && validTags;
+	  const isContentValid = subKey && astKey && contentTitle.trim() && content.trim();
 	  
 	  const isDownloadValid = subKey && (
 				 dlType === "file"
 							? (selectedFiles.length > 0 && selectedFiles.every(isValidFile))
 							: (urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)))
-	  ) && validTags;
+	  );
 	  
 	  
 	  const upload = (files: File[]) => {
@@ -128,7 +125,6 @@ function AdminFormContainer({
 	  const handleReset = () => {
 			 setSubKey("");
 			 setAstKey("");
-			 setAssetTags("");
 			 setContentTitle("");
 			 setContent("");
 			 setSelectedFiles([]);
@@ -140,7 +136,7 @@ function AdminFormContainer({
 			 switch (mode) {
 					case "content":
 						  if (/*NOT->*/ ! isContentValid) return;
-						  onContentSubmitted({ sub: subKey, ast: astKey, tags, title: contentTitle.trim(), src: content });
+						  onContentSubmitted({ sub: subKey, ast: astKey, title: contentTitle.trim(), src: content });
 						  break;
 					case "download":
 						  if (/*NOT->*/ ! isDownloadValid) return;
@@ -148,10 +144,10 @@ function AdminFormContainer({
 						  const downloads: AthDownload[] = [];
 						  switch (dlType) {
 								 case "file":
-										selectedFiles.forEach((file) => downloads.push({ sub: subKey, ast: astKey, title: file.name, tags: assetTags, src: URL.createObjectURL(file) }));
+										selectedFiles.forEach((file) => downloads.push({ sub: subKey, ast: astKey, title: file.name, src: URL.createObjectURL(file) }));
 										break;
 								 case "url":
-										urlPairs.forEach(({ title, url }) => downloads.push({ sub: subKey, ast: astKey, title: title.trim(), tags: assetTags, src: url.trim() }));
+										urlPairs.forEach(({ title, url }) => downloads.push({ sub: subKey, ast: astKey, title: title.trim(), src: url.trim() }));
 										break;
 						  }
 						  downloads.length > 0 && onDownloadSubmitted(downloads);
@@ -175,9 +171,7 @@ function AdminFormContainer({
 												color={ "primary" }
 									 >
 											{ ENTRY_MODES.map((m) => (
-													  <ToggleButton key={ m } value={ m } sx={ { px: 4, textTransform: "capitalize" } }>
-															 { m }
-													  </ToggleButton>
+													  <ToggleButton key={ m } value={ m } sx={ { px: 4, textTransform: "capitalize" } }>{ m }</ToggleButton>
 											)) }
 									 </ToggleButtonGroup>
 							  </Box>
@@ -212,14 +206,6 @@ function AdminFormContainer({
 													  />
 											)) }
 									 </Stack>
-							  </Box>
-							  <Box>
-									 <Typography variant={ "body2" } color={ "text.secondary" } sx={ { mb: 1 } }>{ "Tags *" }</Typography>
-									 <TextField
-												value={ assetTags }
-												onChange={ (event) => setAssetTags(event.target.value) }
-												required fullWidth
-									 />
 							  </Box>
 							  
 							  {/* Mode-Specific Forms */ }

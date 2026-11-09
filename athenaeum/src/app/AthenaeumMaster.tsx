@@ -31,7 +31,7 @@ export type AssetKey = keyof typeof ASSET_MAP;
 
 type AthKeys = { sub: SubKey, ast: AssetKey };
 
-export type AthContent = AthKeys & { tags: string[], title: string, src: string };
+export type AthContent = AthKeys & { title: string, src: string };
 export type AthDownload = AthContent;
 export type AthRtdbMap = {
 	  subject: Partial<Record<SubKey, {
