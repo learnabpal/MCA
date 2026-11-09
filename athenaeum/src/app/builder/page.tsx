@@ -118,9 +118,8 @@ function AdminFormContainer({
 	  );
 	  
 	  
-	  const upload = (files: File[]) => {
+	  const updateSelectedFiles = (files: File[]) => {
 			 setSelectedFiles((prev) => Array.from(new Set([ ...prev, ...files ])));
-			 /* TODO: Upload files in background to storage and update URLs accordingly */
 	  };
 	  
 	  const handleReset = () => {
@@ -165,10 +164,7 @@ function AdminFormContainer({
 									 <ToggleButtonGroup
 												value={ mode }
 												exclusive
-												onChange={ (_, newMode: EntryMode | null) => {
-													  /*TRUTHY->*/
-													  !! newMode && setMode(newMode);
-												} }
+												onChange={ (_, newMode: EntryMode | null) => ( /*TRUTHY->*/ !! newMode) && setMode(newMode) }
 												color={ "primary" }
 									 >
 											{ ENTRY_MODES.map((m) => (
@@ -263,7 +259,7 @@ function AdminFormContainer({
 																			onDragOver={ (event) => event.preventDefault() }
 																			onDrop={ event => {
 																				  event.preventDefault();
-																				  handleFilesValidate(event.dataTransfer.files, upload);
+																				  handleFilesValidate(event.dataTransfer.files, updateSelectedFiles);
 																			} }
 																			sx={ {
 																				  border: "2px dashed",
@@ -283,25 +279,26 @@ function AdminFormContainer({
 																				  multiple
 																				  accept={ EXTS.join(",") }
 																				  style={ { display: "none" } }
-																				  onChange={ event => handleFilesValidate(event.target.files, upload) }
+																				  onChange={ event => handleFilesValidate(event.target.files, updateSelectedFiles) }
 																		/>
 																		<Typography variant={ "body1" } color={ "text.secondary" }>
 																			  { "Drag & drop files here, or click to select (Images, PDF, Office, MD)" }
 																		</Typography>
 																 </Box>
-																 { selectedFiles.length > 0 && (
-																			<Stack spacing={ 1 }>
-																				  <Typography variant={ "body2" } color={ "text.secondary" }>{ "Selected Files (Titles):" }</Typography>
-																				  { selectedFiles.map((file, idx) => (
-																							 <Paper key={ idx } variant={ "outlined" } sx={ { p: 1.5, display: "flex", justifyContent: "space-between", alignItems: "center" } }>
-																									<Typography variant={ "body2" }>{ file.name }</Typography>
-																									<IconButton size={ "small" } color={ "error" } onClick={ () => setSelectedFiles((prev) => prev.filter((_, i) => i !== idx)) }>
-																										  <DeleteIcon fontSize={ "small" }/>
-																									</IconButton>
-																							 </Paper>
-																				  )) }
-																			</Stack>
-																 ) }
+																 { selectedFiles.length > 0 && <>
+																		<Stack spacing={ 1 }>
+																			  <Typography variant={ "body2" } color={ "text.secondary" }>{ "Selected Files:" }</Typography>
+																			  { selectedFiles.map((file, idx) => (
+																						 <Paper key={ idx } variant={ "outlined" } sx={ { p: 1.5, display: "flex", justifyContent: "space-between", alignItems: "center" } }>
+																								<Typography variant={ "body2" }>{ file.name }</Typography>
+																								<IconButton size={ "small" } color={ "error" } onClick={ () => setSelectedFiles((prev) => prev.filter((_, i) => i !== idx)) }>
+																									  <DeleteIcon fontSize={ "small" }/>
+																								</IconButton>
+																						 </Paper>
+																			  )) }
+																			  <Button>{ "Upload Files" }</Button>
+																		</Stack>
+																 </> }
 														  </Stack>
 												) }
 												
