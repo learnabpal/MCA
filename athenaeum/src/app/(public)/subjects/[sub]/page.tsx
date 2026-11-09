@@ -1,7 +1,7 @@
 "use client";
 
 import { Heading } from "@/app/(public)/layout";
-import { APP_NAME, ArrowBackRoundedIcon, type AthAsset, type AthAsset, type AthRtdbMap, BGC_HEX_O, DownloadIcon, FileIcon, FullscreenIcon, MenuBookOutlinedIcon, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { APP_NAME, ArrowBackRoundedIcon, type AthAsset, type AthRtdbMap, BGC_HEX_O, DownloadIcon, FileIcon, FullscreenIcon, MenuBookOutlinedIcon, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { SUB_MAP, SubKey } from "@/app/BgcMaster";
 import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
 import { Alert, Box, Button, Card, CardActionArea, CardContent, Chip, Grid, Stack, Typography } from "@mui/material";
@@ -29,13 +29,11 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 	  const subjectName = SUB_MAP[subject];
 	  const [ contents, setContents ] = React.useState<Record<string, string>>({});
 	  const [ downloads, setDownloads ] = React.useState<Record<string, AthAsset>>({});
-	  const [ selectedTag, setSelectedTag ] = React.useState<string | null>(null);
 	  const [ selectedContent, setSelectedContent ] = React.useState<AthAsset | null>(null);
 	  const [ loading, setLoading ] = React.useState(true);
 	  
 	  React.useEffect(() => {
 			 setLoading(true);
-			 setSelectedTag(null);
 			 setSelectedContent(null);
 			 if (  /*NOT->*/ ! subjectName) {
 					setContents({});
@@ -58,129 +56,111 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 			 const content = ATHENAEUM_DEMO_CONTENT[id];
 			 return content && content.sub === subject ? [ { id, title, content } ] : [];
 	  });
-	  const availableTags = [ ...new Set(indexedContents.flatMap(({ content }) => content.tags)) ];
-	  const filteredContents = selectedTag ? indexedContents.filter(({ content }) => content.tags.includes(selectedTag)) : indexedContents;
 	  
 	  if (  /*NOT->*/ ! subjectName) return <Alert severity={ "warning" }>{ "Subject not found." }</Alert>;
+	  if (loading) return <Typography color={ "text.secondary" }>{ "Loading..." }</Typography>;
 	  
 	  return <Stack spacing={ 3 }>
 			 <Button component={ Link } variant={ "text" } href={ NAV_ITEMS.subjects.href } startIcon={ <ArrowBackRoundedIcon/> } sx={ { px: 0, color: BGC_HEX_O, alignSelf: "flex-start" } }>
 					{ "All Subjects" }
 			 </Button>
 			 <Heading title={ subjectName } subtitle={ UI_TEXTS.subject }/>
-			 { loading ? <Typography color={ "text.secondary" }>{ "Loading..." }</Typography> : <>
-					{ Object.keys(downloads).length > 0 && <Box>
-						  <Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Downloads" }</Typography>
-						  <Grid container spacing={ 2 }>
-								 { Object.entries(downloads).map(([ id, download ]) => (
-											<Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
-												  <Card variant={ "outlined" } sx={ { height: "100%" } }>
-														 <CardActionArea component={ "a" } href={ download.url } target={ "_blank" } rel={ "noopener noreferrer" } download sx={ { height: "100%" } }>
-																<CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
-																	  <FileIcon color={ "action" }/>
-																	  <Typography sx={ { fontWeight: 600, flex: 1 } }>{ download.title }</Typography>
-																	  <DownloadIcon color={ "action" }/>
-																</CardContent>
-														 </CardActionArea>
-												  </Card>
-											</Grid>
-								 )) }
-						  </Grid>
-					</Box> }
-					<Box>
-						  <Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Tags" }</Typography>
-						  { availableTags.length > 0 ? <Stack direction={ "row" } spacing={ 1 } useFlexGap flexWrap={ "wrap" }>
-								 { availableTags.map((tag) => (
-											<Chip
-													  key={ tag }
-													  label={ tag }
-													  clickable
-													  color={ selectedTag === tag ? "primary" : "default" }
-													  variant={ selectedTag === tag ? "filled" : "outlined" }
-													  onClick={ () => {
-															 setSelectedTag((current) => current === tag ? null : tag);
-															 setSelectedContent(null);
-													  } }
-											/>
-								 )) }
-						  </Stack> : <Typography color={ "text.secondary" }>{ "No tags are available." }</Typography> }
-					</Box>
-					<Box>
-						  <Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Content" }</Typography>
-						  { filteredContents.length > 0 ? <Grid container spacing={ 2 }>
-								 { filteredContents.map(({ id, title, content }) => (
-											<Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
-												  <Card variant={ "outlined" } sx={ { height: "100%", borderColor: selectedContent?.title === content.title ? "primary.main" : "divider" } }>
-														 <CardActionArea onClick={ () => {
-																const cacheKey = `${ APP_NAME }-content-map-${ subject }-${ id }`;
-																const cached = localStorage.getItem(cacheKey);
-																const selected = cached ? JSON.parse(cached) as AthAsset : content;
-																if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(selected));
-																setSelectedContent(selected);
-														 } } sx={ { height: "100%" } }>
-																<CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
-																	  <MenuBookOutlinedIcon color={ "action" }/>
-																	  <Typography sx={ { flex: 1, fontWeight: 600 } }>{ title }</Typography>
-																	  <FullscreenIcon color={ "action" }/>
-																</CardContent>
-														 </CardActionArea>
-												  </Card>
-											</Grid>
-								 )) }
-						  </Grid> : <Typography color={ "text.secondary" }>{ "No content is available for this selection." }</Typography> }
-					</Box>
-					{ selectedContent && <Card variant={ "outlined" }>
-						  <CardContent sx={ { p: { xs: 2, md: 3 } } }>
-								 <Typography variant={ "h5" } sx={ { mb: 2, color: ColourScheme.keyword.color } }>{ selectedContent.title }</Typography>
-								 <Box sx={ { height: 2, width: "100%", backgroundColor: ColourScheme.keyword.color, borderRadius: 1 } }/>
-								 {/* <ReactMarkdown>{ selectedContent.content }</ReactMarkdown> */ }
-								 <ReactMarkdown
-											children={ selectedContent.src }
-											remarkPlugins={ [ [ remarkMath, { backslashDelimiters: true } ] ] }
-											rehypePlugins={ [ rehypeKatex ] }
-											components={ {
-												  h1: mdHighlighter("h1"),
-												  h2: mdHighlighter("h2"),
-												  h3: mdHighlighter("h3"),
-												  h4: mdHighlighter("h4"),
-												  h5: mdHighlighter("h5"),
-												  h6: mdHighlighter("h6"),
-												  strong: mdHighlighter("strong"),
-												  code(props) {
-														 const { children, className, node, ...rest } = props;
-														 const match = /language-(\w+)/.exec(className || "");
-														 return match ? (
-																	<SyntaxHighlighter
-																			  { ...rest }
-																			  PreTag="div"
-																			  children={ String(children).replace(/\n$/, "") }
-																			  language={ match[1] }
-																			  style={ ColourScheme }
-																			  customStyle={ { fontWeight: "bold" } }
-																	/>
-														 ) : (
-																	<code
-																			  { ...rest }
-																			  className={ className }
-																			  style={ {
-																					 ...ColourScheme["code[class*=\"language-\"]"],
-																					 display: "inline",
-																					 whiteSpace: "normal",
-																					 fontWeight: "bold",
-																					 padding: "0.15em 0.35em",
-																					 // borderRadius: 4,
-																					 // fontSize: "0.875em",
-																					 ...rest.style
-																			  } }
-																	>
-																		  { children }
-																	</code>
-														 );
-												  }
-											} }
-								 />
-						  </CardContent>
-					</Card> }
-			 </> as any }
+			 
+			 { Object.keys(downloads).length > 0 && <Box>
+					<Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Downloads" }</Typography>
+					<Grid container spacing={ 2 }>
+						  { Object.entries(downloads).map(([ id, asset ]) => (
+									 <Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
+											<Card variant={ "outlined" } sx={ { height: "100%" } }>
+												  <CardActionArea component={ "a" } href={ asset.src } target={ "_blank" } rel={ "noopener noreferrer" } download sx={ { height: "100%" } }>
+														 <CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
+																<FileIcon color={ "action" }/>
+																<Typography sx={ { fontWeight: 600, flex: 1 } }>{ asset.title }</Typography>
+																<DownloadIcon color={ "action" }/>
+														 </CardContent>
+												  </CardActionArea>
+											</Card>
+									 </Grid>
+						  )) }
+					</Grid>
+			 </Box> }
+			 <Box>
+					<Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Content" }</Typography>
+					{ indexedContents.length > 0 ?
+							  <Grid container spacing={ 2 }>
+									 { indexedContents.map(({ id, title, content }) => (
+												<Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
+													  <Card variant={ "outlined" } sx={ { height: "100%", borderColor: selectedContent?.title === content.title ? "primary.main" : "divider" } }>
+															 <CardActionArea onClick={ () => {
+																	const cacheKey = `${ APP_NAME }-content-map-${ subject }-${ id }`;
+																	const cached = localStorage.getItem(cacheKey);
+																	const selected = cached ? JSON.parse(cached) as AthAsset : content;
+																	if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(selected));
+																	setSelectedContent(selected);
+															 } } sx={ { height: "100%" } }>
+																	<CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
+																		  <MenuBookOutlinedIcon color={ "action" }/>
+																		  <Typography sx={ { flex: 1, fontWeight: 600 } }>{ title }</Typography>
+																		  <FullscreenIcon color={ "action" }/>
+																	</CardContent>
+															 </CardActionArea>
+													  </Card>
+												</Grid>
+									 )) }
+							  </Grid>
+							  : <Typography color={ "text.secondary" }>{ "No content is available." }</Typography>
+					}
+			 </Box>
+			 { selectedContent && <Card variant={ "outlined" }>
+					<CardContent sx={ { p: { xs: 2, md: 3 } } }>
+						  <Typography variant={ "h5" } sx={ { mb: 2, color: ColourScheme.keyword.color } }>{ selectedContent.title }</Typography>
+						  <Box sx={ { height: 2, width: "100%", backgroundColor: ColourScheme.keyword.color, borderRadius: 1 } }/>
+						  <ReactMarkdown
+									 children={ selectedContent.src }
+									 remarkPlugins={ [ [ remarkMath, { backslashDelimiters: true } ] ] }
+									 rehypePlugins={ [ rehypeKatex ] }
+									 components={ {
+											h1: mdHighlighter("h1"),
+											h2: mdHighlighter("h2"),
+											h3: mdHighlighter("h3"),
+											h4: mdHighlighter("h4"),
+											h5: mdHighlighter("h5"),
+											h6: mdHighlighter("h6"),
+											strong: mdHighlighter("strong"),
+											code(props) {
+												  const { children, className, node, ...rest } = props;
+												  const match = /language-(\w+)/.exec(className || "");
+												  return match ? (
+															 <SyntaxHighlighter
+																		{ ...rest }
+																		PreTag="div"
+																		children={ String(children).replace(/\n$/, "") }
+																		language={ match[1] }
+																		style={ ColourScheme }
+																		customStyle={ { fontWeight: "bold" } }
+															 />
+												  ) : (
+															 <code
+																		{ ...rest }
+																		className={ className }
+																		style={ {
+																			  ...ColourScheme["code[class*=\"language-\"]"],
+																			  display: "inline",
+																			  whiteSpace: "normal",
+																			  fontWeight: "bold",
+																			  padding: "0.15em 0.35em",
+																			  // borderRadius: 4,
+																			  // fontSize: "0.875em",
+																			  ...rest.style
+																		} }
+															 >
+																	{ children }
+															 </code>
+												  );
+											}
+									 } }
+						  />
+					</CardContent>
+			 </Card> }
 	  </Stack>;
 }
