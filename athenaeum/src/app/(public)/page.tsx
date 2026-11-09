@@ -40,7 +40,7 @@ export default function HomePage() {
 												  </CardActionArea>
 											</Card>
 									 </Grid>
-						  )) }
+						  )) as any }
 					</Grid>
 			 </Box>
 	  </Stack>;

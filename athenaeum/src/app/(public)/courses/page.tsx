@@ -36,9 +36,9 @@ export default function CoursesPage() {
 															 </CardActionArea>
 													  </Card>
 												</Grid>
-									 ) }
+									 ) as any }
 							  </Grid>
 						</Box>
-			 ) }
+			 ) as any }
 	  </Stack>;
 }

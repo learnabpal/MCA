@@ -91,13 +91,16 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 									 { indexedContents.map(({ id, title, content }) => (
 												<Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
 													  <Card variant={ "outlined" } sx={ { height: "100%", borderColor: selectedContent?.title === content.title ? "primary.main" : "divider" } }>
-															 <CardActionArea onClick={ () => {
-																	const cacheKey = `${ APP_NAME }-content-map-${ subject }-${ id }`;
-																	const cached = localStorage.getItem(cacheKey);
-																	const selected = cached ? JSON.parse(cached) as AthAsset : content;
-																	if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(selected));
-																	setSelectedContent(selected);
-															 } } sx={ { height: "100%" } }>
+															 <CardActionArea
+																		onClick={ () => {
+																			  const cacheKey = `${ APP_NAME }-content-map-${ subject }-${ id }`;
+																			  const cached = localStorage.getItem(cacheKey);
+																			  const selected = cached ? JSON.parse(cached) as AthAsset : content;
+																			  if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(selected));
+																			  setSelectedContent(selected);
+																		} }
+																		sx={ { height: "100%" } }
+															 >
 																	<CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
 																		  <MenuBookOutlinedIcon color={ "action" }/>
 																		  <Typography sx={ { flex: 1, fontWeight: 600 } }>{ title }</Typography>
