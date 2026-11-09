@@ -1,13 +1,14 @@
 "use client";
 
 import { Branding } from "@/app/(public)/layout";
-import type { AssetKey, AthBuilderMeta, AthAsset, AthAsset, DownloadType, AssetType } from "@/app/AthenaeumMaster";
-import { APP_NAME, ASSET_MAP, DL_TYPES, ASSET_TYPES, EXTS, MAX_FILE_BYTES, MAX_FILE_MB } from "@/app/AthenaeumMaster";
-import { CrsKey, getCourseSubs, SubKey } from "@/app/BgcMaster";
+import type { AssetKey, AssetType, AthAsset, AthBuilderMeta, DownloadType } from "@/app/AthenaeumMaster";
+import { APP_NAME, ASSET_MAP, ASSET_TYPES, DL_TYPES, EXTS, MAX_FILE_BYTES, MAX_FILE_MB } from "@/app/AthenaeumMaster";
+import { getCourseSubs, SubKey } from "@/app/BgcMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
 import { bridgeOnboardingBuilderMetaGET, bridgePushAsset, bridgeUploadFiles } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid } from "@/firebase/FirebaseApp";
 import AddIcon from "@mui/icons-material/Add";
+import ContentCopyOutlined from "@mui/icons-material/ContentCopyOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 import GoogleIcon from "@mui/icons-material/Google";
 import { Box, Button, Chip, IconButton, Paper, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
@@ -15,12 +16,11 @@ import "@uiw/react-markdown-preview/markdown.css";
 import MDEditor from "@uiw/react-md-editor";
 import "@uiw/react-md-editor/markdown-editor.css";
 import React from "react";
-import ContentCopyOutlined from "@mui/icons-material/ContentCopyOutlined";
 
 
 
 
-const HINT = "Generate structured educational Markdown content. Follow these rules strictly:\n" +
+const GEN_AI_PROMPT = "Generate structured educational Markdown content. Follow these rules strictly:\n" +
 		  "\n" +
 		  "- Use proper Markdown headings, paragraphs, bold, italics, lists and tables.\n" +
 		  "- Inline mathematics: use `\\( ... \\)` exclusively.\n" +
@@ -242,14 +242,14 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta, }) {
 													  <Stack flexDirection={ "row" } alignItems={ "center" } sx={ { border: "1px solid", borderRadius: 2, opacity: 0.5 } } p={ 1 }>
 															 <Stack spacing={ 1 }>
 																	<Typography variant={ "body2" }>{ "Copy the following prompt to generate structured educational Markdown content." }</Typography>
-																	<Typography fontSize={ 10 }>{ HINT.substring(0, 360) + "..." }</Typography>
+																	<Typography fontSize={ 10 }>{ GEN_AI_PROMPT.substring(0, 360) + "..." }</Typography>
 															 </Stack>
-															 <IconButton onClick={ () => window.navigator.clipboard.writeText(HINT) }>
+															 <IconButton onClick={ () => window.navigator.clipboard.writeText(GEN_AI_PROMPT) }>
 																	<ContentCopyOutlined/>
 															 </IconButton>
 													  </Stack>
 													  <MDEditor
-																 value={ content || HINT }
+																 value={ content || GEN_AI_PROMPT }
 																 onChange={ (val) => setContent(val ?? "") }
 																 height={ 480 }
 																 preview={ "edit" }
