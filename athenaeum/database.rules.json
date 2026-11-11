@@ -12,6 +12,22 @@
 								 ".read": "auth !== null && auth.uid === $uid",
 								 ".write": "auth !== null && auth.uid === $uid"
 						  }
+					},
+					"subject": {
+						  "$sub": {
+								 "content": {
+										"$key": {
+											  ".read": true,
+											  ".write": "auth !== null"
+										}
+								 },
+								 "download": {
+										"$key": {
+											  ".read": true,
+											  ".write": "auth !== null"
+										}
+								 }
+						  }
 					}
 			 }
 	  }
