@@ -145,9 +145,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta, }) {
 									 setUi("File upload failed");
 							  }
 						},
-						error => {
-							  setUi(error?.message || "File upload failed");
-						}
+						error => setUi(error?.message || "File upload failed")
 			 );
 	  };
 	  
