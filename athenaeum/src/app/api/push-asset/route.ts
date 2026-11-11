@@ -38,8 +38,12 @@ export async function POST(request: NextRequest) {
 					}
 			 });
 			 
-			 if (isContent) await updateDoc(doc(contentCollectionRef, sub), fsUpdates);
-			 await update(subjectNodeRef, rtdbUpdates);
+			 switch (assetType) {
+					case content:
+						  await updateDoc(doc(contentCollectionRef, sub), fsUpdates);
+						  break;
+			 }
+			 await update(subjectNodeRef, rtdbDownloadUpdates);
 			 
 			 return successResponse({});
 	  } catch (error) {
