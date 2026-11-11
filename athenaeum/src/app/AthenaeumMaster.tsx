@@ -1,6 +1,6 @@
 import AppIcon from "@/app/bgc_apxdgtl.png";
 import { CrsKey, SpclKey, SubKey } from "@/app/BgcMaster";
-import { DateTimeFormatter, Instant, ZoneId } from "@js-joda/core";
+import { DateTimeFormatter, Instant, LocalDateTime, ZoneId } from "@js-joda/core";
 import { Locale } from "@js-joda/locale_en";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
@@ -12,6 +12,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBook";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/School";
+import { log } from "console";
 
 
 // Added check to ensure course.spcl and course.subs[sem][spcl] matches
@@ -28,7 +29,7 @@ export const ASSET_MAP = {
 };
 export type AssetKey = keyof typeof ASSET_MAP;
 
-const content = "content", download = "download";
+export const subject = "subject", content = "content", download = "download";
 export const ASSET_TYPES = [ content, download ] as const;
 export type AssetType = typeof ASSET_TYPES[ number ];
 
@@ -41,7 +42,7 @@ export type AthAsset = AthKeys & { title: string, src: string };
 // as well as 'download' type AthAsset because its src will only be a url.
 // The url can be either a non-firebase direct url, or a Firebase Storage download url.
 export type AthRtdbMap = {
-	  subject: Partial<Record<SubKey, {
+	  [subject]: Partial<Record<SubKey, {
 			 [content]?: { [fs_key: string]: string }
 			 [download]?: { [rtdb_key: string]: AthAsset }
 	  }>>
@@ -92,6 +93,11 @@ export const EXTS = [
 ] as const;
 
 export const joiner = (...str: string[]) => str.join("/");
+
+
+const KEY_DTF = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS").withLocale(Locale.ENGLISH);
+export const buildKey = (ldt = LocalDateTime.now()) => KEY_DTF.format(ldt);
+
 const opacity = 0.75;
 export { opacity };
 

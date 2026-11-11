@@ -1,8 +1,8 @@
-import { APP_NAME, joiner } from "@/app/AthenaeumMaster";
+import { APP_NAME, AssetType, joiner, subject } from "@/app/AthenaeumMaster";
 import { isInRestrictedList } from "@/components/mui/apx/ts/Utils";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "@firebase/auth";
 import { child } from "@firebase/database";
-import { getFirestore } from "@firebase/firestore";
+import { collection, getFirestore } from "@firebase/firestore";
 import { getDownloadURL, getStorage, ref as storageRef } from "@firebase/storage";
 import axios from "axios";
 import { getApps, initializeApp, initializeServerApp } from "firebase/app";
@@ -103,21 +103,11 @@ export const googlePopup = () => signInWithPopup(
 					 .setCustomParameters({ client_id: "351899767213-tuogfi3ho532a8725a2ku8cc6oka2ptb.apps.googleusercontent.com", prompt: "select_account" })
 );
 
-const HOST_NODE = "HOST";
-const HANDLE_MAP_NODE = "HANDLE";
-const PROFILE_COLLECTION = "PROFILE";
-const SERVICE_COLLECTION = "SERVICE";
-const CLAIM_NODE = "CLAIM";
+
 const CONTENT_COLLECTION = "CONTENT";
-const GATEWAY_NODE = "GATEWAY";
-const ARCHIVE_NODE = "ARCHIVE";
-const TRASHED_NODE = "TRASHED";
 const SHARDS_COLLECTION = "SHARDS";
 
 const SHARD_PREFIX = "SHARD";
-
-const ENQUIRIES_NODE = "ENQUIRIES";
-
 
 const BGC_ID_NODE = "BGC_ID";
 const BUILDER_META_NODE = "BUILDER_META";
@@ -175,6 +165,8 @@ const invokeServerApp = (request?: NextRequest) => {
 			 
 			 const bgcIdNodeRef = child(rtdbRoot, joiner(APP_NAME, BGC_ID_NODE));
 			 const builderMetaNodeRef = child(rtdbRoot, joiner(APP_NAME, BUILDER_META_NODE));
+			 const contentCollectionRef = collection(firestoreRoot, joiner(APP_NAME, CONTENT_COLLECTION));
+			 const createSubjectNodeRef = (sub: string, assetType: AssetType) => child(rtdbRoot, joiner(APP_NAME, subject, sub, assetType));
 			 
 			 return ({
 					uid: user?.uid,
@@ -187,7 +179,8 @@ const invokeServerApp = (request?: NextRequest) => {
 					// contentGuideShardsCollectionRef, contentEventShardsCollectionRef,
 					// gatewayNodeRef,  archiveNodeRef, trashedNodeRef
 					// enquiriesNodeRef,
-					bgcIdNodeRef, builderMetaNodeRef
+					bgcIdNodeRef, builderMetaNodeRef,
+					contentCollectionRef, createSubjectNodeRef
 					/* profileStorageRef, serviceStorageRef */
 			 });
 	  });

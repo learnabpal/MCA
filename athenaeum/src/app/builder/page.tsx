@@ -85,7 +85,7 @@ const handleFilesValidate = (files: FileList | File[], onValidated: (files: File
 };
 
 
-function BuilderForms({ meta }: { meta: AthBuilderMeta, }) {
+function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 	  const { crs } = meta;
 	  const [ assetType, setAssetType ] = React.useState<AssetType>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey>("");

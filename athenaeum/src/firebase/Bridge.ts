@@ -39,8 +39,8 @@ export const bridgeUploadFiles = (files: File[]): Promise<AxiosResponse<{ result
 
 const pushAsset = "push-asset";
 
-export const bridgePushAsset = (aType: AssetType, asset: AthAsset[]): Promise<AxiosResponse<ApiStatus>> => {
-
+export const bridgePushAsset = (assetType: AssetType, asset: AthAsset[]): Promise<AxiosResponse<ApiStatus>> => {
+	  return api.post(pushAsset, { assetType, asset });
 };
 
 
