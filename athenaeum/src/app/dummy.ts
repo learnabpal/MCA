@@ -5,11 +5,11 @@ import type { AthAsset, AthRtdbMap } from "@/app/AthenaeumMaster";
 
 export const ATHENAEUM_DEMO_DATA: AthRtdbMap = {
 	  subject: {
-			 pc: { contents: { "pc-001": "Programming Fundamentals", "pc-002": "Control Structures", "pc-003": "Functions" }, downloads: {} },
-			 dsa: { contents: { "dsa-001": "Introduction to Data Structures", "dsa-002": "Arrays and Linked Lists" }, downloads: {} },
-			 coa: { contents: { "coa-001": "Number Systems", "coa-002": "Boolean Algebra" }, downloads: {} },
-			 bmc: { contents: { "bmc-001": "Sets and Relations", "bmc-002": "Matrices" }, downloads: {} },
-			 ecom: { contents: { "ecom-001": "Introduction to E-Commerce", "ecom-002": "Digital Business Models" }, downloads: {} }
+			 pc: { content: { "pc-001": "Programming Fundamentals", "pc-002": "Control Structures", "pc-003": "Functions" }, download: {} },
+			 dsa: { content: { "dsa-001": "Introduction to Data Structures", "dsa-002": "Arrays and Linked Lists" }, download: {} },
+			 coa: { content: { "coa-001": "Number Systems", "coa-002": "Boolean Algebra" }, download: {} },
+			 bmc: { content: { "bmc-001": "Sets and Relations", "bmc-002": "Matrices" }, download: {} },
+			 ecom: { content: { "ecom-001": "Introduction to E-Commerce", "ecom-002": "Digital Business Models" }, download: {} }
 	  }
 };
 

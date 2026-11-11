@@ -424,11 +424,7 @@ export default function BuilderPage() {
 							  </Stack>
 						</Stack>
 						<Paper variant={ "outlined" } sx={ { p: { xs: 2, md: 3 } } }>
-							  <BuilderForms
-										 meta={ builderMeta }
-										 onContentSubmitted={ (val) => console.log("Content:", val) }
-										 onDownloadSubmitted={ (val) => console.log("Download:", val) }
-							  />
+							  <BuilderForms meta={ builderMeta }/>
 						</Paper>
 						<Stack alignSelf={ "center" }>
 							  <Button variant={ "text" } sx={ { fontSize: 12, color: "text.secondary" } } onClick={ () => signOut() }>{ "Sign-Out" }</Button>

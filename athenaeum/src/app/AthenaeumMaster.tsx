@@ -12,7 +12,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBook";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/School";
-import React from "react";
 
 
 // Added check to ensure course.spcl and course.subs[sem][spcl] matches
@@ -29,13 +28,22 @@ export const ASSET_MAP = {
 };
 export type AssetKey = keyof typeof ASSET_MAP;
 
+const content = "content", download = "download";
+export const ASSET_TYPES = [ content, download ] as const;
+export type AssetType = typeof ASSET_TYPES[ number ];
+
 type AthKeys = { sub: SubKey, ast: AssetKey };
 
 export type AthAsset = AthKeys & { title: string, src: string };
+
+// Firestore will hold the 'content' type AthAsset because its src may be huge json.
+// RTDb will hold the map of firestore 'content'
+// as well as 'download' type AthAsset because its src will only be a url.
+// The url can be either a non-firebase direct url, or a Firebase Storage download url.
 export type AthRtdbMap = {
 	  subject: Partial<Record<SubKey, {
-			 contents?: { [fs_key: string]: string }
-			 downloads?: { [rtdb_key: string]: AthAsset }
+			 [content]?: { [fs_key: string]: string }
+			 [download]?: { [rtdb_key: string]: AthAsset }
 	  }>>
 };
 
@@ -44,9 +52,7 @@ export type AthBuilderMeta = { crs: CrsKey, spcl?: SpclKey, email: string } & Bg
 
 
 export {
-	  GitHubIcon, MenuBookOutlinedIcon, PictureAsPdfOutlinedIcon, DownloadIcon, FullscreenIcon, FileIcon,
-	  ArrowBackRoundedIcon, ArrowForwardRoundedIcon,
-	  AppIcon
+	  AppIcon, ArrowBackRoundedIcon, ArrowForwardRoundedIcon, DownloadIcon, FileIcon, FullscreenIcon, GitHubIcon, MenuBookOutlinedIcon, PictureAsPdfOutlinedIcon
 };
 
 
@@ -76,10 +82,8 @@ export const NAV_ITEMS = {
 } as const;
 
 
-export const ASSET_TYPES = [ "content", "download" ] as const;
-export type AssetType = typeof ASSET_TYPES[number];
 export const DL_TYPES = [ "file", "url" ] as const;
-export type DownloadType = typeof DL_TYPES[number];
+export type DownloadType = typeof DL_TYPES[ number ];
 export const EXTS = [
 	  ".jpg", ".jpeg", ".png", ".gif", ".webp",
 	  ".pdf",
@@ -90,3 +94,4 @@ export const EXTS = [
 export const joiner = (...str: string[]) => str.join("/");
 const opacity = 0.75;
 export { opacity };
+

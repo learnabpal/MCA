@@ -1,26 +1,16 @@
 "use client";
 
 import { Heading } from "@/app/(public)/layout";
+import DevMarkdown, { ColourScheme } from "@/app/DevMarkdown";
 import { APP_NAME, ArrowBackRoundedIcon, type AthAsset, type AthRtdbMap, BGC_HEX_O, DownloadIcon, FileIcon, FullscreenIcon, MenuBookOutlinedIcon, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { SUB_MAP, SubKey } from "@/app/BgcMaster";
 import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
-import { Alert, Box, Button, Card, CardActionArea, CardContent, Chip, Grid, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import "katex/dist/katex.min.css";
 import Link from "next/link";
 import React, { use } from "react";
-import ReactMarkdown from "react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { gruvboxDark as ColourScheme } from "react-syntax-highlighter/dist/esm/styles/prism";
-import rehypeKatex from "rehype-katex";
-import remarkMath from "remark-math-extended";
 
 
-
-
-const mdHighlighter = (Tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "strong") =>
-		  ({ node, ...props }: React.ComponentProps<"h1"> & { node?: unknown }) => (
-					 <Tag { ...props } style={ { ...ColourScheme.keyword, margin: "1.2em 0 0.5em", ...props.style } }/>
-		  );
 
 
 export default function SubjectPage({ params }: { params: Promise<{ sub: string }> }) {
@@ -43,12 +33,12 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 			 }
 			 const cacheKey = `${ APP_NAME }-subject-map-${ subject }`;
 			 const cached = localStorage.getItem(cacheKey);
-			 const index: NonNullable<AthRtdbMap["subject"][SubKey]> = cached ?
+			 const index: NonNullable<AthRtdbMap[ "subject" ][ SubKey ]> = cached ?
 						JSON.parse(cached) :
-						(ATHENAEUM_DEMO_DATA.subject[subject] || { contents: {}, downloads: {} });
+						(ATHENAEUM_DEMO_DATA.subject[subject] || { content: {}, download: {} });
 			 if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(index));
-			 setContents(index.contents || {});
-			 setDownloads(index.downloads || {});
+			 setContents(index.content || {});
+			 setDownloads(index.download || {});
 			 setLoading(false);
 	  }, [ subject, subjectName ]);
 	  
@@ -118,51 +108,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 					<CardContent sx={ { p: { xs: 2, md: 3 } } }>
 						  <Typography variant={ "h5" } sx={ { mb: 2, color: ColourScheme.keyword.color } }>{ selectedContent.title }</Typography>
 						  <Box sx={ { height: 2, width: "100%", backgroundColor: ColourScheme.keyword.color, borderRadius: 1 } }/>
-						  <ReactMarkdown
-									 children={ selectedContent.src }
-									 remarkPlugins={ [ [ remarkMath, { backslashDelimiters: true } ] ] }
-									 rehypePlugins={ [ rehypeKatex ] }
-									 components={ {
-											h1: mdHighlighter("h1"),
-											h2: mdHighlighter("h2"),
-											h3: mdHighlighter("h3"),
-											h4: mdHighlighter("h4"),
-											h5: mdHighlighter("h5"),
-											h6: mdHighlighter("h6"),
-											strong: mdHighlighter("strong"),
-											code(props) {
-												  const { children, className, node, ...rest } = props;
-												  const match = /language-(\w+)/.exec(className || "");
-												  return match ? (
-															 <SyntaxHighlighter
-																		{ ...rest }
-																		PreTag="div"
-																		children={ String(children).replace(/\n$/, "") }
-																		language={ match[1] }
-																		style={ ColourScheme }
-																		customStyle={ { fontWeight: "bold" } }
-															 />
-												  ) : (
-															 <code
-																		{ ...rest }
-																		className={ className }
-																		style={ {
-																			  ...ColourScheme["code[class*=\"language-\"]"],
-																			  display: "inline",
-																			  whiteSpace: "normal",
-																			  fontWeight: "bold",
-																			  padding: "0.15em 0.35em",
-																			  // borderRadius: 4,
-																			  // fontSize: "0.875em",
-																			  ...rest.style
-																		} }
-															 >
-																	{ children }
-															 </code>
-												  );
-											}
-									 } }
-						  />
+						  <DevMarkdown text={ selectedContent.src }/>
 					</CardContent>
 			 </Card> }
 	  </Stack>;
