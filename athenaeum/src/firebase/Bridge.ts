@@ -49,7 +49,7 @@ export const bridgeAdminCheck = (): Promise<AxiosResponse<{ valid: boolean } & A
 	  return api.get(p_admin(checkAdmin));
 };
 
-const addNewAdmin = "add-new-admin";
-export const bridgeAdminAddNew = (data: BgcId): Promise<AxiosResponse<ApiStatus>> => {
-	  return api.post(p_admin(addNewAdmin), data);
+const addNewBuilder = "add-new-builder";
+export const bridgeAdminAddNewBuilder = (data: BgcId): Promise<AxiosResponse<ApiStatus>> => {
+	  return api.post(p_admin(addNewBuilder), data);
 };
