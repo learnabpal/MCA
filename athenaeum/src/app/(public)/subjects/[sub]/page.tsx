@@ -2,7 +2,7 @@
 
 import { Heading } from "@/app/(public)/layout";
 import DevMarkdown, { ColourScheme } from "@/app/DevMarkdown";
-import { APP_NAME, ArrowBackRoundedIcon, type AthAsset, type AthRtdbMap, BGC_HEX_O, DownloadIcon, FileIcon, FullscreenIcon, MenuBookOutlinedIcon, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { APP_NAME, ArrowBackRoundedIcon, type AthAsset, type AthRtdbMap, BGC_HEX_O, content, download, DownloadIcon, FileIcon, FullscreenIcon, MenuBookOutlinedIcon, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { SUB_MAP, SubKey } from "@/app/BgcMaster";
 import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
 import { Alert, Box, Button, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
@@ -32,11 +32,12 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 					return;
 			 }
 			 const cacheKey = `${ APP_NAME }-subject-map-${ subject }`;
-			 const cached = localStorage.getItem(cacheKey);
-			 const index: NonNullable<AthRtdbMap[ "subject" ][ SubKey ]> = cached ?
-						JSON.parse(cached) :
-						(ATHENAEUM_DEMO_DATA.subject[subject] || { content: {}, download: {} });
-			 if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(index));
+			 const cachedMap = localStorage.getItem(cacheKey);
+			 localStorage.removeItem(cacheKey);
+			 const index: AthRtdbMap[ "subject" ][ SubKey ] = cachedMap ?
+						JSON.parse(cachedMap) :
+						(ATHENAEUM_DEMO_DATA.subject[subject] || { [content]: {}, [download]: {} });
+			 if (  /*NOT->*/ ! cachedMap) localStorage.setItem(cacheKey, JSON.stringify(index));
 			 setContents(index.content || {});
 			 setDownloads(index.download || {});
 			 setLoading(false);
@@ -78,8 +79,8 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 					<Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Content" }</Typography>
 					{ indexedContents.length > 0 ?
 							  <Grid container spacing={ 2 }>
-									 { indexedContents.map(({ id, title, content }) => (
-												<Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
+									 { indexedContents.map(({ id, title, content }) =>
+												content && <Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
 													  <Card variant={ "outlined" } sx={ { height: "100%", borderColor: selectedContent?.title === content.title ? "primary.main" : "divider" } }>
 															 <CardActionArea
 																		onClick={ () => {
@@ -98,8 +99,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 																	</CardContent>
 															 </CardActionArea>
 													  </Card>
-												</Grid>
-									 )) }
+												</Grid>) }
 							  </Grid>
 							  : <Typography color={ "text.secondary" }>{ "No content is available." }</Typography>
 					}
