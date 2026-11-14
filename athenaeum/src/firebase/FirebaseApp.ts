@@ -109,6 +109,7 @@ const SHARDS_COLLECTION = "SHARDS";
 
 const SHARD_PREFIX = "SHARD";
 
+const ADMIN_NODE = "ADMIN";
 const BGC_ID_NODE = "BGC_ID";
 const BUILDER_META_NODE = "BUILDER_META";
 
@@ -163,6 +164,7 @@ const invokeServerApp = (request?: NextRequest) => {
 			 // const trashedNodeRef = child(rtdbRoot, TRASHED_NODE);
 			 
 			 
+			 const adminNodeRef = child(rtdbRoot, joiner(APP_NAME, ADMIN_NODE));
 			 const bgcIdNodeRef = child(rtdbRoot, joiner(APP_NAME, BGC_ID_NODE));
 			 const builderMetaNodeRef = child(rtdbRoot, joiner(APP_NAME, BUILDER_META_NODE));
 			 const contentCollectionRef = collection(firestoreRoot, joiner(APP_NAME, CONTENT_COLLECTION));
@@ -179,6 +181,7 @@ const invokeServerApp = (request?: NextRequest) => {
 					// gatewayNodeRef,  archiveNodeRef, trashedNodeRef
 					// enquiriesNodeRef,
 					createSubjectNodeRef: (sub: string, assetType: AssetType) => child(rtdbRoot, joiner(APP_NAME, subject, sub, assetType)),
+					adminNodeRef,
 					bgcIdNodeRef, builderMetaNodeRef,
 					contentCollectionRef
 					/* profileStorageRef, serviceStorageRef */

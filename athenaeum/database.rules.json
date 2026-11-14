@@ -1,6 +1,10 @@
 {
 	  "rules": {
 			 "Athenaeum": {
+					"ADMIN": {
+						  ".read": "auth.email === 'learnabpal@gmail.com' || auth.email === 'iamarnabpal@gmail.com' || auth.email === 'apxdgtl@gmail.com'",
+						  ".write": "auth.email === 'learnabpal@gmail.com' || auth.email === 'iamarnabpal@gmail.com' || auth.email === 'apxdgtl@gmail.com'"
+					},
 					"BGC_ID": {
 						  "$bgcId": {
 								 ".read": true,

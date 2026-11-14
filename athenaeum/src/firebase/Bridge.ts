@@ -15,18 +15,18 @@ export const successResponse = <T>(obj: Omit<T, keyof Pick<ApiStatus, "status">>
 export type Status = "SUCCESS" | "FAILURE" | "ERROR";
 export type ApiStatus = { status: Status, message: string }
 
-const onboarding = (bgcId: string) => `onboarding/${ bgcId }`;
+const p_onboarding = (path: string) => `onboarding/${ path }`;
 export const bridgeOnboarding = (bgcId: string): Promise<AxiosResponse<BgcId & { obStatus: boolean | string } & ApiStatus>> => {
 	  if ( /*NOT->*/ ! bgcId) return;
-	  return api.post(onboarding(bgcId), { bgcId });
+	  return api.post(p_onboarding(bgcId), { bgcId });
 };
 
 export const bridgeOnboardingBuilderMetaPOST = (meta: AthBuilderMeta): Promise<AxiosResponse<ApiStatus>> => {
 	  if ( /*NOT->*/ ! meta.bgcId || /*NOT->*/ ! meta.crs ||  /*NOT->*/ ! meta.email) return;
-	  return api.post(onboarding("builder"), meta);
+	  return api.post(p_onboarding("builder"), meta);
 };
 export const bridgeOnboardingBuilderMetaGET = (): Promise<AxiosResponse<AthBuilderMeta & ApiStatus>> => {
-	  return api.get(onboarding("builder"));
+	  return api.get(p_onboarding("builder"));
 };
 
 
@@ -42,4 +42,14 @@ export const bridgePushAsset = (assetType: AssetType, asset: AthAsset[]): Promis
 	  return api.post(pushAsset, { assetType, asset });
 };
 
+const p_admin = (path: string) => `admin/${ path }`;
+const checkAdmin = "check-admin";
 
+export const bridgeAdminCheck = (): Promise<AxiosResponse<{ valid: boolean } & ApiStatus>> => {
+	  return api.get(p_admin(checkAdmin));
+};
+
+const addNewAdmin = "add-new-admin";
+export const bridgeAdminAddNew = (data: BgcId): Promise<AxiosResponse<ApiStatus>> => {
+	  return api.post(p_admin(addNewAdmin), data);
+};

@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
 			 const { bgcIdNodeRef } = await invokeServerApp(request);
 			 const snapshot = await get(child(bgcIdNodeRef, bgcId));
 			 if (snapshot.exists()) return successResponse({ bgcId, obStatus: snapshot.val() as boolean | string });
-			 else throw "Disallowed BGC ID";
+			 else throw "OnboardingDisallowedBGCId";
 	  } catch (error) {
 			 return errorOccurred(error, { bgcId: null, obStatus: null });
 	  }

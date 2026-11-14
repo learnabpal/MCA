@@ -1,11 +1,11 @@
 "use client";
 
 import { Branding } from "@/app/(public)/layout";
-import type { AssetKey, AssetType, AthAsset, AthBuilderMeta, DownloadType } from "@/app/AthenaeumMaster";
+import type { AssetKey, AssetType, AthAsset, AthBuilderMeta, BgcId, DownloadType } from "@/app/AthenaeumMaster";
 import { APP_NAME, ASSET_MAP, ASSET_TYPES, DL_TYPES, EXTS, MAX_FILE_BYTES, MAX_FILE_MB } from "@/app/AthenaeumMaster";
 import { getCourseSubs, SubKey } from "@/app/BgcMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
-import { bridgeOnboardingBuilderMetaGET, bridgePushAsset, bridgeUploadFiles } from "@/firebase/Bridge";
+import { bridgeAdminCheck, bridgeOnboardingBuilderMetaGET, bridgePushAsset, bridgeUploadFiles } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid } from "@/firebase/FirebaseApp";
 import AddIcon from "@mui/icons-material/Add";
 import ContentCopyOutlined from "@mui/icons-material/ContentCopyOutlined";
@@ -382,6 +382,41 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 											{ "Submit" }
 									 </Button>
 							  </Stack>
+						</Stack>
+				 </>
+	  );
+}
+
+function AdminView() {
+	  const [ isAdmin, setIsAdmin ] = React.useState(undefined);
+	  React.useEffect(() => {
+			 bridgeAdminCheck().then(
+						value => {
+							  const { valid, status } = value.data;
+							  setIsAdmin(status === "SUCCESS" && valid === true);
+						}
+			 );
+	  }, []);
+	  
+	  const { WiPView, open, close, setUi } = useWipView();
+	  const [ newId, setNewId ] = React.useState<BgcId>();
+	  
+	  const invalidId = /*NOT->*/ ! newId.bgcId;
+	  
+	  if ( /*NOT->*/ ! isAdmin) return null;
+	  
+	  const handleNew = () => {
+			 if (invalidId) return;
+			 open();
+			 
+	  };
+	  
+	  return (
+				 <>
+						<WiPView/>
+						<Stack spacing={ 1 }>
+							  <TextField value={ newId } onChange={ event => setNewId(({ bgcId: event.target.value })) }/>
+							  <Button variant={ "contained" } disabled={ invalidId } onClick={ handleNew }/>
 						</Stack>
 				 </>
 	  );
