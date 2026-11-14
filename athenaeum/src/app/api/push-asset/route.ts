@@ -1,9 +1,8 @@
-import { ASSET_TYPES, AssetType, AthAsset, AthRtdbMap, buildKey, content, download, subject } from "@/app/AthenaeumMaster";
-import { SubKey } from "@/app/BgcMaster";
+import { ASSET_TYPES, AssetType, AthAsset, buildKey, content, download } from "@/app/AthenaeumMaster";
 import { errorOccurred, successResponse } from "@/firebase/Bridge";
 import { invokeServerApp } from "@/firebase/FirebaseApp";
-import { push, update } from "@firebase/database";
-import { doc, updateDoc } from "@firebase/firestore";
+import { update } from "@firebase/database";
+import { doc, setDoc } from "@firebase/firestore";
 import { NextRequest } from "next/server";
 
 
@@ -40,7 +39,7 @@ export async function POST(request: NextRequest) {
 			 
 			 switch (assetType) {
 					case content:
-						  await updateDoc(doc(contentCollectionRef, sub), fsUpdates);
+						  await setDoc(doc(contentCollectionRef, sub), fsUpdates, { merge: true });
 						  break;
 			 }
 			 await update(subjectNodeRef, rtdbDownloadUpdates);

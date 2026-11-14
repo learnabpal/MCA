@@ -399,9 +399,9 @@ function AdminView() {
 	  }, []);
 	  
 	  const { WiPView, open, close, setUi } = useWipView();
-	  const [ newId, setNewId ] = React.useState<BgcId>();
+	  const [ newId, setNewId ] = React.useState<BgcId>({ bgcId: "" });
 	  
-	  const invalidId = /*NOT->*/ ! newId.bgcId;
+	  const invalidId = /*NOT->*/ ! newId?.bgcId;
 	  
 	  if ( /*NOT->*/ ! isAdmin) return null;
 	  
@@ -414,9 +414,9 @@ function AdminView() {
 	  return (
 				 <>
 						<WiPView/>
-						<Stack spacing={ 1 }>
-							  <TextField value={ newId } onChange={ event => setNewId(({ bgcId: event.target.value })) }/>
-							  <Button variant={ "contained" } disabled={ invalidId } onClick={ handleNew }/>
+						<Stack spacing={ 3 }>
+							  <TextField value={ newId.bgcId } onChange={ event => setNewId(({ bgcId: event.target.value })) }/>
+							  <Button variant={ "contained" } disabled={ invalidId } onClick={ handleNew }>{ "Add New BGC Id" }</Button>
 						</Stack>
 				 </>
 	  );
@@ -456,6 +456,9 @@ export default function BuilderPage() {
 									 <Typography variant={ "body1" } color={ "text.secondary" }>{ builderMeta.bgcId }</Typography>
 							  </Stack>
 						</Stack>
+						<Paper variant={ "outlined" } sx={ { p: { xs: 2, md: 3 } } }>
+							  <AdminView/>
+						</Paper>
 						<Paper variant={ "outlined" } sx={ { p: { xs: 2, md: 3 } } }>
 							  <BuilderForms meta={ builderMeta }/>
 						</Paper>

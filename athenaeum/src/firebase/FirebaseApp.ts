@@ -1,8 +1,8 @@
-import { APP_NAME, AssetType, joiner, subject } from "@/app/AthenaeumMaster";
+import { APP_NAME, AssetType, content, joiner, subject } from "@/app/AthenaeumMaster";
 import { isInRestrictedList } from "@/components/mui/apx/ts/Utils";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "@firebase/auth";
 import { child } from "@firebase/database";
-import { collection, getFirestore } from "@firebase/firestore";
+import { collection, doc, getFirestore } from "@firebase/firestore";
 import { getDownloadURL, getStorage, ref as storageRef } from "@firebase/storage";
 import axios from "axios";
 import { getApps, initializeApp, initializeServerApp } from "firebase/app";
@@ -167,7 +167,8 @@ const invokeServerApp = (request?: NextRequest) => {
 			 const adminNodeRef = child(rtdbRoot, joiner(APP_NAME, ADMIN_NODE));
 			 const bgcIdNodeRef = child(rtdbRoot, joiner(APP_NAME, BGC_ID_NODE));
 			 const builderMetaNodeRef = child(rtdbRoot, joiner(APP_NAME, BUILDER_META_NODE));
-			 const contentCollectionRef = collection(firestoreRoot, joiner(APP_NAME, CONTENT_COLLECTION));
+			 // const contentCollectionRef = collection(firestoreRoot, joiner(APP_NAME, CONTENT_COLLECTION));
+			 const contentCollectionRef = collection(doc(collection(firestoreRoot, APP_NAME)), content);
 			 
 			 return ({
 					uid: user?.uid,
