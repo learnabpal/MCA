@@ -32,12 +32,12 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 					return;
 			 }
 			 const cacheKey = `${ APP_NAME }-subject-map-${ subject }`;
-			 const cachedMap = localStorage.getItem(cacheKey);
+			 const cached = localStorage.getItem(cacheKey);
 			 localStorage.removeItem(cacheKey);
-			 const index: AthRtdbMap[ "subject" ][ SubKey ] = cachedMap ?
-						JSON.parse(cachedMap) :
+			 const index: AthRtdbMap[ "subject" ][ SubKey ] = cached ?
+						JSON.parse(cached) :
 						(ATHENAEUM_DEMO_DATA.subject[subject] || { [content]: {}, [download]: {} });
-			 if (  /*NOT->*/ ! cachedMap) localStorage.setItem(cacheKey, JSON.stringify(index));
+			 if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(index));
 			 setContents(index.content || {});
 			 setDownloads(index.download || {});
 			 setLoading(false);
