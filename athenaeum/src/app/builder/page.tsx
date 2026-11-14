@@ -5,7 +5,7 @@ import type { AssetKey, AssetType, AthAsset, AthBuilderMeta, BgcId, DownloadType
 import { APP_NAME, ASSET_MAP, ASSET_TYPES, DL_TYPES, EXTS, MAX_FILE_BYTES, MAX_FILE_MB } from "@/app/AthenaeumMaster";
 import { getCourseSubs, SubKey } from "@/app/BgcMaster";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
-import { bridgeAdminCheck, bridgeOnboardingBuilderMetaGET, bridgePushAsset, bridgeUploadFiles } from "@/firebase/Bridge";
+import { bridgeAdminAddNewBuilder, bridgeAdminCheck, bridgeOnboardingBuilderMetaGET, bridgePushAsset, bridgeUploadFiles } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid } from "@/firebase/FirebaseApp";
 import AddIcon from "@mui/icons-material/Add";
 import ContentCopyOutlined from "@mui/icons-material/ContentCopyOutlined";
@@ -408,6 +408,19 @@ function AdminView() {
 	  const handleNew = () => {
 			 if (invalidId) return;
 			 open();
+			 setUi("Pushing new BGC Id", false);
+			 bridgeAdminAddNewBuilder(newId).then(
+						value => {
+							  const { status } = value.data;
+							  if (status === "SUCCESS") {
+									 setUi("New BGC Id added successfully");
+									 setNewId({ bgcId: "" });
+							  } else {
+									 setUi("Failed to add new BGC Id");
+							  }
+						},
+						reason => setUi(reason?.message || "Failed to add new BGC Id")
+			 );
 			 
 	  };
 	  
