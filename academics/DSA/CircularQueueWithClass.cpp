@@ -102,7 +102,7 @@ public:
                   cout << "Queue is empty" << endl;
                   return;
             }
-            cout << "QUEUE: ";
+            cout << "Queue: ";
             int i = f;
             while (true)
             {
