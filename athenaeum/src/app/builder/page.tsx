@@ -4,6 +4,7 @@ import { Branding } from "@/app/(public)/layout";
 import type { AssetKey, AssetType, AthAsset, AthBuilderMeta, BgcId, DownloadType } from "@/app/AthenaeumMaster";
 import { APP_NAME, ASSET_MAP, ASSET_TYPES, DL_TYPES, EXTS, MAX_FILE_BYTES, MAX_FILE_MB } from "@/app/AthenaeumMaster";
 import { getCourseSubs, SubKey } from "@/app/BgcMaster";
+import DevMarkdown from "@/app/DevMarkdown";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
 import { bridgeAdminAddNewBuilder, bridgeAdminCheck, bridgeOnboardingBuilderMetaGET, bridgePushAsset, bridgeUploadFiles } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid } from "@/firebase/FirebaseApp";
@@ -20,39 +21,39 @@ import React from "react";
 
 
 
-const GEN_AI_PROMPT = "Generate structured educational Markdown content. Follow these rules strictly:\n" +
-		  "\n" +
-		  "- Use proper Markdown headings, paragraphs, bold, italics, lists and tables.\n" +
-		  "- Inline mathematics: use `\\( ... \\)` exclusively.\n" +
-		  "- Display mathematics: use `\\[ ... \\]` exclusively, with delimiters on separate lines.\n" +
-		  "- Never use `$` or `$$` as mathematical delimiters.\n" +
-		  "- Preserve all LaTeX backslashes, braces, subscripts and superscripts.\n" +
-		  "- Inline code: use single backticks, e.g. `int count = 10;`.\n" +
-		  "- Block code: use triple backticks with the correct language identifier, e.g. ` ```java `, ` ```javascript ` or ` ```python `.\n" +
-		  "- Never represent code as plain text or use inline code for multi-line code.\n" +
-		  "- Ensure code is complete, syntactically correct and properly indented.\n" +
-		  "\n" +
-		  "Examples:\n" +
-		  "\n" +
-		  "Inline mathematics: \\\\(A\\_{m \\times n}\\\\)\n" +
-		  "\n" +
-		  "Display mathematics:\n" +
-		  "\n" +
-		  "\\\\[ A = \\begin{bmatrix} 1 & 2 \\\\\\ 3 & 4 \\end{bmatrix} \\\\]\n" +
-		  "\n" +
-		  "Inline code: `System.out.println(\"Hello\");`\n" +
-		  "\n" +
-		  "Block code:\n" +
-		  "\n" +
-		  "```\n" +
-		  "public class Main {\n" +
-		  "    public static void main(String[] args) {\n" +
-		  "        System.out.println(\"Hello\");\n" +
-		  "    }\n" +
-		  "}\n" +
-		  "```\n" +
-		  "\n" +
-		  "Return ONLY the generated Markdown content. Do not include introductory commentary, explanations or closing remarks.";
+const GEN_AI_PROMPT = `Generate structured educational Markdown content. Follow these rules strictly:
+
+- Use proper Markdown headings, paragraphs, bold, italics, lists and tables.
+- Inline mathematics: use \`\\( ... \\)\` exclusively.
+- Display mathematics: use \`\\[ ... \\]\` exclusively, with delimiters on separate lines.
+- Never use \`$\` or \`$$\` as mathematical delimiters.
+- Preserve all LaTeX backslashes, braces, subscripts and superscripts.
+- Inline code: use single backticks, e.g. \`int count = 10;\`.
+- Block code: use triple backticks with the correct language identifier, e.g. \` \`\`\`java \`, \` \`\`\`javascript \` or \` \`\`\`python \`.
+- Never represent code as plain text or use inline code for multi-line code.
+- Ensure code is complete, syntactically correct and properly indented.
+
+Examples:
+
+Inline mathematics: \\(A\_{m \\times n}\\)
+
+Display mathematics:
+
+\\[ A = \\begin{bmatrix} 1 & 2 \\\\ 3 & 4 \\end{bmatrix} \\]
+
+Inline code: \`System.out.println("Hello");\`
+
+Block code:
+
+\`\`\`java
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello");
+    }
+}
+\`\`\`
+
+Return ONLY the generated Markdown content. Do not include introductory commentary, explanations or closing remarks.`;
 
 
 /* Helper for URL validation */
@@ -246,12 +247,24 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 																	<ContentCopyOutlined/>
 															 </IconButton>
 													  </Stack>
-													  <MDEditor
+													  {/* <MDEditor
 																 value={ content || GEN_AI_PROMPT }
 																 onChange={ (val) => setContent(val ?? "") }
 																 height={ 480 }
 																 preview={ "edit" }
+													  /> */ }
+													  <TextField
+																 value={ content }
+																 onChange={ (event) => setContent(event.target.value) }
+																 multiline
+																 minRows={ 20 }
+																 placeholder={ GEN_AI_PROMPT }
+																 required fullWidth
 													  />
+													  <Stack spacing={ 2 } py={ 2 }>
+															 <Typography variant={ "body2" } color={ "text.secondary" }>{ "Preview:" }</Typography>
+															 <DevMarkdown text={ content || GEN_AI_PROMPT }/>
+													  </Stack>
 												</Stack>
 										 </Stack>
 							  ) }
