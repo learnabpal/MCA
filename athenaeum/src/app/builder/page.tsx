@@ -140,7 +140,19 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 						value => {
 							  const { results, status } = value.data;
 							  if (status === "SUCCESS" && results?.length) {
-									 setUrlPairs(prevState => [ ...prevState, ...results.map(value => ({ ...value, readonly: true })) ]);
+									 setUrlPairs(prevState => {
+											// [ ...prevState, ...results.map(value => ({ ...value, readonly: true })) ];
+											const newState = [ ...prevState ];
+											results.forEach(({ url, title }) => {
+												  const existingIndex = newState.findIndex(p => p.url === url);
+												  if (existingIndex !== -1) {
+														 newState[existingIndex] = { url, title, readonly: true };
+												  } else {
+														 newState.push({ url, title, readonly: true });
+												  }
+											});
+											return newState;
+									 });
 									 setSelectedFiles([]);
 									 setUi("Files uploaded successfully");
 									 setDownloadType("url");
