@@ -99,18 +99,18 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 	  const [ content, setContent ] = React.useState("");
 	  
 	  /* Download Form State */
-	  const [ dlType, setDlType ] = React.useState<DownloadType>("file");
+	  const [ downloadType, setDownloadType ] = React.useState<DownloadType>("file");
 	  const [ selectedFiles, setSelectedFiles ] = React.useState<File[]>([]);
 	  const [ urlPairs, setUrlPairs ] = React.useState<Array<{ title: string; url: string }>>([ { title: "", url: "" } ]);
 	  
 	  const isContentValid = subKey && astKey && contentTitle.trim() && content.trim();
 	  
 	  const isDownloadValid = subKey && astKey && (
-				 // dlType === "file"
+				 // downloadType === "file"
 				 // 		? (selectedFiles.length > 0 && selectedFiles.every(isValidFile))
 				 // 		:
 				 (urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)))
-				 && (dlType !== "file" || selectedFiles.length === 0)
+				 && (downloadType !== "file" || selectedFiles.length === 0)
 	  );
 	  
 	  
@@ -142,7 +142,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 									 setUrlPairs(prevState => [ ...prevState, ...results ]);
 									 setSelectedFiles([]);
 									 setUi("Files uploaded successfully");
-									 setDlType("url");
+									 setDownloadType("url");
 							  } else {
 									 setUi("File upload failed");
 							  }
@@ -276,9 +276,9 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 										 <Stack spacing={ 2.5 }>
 												<Box sx={ { display: "flex", justifyContent: "center", mb: 1 } }>
 													  <ToggleButtonGroup
-																 value={ dlType }
+																 value={ downloadType }
 																 exclusive
-																 onChange={ (_, newType: DownloadType | null) => (/*TRUTHY->*/ !! newType) && setDlType(newType) }
+																 onChange={ (_, newType: DownloadType | null) => (/*TRUTHY->*/ !! newType) && setDownloadType(newType) }
 																 size={ "small" }
 																 color={ "primary" }
 													  >
@@ -290,7 +290,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 													  </ToggleButtonGroup>
 												</Box>
 												
-												{ dlType === "file" && (
+												{ downloadType === "file" && (
 														  <Stack spacing={ 2 }>
 																 <Box
 																			onDragOver={ (event) => event.preventDefault() }
@@ -339,7 +339,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 														  </Stack>
 												) }
 												
-												{ dlType === "url" && (
+												{ downloadType === "url" && (
 														  <Stack spacing={ 3 }>
 																 { urlPairs.map((pair, index) => (
 																			<Stack key={ index } direction={ "row" } spacing={ 1.5 }>
