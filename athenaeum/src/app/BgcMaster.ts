@@ -35,7 +35,7 @@ export const SPCL_MAP = {
 	  culs: "Culinary Science",
 	  cyse: "Cyber Security",
 	  dscs: "Data Science & Cyber Security",
-	  dtsa: "Data Science & Analytics",
+	  dsan: "Data Science & Analytics",
 	  dtsc: "Data Science",
 	  entr: "Entrepreneurship",
 	  fash: "Fashion Design & Management",
@@ -186,7 +186,7 @@ export const COURSES: Record<CrsKey, Course> = {
 	  },
 	  msc: {
 			 titles: { abbr: "MSc", full: "Master of Science" },
-			 spcl: [ "clps", "hspy", "mdsc", "mmag", "dtsa" ],
+			 spcl: [ "clps", "hspy", "mdsc", "mmag", "dsan" ],
 			 subs: {
 					1: {}, 2: {}, 3: {}, 4: {}
 			 }
