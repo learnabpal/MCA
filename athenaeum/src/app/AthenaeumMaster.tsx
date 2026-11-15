@@ -14,8 +14,6 @@ import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/School";
 
 
-// Added check to ensure course.spcl and course.subs[sem][spcl] matches
-export const revalSpcl = (crs_spcl: SpclKey[], spcl: SpclKey) => ([ ...crs_spcl, "core" ] as SpclKey[]).includes(spcl);
 
 
 export const ASSET_MAP = {

@@ -39,11 +39,10 @@ export const SPCL_MAP = {
 	  dtsc: "Data Science",
 	  entr: "Entrepreneurship",
 	  fash: "Fashion Design & Management",
-	  glob: "Global Business",
-	  hspm: "Hospitality Management",
+	  glbz: "Global Business",
 	  hha: "Hospitality & Hotel Administration",
-	  hosp: "Hospitality Management",
-	  intr: "Interior Designing",
+	  hspy: "Hospitality Management",
+	  intds: "Interior Designing",
 	  iots: "Internet of Things",
 	  mmag: "Multimedia, Animation & Graphics",
 	  mdsc: "Media Science",
@@ -53,7 +52,6 @@ export const SPCL_MAP = {
 	  sprt: "Sports Management",
 	  trav: "Travel & Tourism Management"
 } as const;
-
 export type SpclKey = keyof typeof SPCL_MAP;
 
 export type Course = {
@@ -83,7 +81,7 @@ export type CrsKey =
 export const COURSES: Record<CrsKey, Course> = {
 	  bba: {
 			 titles: { abbr: "BBA", full: "Bachelor of Business Administration" },
-			 spcl: [ "bfin", "entr", "hosp", "glob", "sprt", "trav", "avhm" ],
+			 spcl: [ "bfin", "entr", "hspy", "glbz", "sprt", "trav", "avhm" ],
 			 subs: {
 					1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}
 			 }
@@ -125,7 +123,7 @@ export const COURSES: Record<CrsKey, Course> = {
 	  },
 	  bsc: {
 			 titles: { abbr: "BSc", full: "Bachelor of Science" },
-			 spcl: [ "dtsc", "fash", "intr", "mmag", "hha", "culs", "mdsc" ],
+			 spcl: [ "dtsc", "fash", "intds", "mmag", "hha", "culs", "mdsc" ],
 			 subs: {
 					1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}
 			 }
@@ -188,7 +186,7 @@ export const COURSES: Record<CrsKey, Course> = {
 	  },
 	  msc: {
 			 titles: { abbr: "MSc", full: "Master of Science" },
-			 spcl: [ "clps", "hspm", "mdsc", "mmag", "dtsa" ],
+			 spcl: [ "clps", "hspy", "mdsc", "mmag", "dtsa" ],
 			 subs: {
 					1: {}, 2: {}, 3: {}, 4: {}
 			 }
@@ -218,3 +216,9 @@ export const getCourseSubs = (crs: CrsKey) => {
 						.flat(2)
 						.map(s => [ s, SUB_MAP[s] as const ]);
 };
+
+
+/**
+ * Added check to ensure course.spcl and course.subs[sem][spcl] matches
+ */
+export const revalSpcl = (crs_spcl: SpclKey[], spcl: SpclKey) => ([ ...crs_spcl, "core" ] as SpclKey[]).includes(spcl);
