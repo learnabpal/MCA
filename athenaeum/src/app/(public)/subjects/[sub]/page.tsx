@@ -1,9 +1,9 @@
 "use client";
 
 import { Heading } from "@/app/(public)/layout";
-import DevMarkdown, { ColourScheme } from "@/app/DevMarkdown";
-import { APP_NAME, ArrowBackRoundedIcon, type AthAsset, type AthRtdbMap, BGC_HEX_O, content, download, DownloadIcon, FileIcon, FullscreenIcon, MenuBookOutlinedIcon, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
+import { APP_NAME, ArrowBackRoundedIcon, type AthAsset, type AthRtdbMap, BGC_HEX_O, cachefy, content, download, DownloadIcon, FileIcon, FullscreenIcon, MenuBookOutlinedIcon, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { SUB_MAP, SubKey } from "@/app/BgcMaster";
+import DevMarkdown, { ColourScheme } from "@/app/DevMarkdown";
 import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
 import { Alert, Box, Button, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import "katex/dist/katex.min.css";
@@ -31,13 +31,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 					setLoading(false);
 					return;
 			 }
-			 const cacheKey = `${ APP_NAME }-subject-map-${ subject }`;
-			 const cached = localStorage.getItem(cacheKey);
-			 localStorage.removeItem(cacheKey);
-			 const index: AthRtdbMap[ "subject" ][ SubKey ] = cached ?
-						JSON.parse(cached) :
-						(ATHENAEUM_DEMO_DATA.subject[subject] || { [content]: {}, [download]: {} });
-			 if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(index));
+			 const index = cachefy<AthRtdbMap[ "subject" ][ SubKey ]>("subject", (ATHENAEUM_DEMO_DATA.subject[subject] || { [content]: {}, [download]: {} }), subject);
 			 setContents(index.content || {});
 			 setDownloads(index.download || {});
 			 setLoading(false);
@@ -84,10 +78,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 																 <Card variant={ "outlined" } sx={ { height: "100%", borderColor: selectedContent?.title === content.title ? "primary.main" : "divider" } }>
 																		<CardActionArea
 																				  onClick={ () => {
-																						 const cacheKey = `${ APP_NAME }-content-map-${ subject }-${ id }`;
-																						 const cached = localStorage.getItem(cacheKey);
-																						 const selected = cached ? JSON.parse(cached) as AthAsset : content;
-																						 if (  /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(selected));
+																						 const selected = cachefy<AthAsset>("content", content, subject, id);
 																						 setSelectedContent(selected);
 																				  } }
 																				  sx={ { height: "100%" } }

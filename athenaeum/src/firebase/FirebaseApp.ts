@@ -1,4 +1,4 @@
-import { APP_NAME, AssetType, content, joiner, subject } from "@/app/AthenaeumMaster";
+import { APP_NAME, AssetType, content, pathJoiner, subject } from "@/app/AthenaeumMaster";
 import { isInRestrictedList } from "@/components/mui/apx/ts/Utils";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "@firebase/auth";
 import { child } from "@firebase/database";
@@ -164,16 +164,16 @@ const invokeServerApp = (request?: NextRequest) => {
 			 // const trashedNodeRef = child(rtdbRoot, TRASHED_NODE);
 			 
 			 
-			 const adminNodeRef = child(rtdbRoot, joiner(APP_NAME, ADMIN_NODE));
-			 const bgcIdNodeRef = child(rtdbRoot, joiner(APP_NAME, BGC_ID_NODE));
-			 const builderMetaNodeRef = child(rtdbRoot, joiner(APP_NAME, BUILDER_META_NODE));
+			 const adminNodeRef = child(rtdbRoot, pathJoiner(APP_NAME, ADMIN_NODE));
+			 const bgcIdNodeRef = child(rtdbRoot, pathJoiner(APP_NAME, BGC_ID_NODE));
+			 const builderMetaNodeRef = child(rtdbRoot, pathJoiner(APP_NAME, BUILDER_META_NODE));
 			 // const contentCollectionRef = collection(firestoreRoot, joiner(APP_NAME, CONTENT_COLLECTION));
 			 const contentCollectionRef = collection(doc(collection(firestoreRoot, APP_NAME)), content);
 			 
 			 return ({
 					uid: user?.uid,
 					email: user?.email,
-					createStorageRef: (path: string) => storageRef(storageRoot, joiner(APP_NAME, path)),
+					createStorageRef: (path: string) => storageRef(storageRoot, pathJoiner(APP_NAME, path)),
 					// rtdbRoot, firestoreRoot, storageRoot,
 					// handleMapNodeRef, hostNodeRef, claimNodeRef,
 					/* contentCollectionRef, gatewayCollectionRef */
@@ -181,7 +181,7 @@ const invokeServerApp = (request?: NextRequest) => {
 					// contentGuideShardsCollectionRef, contentEventShardsCollectionRef,
 					// gatewayNodeRef,  archiveNodeRef, trashedNodeRef
 					// enquiriesNodeRef,
-					createSubjectNodeRef: (sub: string, assetType: AssetType) => child(rtdbRoot, joiner(APP_NAME, subject, sub, assetType)),
+					createSubjectNodeRef: (sub: string, assetType: AssetType) => child(rtdbRoot, pathJoiner(APP_NAME, subject, sub, assetType)),
 					adminNodeRef,
 					bgcIdNodeRef, builderMetaNodeRef,
 					contentCollectionRef

@@ -12,7 +12,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBook";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/School";
-import { log } from "console";
 
 
 // Added check to ensure course.spcl and course.subs[sem][spcl] matches
@@ -92,11 +91,20 @@ export const EXTS = [
 	  ".md", ".txt"
 ] as const;
 
-export const joiner = (...str: string[]) => str.join("/");
+export const pathJoiner = (...str: string[]) => str.join("/");
 
 
 const KEY_DTF = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS").withLocale(Locale.ENGLISH);
 export const buildKey = (ldt = LocalDateTime.now()) => KEY_DTF.format(ldt);
+
+export const cachefy = <T, >(map: typeof content | typeof subject, def: T, ...paths: string[]) => {
+	  const cacheKey = `${ APP_NAME }-${ map }-map-${ pathJoiner(...paths).replaceAll("/", "-") }`;
+	  const cached = localStorage.getItem(cacheKey);
+	  localStorage.removeItem(cacheKey);
+	  const data: T = cached ? JSON.parse(cached) : def;
+	  if ( /*NOT->*/ ! cached) localStorage.setItem(cacheKey, JSON.stringify(data));
+	  return data;
+};
 
 const opacity = 0.75;
 export { opacity };
