@@ -153,26 +153,28 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 	  const handleSubmit = () => {
 			 if (noKey) return;
 			 switch (assetType) {
-					case "content":
+					case "content": {
 						  if (/*NOT->*/ ! isContentValid) return;
 						  open();
 						  setUi("Submitting...", false);
-						  bridgePushAsset(assetType, [ { sub: subKey, ast: astKey, title: contentTitle.trim(), src: content } ]).then(
-									 value => handleReset(),
-									 error => setUi(error?.message || "Submission failed")
-						  );
-						  break;
-					case "download":
-						  if (/*NOT->*/ ! isDownloadValid) return;
-						  const assets: AthAsset[] = [];
-						  urlPairs.forEach(({ title, url }) => assets.push({ sub: subKey, ast: astKey, title: title.trim(), src: url.trim() }));
-						  open();
-						  setUi("Submitting...", false);
+						  const assets: AthAsset[] = [ { sub: subKey, ast: astKey, title: contentTitle.trim(), src: content } ];
 						  bridgePushAsset(assetType, assets).then(
 									 value => handleReset(),
 									 error => setUi(error?.message || "Submission failed")
 						  );
 						  break;
+					}
+					case "download": {
+						  if (/*NOT->*/ ! isDownloadValid) return;
+						  open();
+						  setUi("Submitting...", false);
+						  const assets: AthAsset[] = urlPairs.map(({ title, url }) => ({ sub: subKey, ast: astKey, title: title.trim(), src: url.trim() }));
+						  bridgePushAsset(assetType, assets).then(
+									 value => handleReset(),
+									 error => setUi(error?.message || "Submission failed")
+						  );
+						  break;
+					}
 			 }
 	  };
 	  
