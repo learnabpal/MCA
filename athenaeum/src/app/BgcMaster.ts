@@ -29,7 +29,7 @@ export const getSubjectSets = () => {
 export const SPCL_MAP = {
 	  aiml: "Artificial Intelligence & Machine Learning",
 	  avhm: "Aviation Hospitality Services & Management",
-	  bfin: "Banking & Finance",
+	  bnkfn: "Banking & Finance",
 	  clps: "Clinical Psychology",
 	  core: "Core",
 	  culs: "Culinary Science",
@@ -81,7 +81,7 @@ export type CrsKey =
 export const COURSES: Record<CrsKey, Course> = {
 	  bba: {
 			 titles: { abbr: "BBA", full: "Bachelor of Business Administration" },
-			 spcl: [ "bfin", "entr", "hspy", "glbz", "sprt", "trav", "avhm" ],
+			 spcl: [ "bnkfn", "entr", "hspy", "glbz", "sprt", "trav", "avhm" ],
 			 subs: {
 					1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}
 			 }
