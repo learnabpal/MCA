@@ -142,6 +142,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 									 setUrlPairs(prevState => [ ...prevState, ...results ]);
 									 setSelectedFiles([]);
 									 setUi("Files uploaded successfully");
+									 setDlType("url");
 							  } else {
 									 setUi("File upload failed");
 							  }
