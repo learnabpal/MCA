@@ -29,9 +29,9 @@ export const bridgeOnboardingBuilderMetaGET = (): Promise<AxiosResponse<AthBuild
 	  return api.get(p_onboarding("builder"));
 };
 
-
+export type AthAssetUploadResult = { url: string, title: string };
 const uploadFiles = "upload-files";
-export const bridgeUploadFiles = (files: File[]): Promise<AxiosResponse<{ results: { url: string, title: string }[] } & ApiStatus>> => {
+export const bridgeUploadFiles = (files: File[]): Promise<AxiosResponse<{ results: AthAssetUploadResult[] } & ApiStatus>> => {
 	  const formData = new FormData();
 	  files.forEach(file => formData.append("files", file));
 	  return api.post(uploadFiles, formData);

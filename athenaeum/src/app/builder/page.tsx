@@ -6,8 +6,9 @@ import { APP_NAME, ASSET_MAP, ASSET_TYPES, DL_TYPES, EXTS, MAX_FILE_BYTES, MAX_F
 import { getCourseSubs, SubKey } from "@/app/BgcMaster";
 import DevMarkdown from "@/app/DevMarkdown";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
-import { bridgeAdminAddNewBuilder, bridgeAdminCheck, bridgeOnboardingBuilderMetaGET, bridgePushAsset, bridgeUploadFiles } from "@/firebase/Bridge";
+import { bridgeAdminAddNewBuilder, bridgeAdminCheck, bridgeOnboardingBuilderMetaGET, bridgePushAsset, bridgeUploadFiles, AthAssetUploadResult } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid } from "@/firebase/FirebaseApp";
+import { UploadResponse } from "@google-cloud/storage";
 import AddIcon from "@mui/icons-material/Add";
 import ContentCopyOutlined from "@mui/icons-material/ContentCopyOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -101,7 +102,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 	  /* Download Form State */
 	  const [ downloadType, setDownloadType ] = React.useState<DownloadType>("file");
 	  const [ selectedFiles, setSelectedFiles ] = React.useState<File[]>([]);
-	  const [ urlPairs, setUrlPairs ] = React.useState<Array<{ title: string; url: string }>>([ { title: "", url: "" } ]);
+	  const [ urlPairs, setUrlPairs ] = React.useState<(AthAssetUploadResult & { readonly?: boolean })[]>([ { title: "", url: "" } ]);
 	  
 	  const isContentValid = subKey && astKey && contentTitle.trim() && content.trim();
 	  
@@ -139,7 +140,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 						value => {
 							  const { results, status } = value.data;
 							  if (status === "SUCCESS" && results?.length) {
-									 setUrlPairs(prevState => [ ...prevState, ...results ]);
+									 setUrlPairs(prevState => [ ...prevState, ...results.map(value => ({ ...value, readonly: true })) ]);
 									 setSelectedFiles([]);
 									 setUi("Files uploaded successfully");
 									 setDownloadType("url");
@@ -348,20 +349,24 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 																									label={ "Title" }
 																									value={ pair.title }
 																									onChange={ (e) => {
+																										  if (pair.readonly) return;
 																										  const val = e.target.value;
 																										  setUrlPairs((prev) => prev.map((p, i) => i === index ? { ...p, title: val } : p));
 																									} }
 																									required fullWidth
+																									disabled={ pair.readonly }
 																						 />
 																						 <TextField
 																									label={ "URL" }
 																									value={ pair.url }
 																									onChange={ (e) => {
+																										  if (pair.readonly) return;
 																										  const val = e.target.value;
 																										  setUrlPairs((prev) => prev.map((p, i) => i === index ? { ...p, url: val } : p));
 																									} }
 																									error={ /*TRUTHY->*/ !! (pair.url.trim() && /*NOT->*/ ! validateUrl(pair.url)) }
 																									required fullWidth
+																									disabled={ pair.readonly }
 																						 />
 																				  </Stack>
 																				  { urlPairs.length > 1 && (
