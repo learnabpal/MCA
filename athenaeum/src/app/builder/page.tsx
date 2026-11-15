@@ -441,7 +441,7 @@ function AdminView() {
 				 <>
 						<WiPView/>
 						<Stack spacing={ 3 }>
-							  <TextField value={ newId.bgcId } onChange={ event => setNewId(({ bgcId: event.target.value })) }/>
+							  <TextField label={ "BGC Id" } value={ newId.bgcId } onChange={ event => setNewId(({ bgcId: event.target.value })) }/>
 							  <Button variant={ "contained" } disabled={ invalidId } onClick={ handleNew }>{ "Add New BGC Id" }</Button>
 						</Stack>
 				 </>
