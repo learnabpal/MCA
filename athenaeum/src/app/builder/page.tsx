@@ -141,7 +141,6 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 							  const { results, status } = value.data;
 							  if (status === "SUCCESS" && results?.length) {
 									 setUrlPairs(prevState => {
-											// [ ...prevState, ...results.map(value => ({ ...value, readonly: true })) ];
 											const newState = [ ...prevState ];
 											results.forEach(({ url, title }) => {
 												  const existingIndex = newState.findIndex(p => p.url === url);
