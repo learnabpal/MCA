@@ -221,7 +221,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 																 clickable
 																 color={ subKey === key ? "primary" : "default" }
 																 variant={ subKey === key ? "filled" : "outlined" }
-																 onClick={ () => setSubKey(subKey === key ? "" : key as SubKey) }
+																 onClick={ () => setSubKey(subKey === key ? "" : key) }
 													  />
 											)) }
 									 </Stack>
@@ -236,7 +236,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 																 clickable
 																 color={ astKey === key ? "primary" : "default" }
 																 variant={ astKey === key ? "filled" : "outlined" }
-																 onClick={ () => setAstKey(astKey === key ? "" : key as AssetKey) }
+																 onClick={ () => setAstKey(astKey === key ? "" : key) }
 													  />
 											)) }
 									 </Stack>
