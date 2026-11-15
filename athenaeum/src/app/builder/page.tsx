@@ -201,7 +201,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 									 <ToggleButtonGroup
 												value={ assetType }
 												exclusive
-												onChange={ (_, newMode: AssetType | null) => ( /*TRUTHY->*/ !! newMode) && setAssetType(newMode) }
+												onChange={ (_, newAssetType: AssetType | null) => ( /*TRUTHY->*/ !! newAssetType) && setAssetType(newAssetType) }
 												color={ "primary" }
 									 >
 											{ ASSET_TYPES.map((m) => (
