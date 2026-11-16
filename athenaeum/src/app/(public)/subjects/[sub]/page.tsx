@@ -60,7 +60,10 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 												  <CardActionArea component={ "a" } href={ asset.src } target={ "_blank" } rel={ "noopener noreferrer" } download sx={ { height: "100%" } }>
 														 <CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
 																<FileIcon color={ "action" }/>
-																<Typography sx={ { fontWeight: 600, flex: 1 } }>{ asset.title }</Typography>
+																<Stack sx={ { flex: 1, minWidth: 0 } }>
+																	  <Typography sx={ { fontWeight: 600 } }>{ asset.title }</Typography>
+																	  { asset.bgcId && <Typography variant={ "caption" } color={ "text.secondary" }>{ asset.bgcId }</Typography> }
+																</Stack>
 																<DownloadIcon color={ "action" }/>
 														 </CardContent>
 												  </CardActionArea>
@@ -85,7 +88,10 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 																		>
 																			  <CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
 																					 <MenuBookOutlinedIcon color={ "action" }/>
-																					 <Typography sx={ { flex: 1, fontWeight: 600 } }>{ title }</Typography>
+																					 <Stack sx={ { flex: 1, minWidth: 0 } }>
+																						  <Typography sx={ { fontWeight: 600 } }>{ title }</Typography>
+																						  { content.bgcId && <Typography variant={ "caption" } color={ "text.secondary" }>{ content.bgcId }</Typography> }
+																					 </Stack>
 																					 <FullscreenIcon color={ "action" }/>
 																			  </CardContent>
 																		</CardActionArea>
@@ -98,7 +104,10 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 			 </Box>
 			 { selectedContent && <Card variant={ "outlined" }>
 					<CardContent sx={ { p: { xs: 2, md: 3 } } }>
-						  <Typography variant={ "h5" } sx={ { mb: 2, color: ColourScheme.keyword.color } }>{ selectedContent.title }</Typography>
+						  <Stack sx={ { mb: 2 } }>
+								<Typography variant={ "h5" } sx={ { color: ColourScheme.keyword.color } }>{ selectedContent.title }</Typography>
+								{ selectedContent.bgcId && <Typography variant={ "caption" } color={ "text.secondary" }>{ selectedContent.bgcId }</Typography> }
+						  </Stack>
 						  <Box sx={ { height: 2, width: "100%", backgroundColor: ColourScheme.keyword.color, borderRadius: 1 } }/>
 						  <DevMarkdown text={ selectedContent.src }/>
 					</CardContent>

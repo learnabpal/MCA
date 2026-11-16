@@ -30,9 +30,9 @@ export const subject = "subject", content = "content", download = "download";
 export const ASSET_TYPES = [ content, download ] as const;
 export type AssetType = typeof ASSET_TYPES[ number ];
 
+export type BgcId = { bgcId: string }
 type AthKeys = { sub: SubKey, ast: AssetKey };
-
-export type AthAsset = AthKeys & { title: string, src: string };
+export type AthAsset = AthKeys & BgcId & { title: string, src: string };
 
 // Firestore will hold the 'content' type AthAsset because its src may be huge json.
 // RTDb will hold the map of firestore 'content'
@@ -45,7 +45,6 @@ export type AthRtdbMap = {
 	  }>>
 };
 
-export type BgcId = { bgcId: string }
 export type AthBuilderMeta = { crs: CrsKey, spcl?: SpclKey, email: string } & BgcId
 
 

@@ -86,7 +86,7 @@ const handleFilesValidate = (files: FileList | File[], onValidated: (files: File
 
 
 function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
-	  const { crs } = meta;
+	  const { crs, bgcId } = meta;
 	  const [ assetType, setAssetType ] = React.useState<AssetType>("content");
 	  const [ subKey, setSubKey ] = React.useState<SubKey>("");
 	  const [ astKey, setAstKey ] = React.useState<AssetKey>("");
@@ -162,13 +162,13 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 	  };
 	  
 	  const handleSubmit = () => {
-			 if (noKey) return;
+			 if (noKey || /*NOT->*/ ! bgcId) return;
 			 switch (assetType) {
 					case "content": {
 						  if (/*NOT->*/ ! isContentValid) return;
 						  open();
 						  setUi("Submitting...", false);
-						  const assets: AthAsset[] = [ { sub: subKey, ast: astKey, title: contentTitle.trim(), src: content } ];
+						  const assets: AthAsset[] = [ { sub: subKey, ast: astKey, bgcId, title: contentTitle.trim(), src: content } ];
 						  bridgePushAsset(assetType, assets).then(
 									 value => handleReset(),
 									 error => setUi(error?.message || "Submission failed")
@@ -179,7 +179,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 						  if (/*NOT->*/ ! isDownloadValid) return;
 						  open();
 						  setUi("Submitting...", false);
-						  const assets: AthAsset[] = urlPairs.map(({ title, url }) => ({ sub: subKey, ast: astKey, title: title.trim(), src: url.trim() }));
+						  const assets: AthAsset[] = urlPairs.map(({ title, url }) => ({ sub: subKey, ast: astKey, bgcId, title: title.trim(), src: url.trim() }));
 						  bridgePushAsset(assetType, assets).then(
 									 value => handleReset(),
 									 error => setUi(error?.message || "Submission failed")

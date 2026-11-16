@@ -151,15 +151,8 @@ public class L068 {
       public static void main(String[] args) {
             L068 s = new L068();
 
-            System.out.println(s.fullJustify(
-                        new String[] { "This", "is", "an", "example", "of", "text", "justification." }, 16));
-
-            System.out.println(s.fullJustify(
-                        new String[] { "What", "must", "be", "acknowledgment", "shall", "be" }, 16));
-
-            System.out.println(s.fullJustify(
-                        new String[] { "Science", "is", "what", "we", "understand", "well", "enough", "to", "explain",
-                                    "to", "a", "computer.", "Art", "is", "everything", "else", "we", "do" },
-                        20));
+            System.out.println(s.fullJustify(new String[] { "This", "is", "an", "example", "of", "text", "justification." }, 16));
+            System.out.println(s.fullJustify(new String[] { "What", "must", "be", "acknowledgment", "shall", "be" }, 16));
+            System.out.println(s.fullJustify(new String[] { "Science", "is", "what", "we", "understand", "well", "enough", "to", "explain", "to", "a", "computer.", "Art", "is", "everything", "else", "we", "do" }, 20));
       }
 }

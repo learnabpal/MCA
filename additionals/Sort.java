@@ -1,6 +1,4 @@
-package additionals;
-
-import java.util.Arrays;
+import java.util.*;
 
 public class Sort {
       static int[] bubble(int[] array) {
@@ -17,6 +15,10 @@ public class Sort {
                   }
             }
             System.out.println(count);
+            return array;
+      }
+
+      static int[] merge(int[]array){
             return array;
       }
 

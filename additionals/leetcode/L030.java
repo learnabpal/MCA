@@ -75,24 +75,19 @@ import java.util.Map;
 
 // Algorithmic Steps
 // 1. Calculate wordLength, wordCount and totalLength.
-// 2. Create a HashMap called required to store the frequency of every word in
-// words.
-// 3. Iterate through s using wordLength different starting offsets (0 to
-// wordLength - 1).
+// 2. Create a HashMap called required to store the frequency of every word in words.
+// 3. Iterate through s using wordLength different starting offsets (0 to wordLength - 1).
 // 4. For each offset, initialise:
-// - left — starting position of the current window.
-// - right — position of the next word to examine.
-// - seen — frequency map of words inside the current window.
-// - matchedWords — total number of words currently inside the window.
+//    - left — starting position of the current window.
+//    - right — position of the next word to examine.
+//    - seen — frequency map of words inside the current window.
+//    - matchedWords — total number of words currently inside the window.
 // 5. Extract the next wordLength characters using substring().
 // 6. Check whether the extracted word exists in required.
-// - Not found: Clear seen, reset matchedWords and move left beyond the invalid
-// word.
-// - Found: Increment its frequency in seen and increment matchedWords.
-// 7. Check whether the frequency of the extracted word exceeds its required
-// frequency.
-// - If it does, remove words from the left of the window until the frequency
-// becomes valid.
+//    - Not found: Clear seen, reset matchedWords and move left beyond the invalid word.
+//    - Found: Increment its frequency in seen and increment matchedWords.
+// 7. Check whether the frequency of the extracted word exceeds its required frequency.
+//    - If it does, remove words from the left of the window until the frequency becomes valid.
 // 8. When matchedWords == wordCount, add left to the result.
 // 9. Move left forward by one word to allow overlapping matches.
 // 10. Repeat until all offsets have been examined.
@@ -149,8 +144,7 @@ public class L030 {
       public static void main(String[] args) {
             L030 s = new L030();
             System.out.println(s.findSubstring("barfoothefoobarman", new String[] { "foo", "bar" }));
-            System.out.println(
-                        s.findSubstring("wordgoodgoodgoodbestword", new String[] { "word", "good", "best", "word" }));
+            System.out.println(s.findSubstring("wordgoodgoodgoodbestword", new String[] { "word", "good", "best", "word" }));
             System.out.println(s.findSubstring("barfoofoobarthefoobarman", new String[] { "bar", "foo", "the" }));
       }
 }

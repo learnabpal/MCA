@@ -44,18 +44,14 @@
 
 // Algorithmic Steps
 // 1. Create a DP array of size t.length() + 1.
-// 2. Let dp[j] represent the number of ways to form the first j characters of t
-// using the characters of s processed so far.
-// 3. Initialise dp[0] = 1, because an empty string can always be formed in
-// exactly one way: by selecting nothing.
+// 2. Let dp[j] represent the number of ways to form the first j characters of t using the characters of s processed so far.
+// 3. Initialise dp[0] = 1, because an empty string can always be formed in exactly one way: by selecting nothing.
 // 4. Iterate through every character of s.
-// 5. For each character, iterate through t backwards, from its last index to
-// its first.
+// 5. For each character, iterate through t backwards, from its last index to its first.
 // 6. Compare the current character of s with t.charAt(j - 1).
-// 7. If they match, update:
-// dp[j] = dp[j] + dp[j - 1]
-// - dp[j] represents existing ways that do not use the current character.
-// - dp[j - 1] represents ways that can be extended using the current character.
+// 7. If they match, update: dp[j] = dp[j] + dp[j - 1]
+//    - dp[j] represents existing ways that do not use the current character.
+//    - dp[j - 1] represents ways that can be extended using the current character.
 // 8. After processing all characters of s, return dp[t.length()].
 
 public class L115 {
