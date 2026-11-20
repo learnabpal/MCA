@@ -181,7 +181,7 @@ const invokeServerApp = (request?: NextRequest) => {
 					// contentGuideShardsCollectionRef, contentEventShardsCollectionRef,
 					// gatewayNodeRef,  archiveNodeRef, trashedNodeRef
 					// enquiriesNodeRef,
-					subjectNodeRef: (sub: SubKey, assetType: AssetType = "") => child(rtdbRoot, pathJoiner(APP_NAME, subject, sub, assetType)),
+					subjectNodeRef: (sub: SubKey, assetType: AssetType) => child(rtdbRoot, pathJoiner(APP_NAME, subject, sub, assetType)),
 					adminNodeRef,
 					bgcIdNodeRef, builderMetaNodeRef,
 					contentCollectionRef

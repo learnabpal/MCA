@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
 			 
 			 switch (assetType) {
 					case content:
-						  await setDoc(doc(contentCollectionRef, sub), fsUpdates, { merge: true });
+						  await Promise.all(Object.entries(fsUpdates).map(([ key, item ]) => setDoc(doc(contentCollectionRef, key), item, { merge: true })));
 						  break;
 			 }
 			 await update(ref, assetType === content ? rtdbContentUpdates : rtdbDownloadUpdates);

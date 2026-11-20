@@ -19,15 +19,14 @@
 					},
 					"subject": {
 						  "$sub": {
+								 ".read": true,
 								 "content": {
 										"$key": {
-											  ".read": true,
 											  ".write": "auth !== null"
 										}
 								 },
 								 "download": {
 										"$key": {
-											  ".read": true,
 											  ".write": "auth !== null"
 										}
 								 }
