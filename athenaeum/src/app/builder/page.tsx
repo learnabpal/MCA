@@ -52,7 +52,7 @@ public class Main {
 }
 \`\`\`
 
-Return ONLY the generated Markdown content. Do not include introductory commentary, explanations or closing remarks.`;
+Return ONLY the generated RAW Markdown content in WritingBlock. Do not include introductory commentary, explanations or closing remarks.`;
 
 
 /* Helper for URL validation */

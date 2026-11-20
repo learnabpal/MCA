@@ -5,8 +5,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { gruvboxDark as ColourScheme } from "react-syntax-highlighter/dist/esm/styles/prism";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math-extended";
-
-
+import remarkGfm from "remark-gfm";
 
 
 export { ColourScheme };
@@ -20,7 +19,7 @@ const mdHighlighter = (Tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "strong") 
 
 const DevMarkdown = ({ text }: { text: string }) => <ReactMarkdown
 		  children={ text }
-		  remarkPlugins={ [ [ remarkMath, { backslashDelimiters: true } ] ] }
+		  remarkPlugins={ [ [ remarkMath, { backslashDelimiters: true } ], remarkGfm ] }
 		  rehypePlugins={ [ rehypeKatex ] }
 		  components={ {
 				 h1: mdHighlighter("h1"),
