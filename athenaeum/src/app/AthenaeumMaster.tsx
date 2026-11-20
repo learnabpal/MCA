@@ -88,7 +88,7 @@ export const EXTS = [
 	  ".md", ".txt"
 ] as const;
 
-export const pathJoiner = (...str: string[]) => str.join("/");
+export const pathJoiner = (...str: string[]) => str.map(s => s.trim()).filter(Boolean).join("/");
 
 
 const KEY_DTF = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS").withLocale(Locale.ENGLISH);

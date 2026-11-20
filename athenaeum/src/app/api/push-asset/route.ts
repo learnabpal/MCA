@@ -12,13 +12,13 @@ export async function POST(request: NextRequest) {
 	  try {
 			 const { assetType, asset } = await request.json() as { assetType: AssetType; asset: AthAsset[] };
 			 if ( /*NOT->*/ ! ASSET_TYPES.includes(assetType) || /*NOT->*/ ! Array.isArray(asset) || /*NOT->*/ ! asset.length) throw "NoAssetData";
-			 const { uid, contentCollectionRef, createSubjectNodeRef } = await invokeServerApp(request);
+			 const { uid, contentCollectionRef, subjectNodeRef } = await invokeServerApp(request);
 			 if ( /*NOT->*/ ! uid) throw "UnauthorisedBuilder";
 			 
 			 const sub = asset[0].sub;
 			 if (asset.some(item => item?.sub !== sub)) throw "MixedSubjects";
 			 
-			 const subjectNodeRef = createSubjectNodeRef(sub, assetType);
+			 const subjectNodeRef = subjectNodeRef(sub, assetType);
 			 
 			 const rtdbContentUpdates: Record<string, string> = {};
 			 const rtdbDownloadUpdates: Record<string, AthAsset> = {};
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
 						  await setDoc(doc(contentCollectionRef, sub), fsUpdates, { merge: true });
 						  break;
 			 }
-			 await update(subjectNodeRef, rtdbDownloadUpdates);
+			 await update(subjectNodeRef, assetType === content ? rtdbContentUpdates : rtdbDownloadUpdates);
 			 
 			 return successResponse({});
 	  } catch (error) {

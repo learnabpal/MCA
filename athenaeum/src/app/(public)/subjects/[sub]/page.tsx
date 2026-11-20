@@ -4,7 +4,8 @@ import { Heading } from "@/app/(public)/layout";
 import { APP_NAME, ArrowBackRoundedIcon, type AthAsset, type AthRtdbMap, BGC_HEX_O, cachefy, content, download, DownloadIcon, FileIcon, FullscreenIcon, MenuBookOutlinedIcon, NAV_ITEMS, UI_TEXTS } from "@/app/AthenaeumMaster";
 import { SUB_MAP, SubKey } from "@/app/BgcMaster";
 import DevMarkdown, { ColourScheme } from "@/app/DevMarkdown";
-import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
+// import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
+import { bridgeGetSubject, bridgeGetSubjectAsset } from "@/firebase/Bridge";
 import { Alert, Box, Button, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import "katex/dist/katex.min.css";
 import Link from "next/link";
@@ -25,24 +26,35 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 	  React.useEffect(() => {
 			 setLoading(true);
 			 setSelectedContent(null);
-			 if (  /*NOT->*/ ! subjectName) {
+			 if ( /*NOT->*/ ! subjectName) {
 					setContents({});
 					setDownloads({});
 					setLoading(false);
 					return;
 			 }
-			 const index = cachefy<AthRtdbMap[ "subject" ][ SubKey ]>("subject", (ATHENAEUM_DEMO_DATA.subject[subject] || { [content]: {}, [download]: {} }), subject);
-			 setContents(index.content || {});
-			 setDownloads(index.download || {});
-			 setLoading(false);
+			 // const index = cachefy<AthRtdbMap[ "subject" ][ SubKey ]>("subject", (ATHENAEUM_DEMO_DATA.subject[subject] || { [content]: {}, [download]: {} }), subject);
+			 // setContents(index.content || {});
+			 // setDownloads(index.download || {});
+			 // setLoading(false);
+			 bridgeGetSubject(subject).then(
+						value => {
+							  const { content, download, status } = value.data;
+							  if (status === "SUCCESS") {
+									 setContents(content || {});
+									 setDownloads(download || {});
+							  }
+							  setLoading(false);
+						},
+						() => setLoading(false)
+			 );
 	  }, [ subject, subjectName ]);
 	  
-	  const indexedContents = Object.entries(contents).flatMap(([ id, title ]) => {
-			 const content = ATHENAEUM_DEMO_CONTENT[id];
-			 return content && content.sub === subject ? [ { id, title, content } ] : [];
-	  });
+	  // const indexedContents = Object.entries(contents).flatMap(([ id, title ]) => {
+	  // 	 const content = ATHENAEUM_DEMO_CONTENT[id];
+	  // 	 return content && content.sub === subject ? [ { id, title, content } ] : [];
+	  // });
 	  
-	  if (  /*NOT->*/ ! subjectName) return <Alert severity={ "warning" }>{ "Subject not found." }</Alert>;
+	  if ( /*NOT->*/ ! subjectName) return <Alert severity={ "warning" }>{ "Subject not found." }</Alert>;
 	  if (loading) return <Typography color={ "text.secondary" }>{ "Loading..." }</Typography>;
 	  
 	  return <Stack spacing={ 3 }>
@@ -57,7 +69,19 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 						  { Object.entries(downloads).map(([ id, asset ]) => (
 									 <Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
 											<Card variant={ "outlined" } sx={ { height: "100%" } }>
-												  <CardActionArea component={ "a" } href={ asset.src } target={ "_blank" } rel={ "noopener noreferrer" } download sx={ { height: "100%" } }>
+												  <CardActionArea
+															 onClick={ () => {
+																	bridgeGetSubjectAsset(subject, download, id).then(
+																			  value => {
+																					 const { status, asset } = value.data;
+																					 if (status === "SUCCESS" && asset?.src) {
+																							window.open(asset.src, "_blank", "noopener,noreferrer");
+																					 }
+																			  }
+																	);
+															 } }
+															 sx={ { height: "100%" } }
+												  >
 														 <CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
 																<FileIcon color={ "action" }/>
 																<Stack sx={ { flex: 1, minWidth: 0 } }>
@@ -74,30 +98,35 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 			 </Box> }
 			 <Box>
 					<Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Content" }</Typography>
-					{ indexedContents.length > 0 ?
+					{ Object.keys(contents).length > 0 ?
 							  <Grid container spacing={ 2 }>
-									 { indexedContents.map(({ id, title, content }) =>
-														  content && <Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
-																 <Card variant={ "outlined" } sx={ { height: "100%", borderColor: selectedContent?.title === content.title ? "primary.main" : "divider" } }>
-																		<CardActionArea
-																				  onClick={ () => {
-																						 const selected = cachefy<AthAsset>("content", content, subject, id);
-																						 setSelectedContent(selected);
-																				  } }
-																				  sx={ { height: "100%" } }
-																		>
-																			  <CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
-																					 <MenuBookOutlinedIcon color={ "action" }/>
-																					 <Stack sx={ { flex: 1, minWidth: 0 } }>
-																						  <Typography sx={ { fontWeight: 600 } }>{ title }</Typography>
-																						  { content.bgcId && <Typography variant={ "caption" } color={ "text.secondary" }>{ content.bgcId }</Typography> }
-																					 </Stack>
-																					 <FullscreenIcon color={ "action" }/>
-																			  </CardContent>
-																		</CardActionArea>
-																 </Card>
-														  </Grid>
-									 ) }
+									 { Object.entries(contents).map(([ id, title ]) => (
+												<Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
+													  <Card variant={ "outlined" } sx={ { height: "100%", borderColor: selectedContent?.title === title ? "primary.main" : "divider" } }>
+															 <CardActionArea
+																		onClick={ () => {
+																			  // const selected = cachefy<AthAsset>("content", content, subject, id);
+																			  // setSelectedContent(selected);
+																			  bridgeGetSubjectAsset(subject, content, id).then(
+																						 value => {
+																								const { status, asset } = value.data;
+																								if (status === "SUCCESS" && asset) setSelectedContent(asset);
+																						 }
+																			  );
+																		} }
+																		sx={ { height: "100%" } }
+															 >
+																	<CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
+																		  <MenuBookOutlinedIcon color={ "action" }/>
+																		  <Stack sx={ { flex: 1, minWidth: 0 } }>
+																				 <Typography sx={ { fontWeight: 600 } }>{ title }</Typography>
+																		  </Stack>
+																		  <FullscreenIcon color={ "action" }/>
+																	</CardContent>
+															 </CardActionArea>
+													  </Card>
+												</Grid>
+									 )) }
 							  </Grid>
 							  : <Typography color={ "text.secondary" }>{ "No content is available." }</Typography>
 					}
@@ -105,8 +134,8 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 			 { selectedContent && <Card variant={ "outlined" }>
 					<CardContent sx={ { p: { xs: 2, md: 3 } } }>
 						  <Stack sx={ { mb: 2 } }>
-								<Typography variant={ "h5" } sx={ { color: ColourScheme.keyword.color } }>{ selectedContent.title }</Typography>
-								{ selectedContent.bgcId && <Typography variant={ "caption" } color={ "text.secondary" }>{ selectedContent.bgcId }</Typography> }
+								 <Typography variant={ "h5" } sx={ { color: ColourScheme.keyword.color } }>{ selectedContent.title }</Typography>
+								 { selectedContent.bgcId && <Typography variant={ "caption" } color={ "text.secondary" }>{ selectedContent.bgcId }</Typography> }
 						  </Stack>
 						  <Box sx={ { height: 2, width: "100%", backgroundColor: ColourScheme.keyword.color, borderRadius: 1 } }/>
 						  <DevMarkdown text={ selectedContent.src }/>

@@ -1,4 +1,5 @@
-import { AssetType, AthBuilderMeta, AthAsset, BgcId } from "@/app/AthenaeumMaster";
+import { AssetType, AthAsset, AthBuilderMeta, AthRtdbMap, BgcId, subject } from "@/app/AthenaeumMaster";
+import { SubKey } from "@/app/BgcMaster";
 import { api } from "@/firebase/FirebaseApp";
 import { AxiosResponse } from "axios";
 import { NextResponse } from "next/server";
@@ -52,4 +53,14 @@ export const bridgeAdminCheck = (): Promise<AxiosResponse<{ valid: boolean } & A
 const addNewBuilder = "add-new-builder";
 export const bridgeAdminAddNewBuilder = (data: BgcId): Promise<AxiosResponse<ApiStatus>> => {
 	  return api.post(p_admin(addNewBuilder), data);
+};
+
+const p_subjects = (sub: string, ...rest: string[]) => [ "subjects", sub, ...rest ].join("/");
+
+export const bridgeGetSubject = (sub: string): Promise<AxiosResponse<AthRtdbMap[typeof subject][SubKey] & ApiStatus>> => {
+	  return api.get(p_subjects(sub));
+};
+
+export const bridgeGetSubjectAsset = (sub: string, assetType: AssetType, id: string): Promise<AxiosResponse<{ asset: AthAsset } & ApiStatus>> => {
+	  return api.get(p_subjects(sub, assetType, id));
 };
