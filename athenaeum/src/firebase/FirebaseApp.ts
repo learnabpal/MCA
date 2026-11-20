@@ -167,8 +167,7 @@ const invokeServerApp = (request?: NextRequest) => {
 			 const adminNodeRef = child(rtdbRoot, pathJoiner(APP_NAME, ADMIN_NODE));
 			 const bgcIdNodeRef = child(rtdbRoot, pathJoiner(APP_NAME, BGC_ID_NODE));
 			 const builderMetaNodeRef = child(rtdbRoot, pathJoiner(APP_NAME, BUILDER_META_NODE));
-			 // const contentCollectionRef = collection(firestoreRoot, joiner(APP_NAME, CONTENT_COLLECTION));
-			 const contentCollectionRef = collection(doc(collection(firestoreRoot, APP_NAME)), content);
+			 const contentCollectionRef = collection(doc(collection(firestoreRoot, APP_NAME), content), CONTENT_COLLECTION);
 			 
 			 return ({
 					uid: user?.uid,
