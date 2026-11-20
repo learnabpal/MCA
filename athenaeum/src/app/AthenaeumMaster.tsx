@@ -56,7 +56,7 @@ export {
 export const APP_NAME = "Athenaeum";
 export const APP_TAGLINE = "BGCites' Buddy";
 export const BGC_NAME = "Bhawanipur Global Campus";
-export const BGC_HEX_M = "#500000";
+export const BGC_HEX_M = "#400000";
 export const BGC_HEX_O = "#FF8000";
 export const DEV_NAME = "Arnab Pal";
 export const GITHUB_REPOSITORY_URL = "https://github.com/learnabpal/MCA";
