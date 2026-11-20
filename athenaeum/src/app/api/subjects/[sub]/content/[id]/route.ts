@@ -13,11 +13,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 			 const { sub, id } = await params;
 			 if ( /*NOT->*/ ! sub || /*NOT->*/ ! id) throw "NoParams";
 			 const { contentCollectionRef } = await invokeServerApp(request);
-			 const docSnap = await getDoc(doc(contentCollectionRef, sub));
+			 const docSnap = await getDoc(doc(contentCollectionRef, id));
 			 if ( /*NOT->*/ ! docSnap.exists()) throw "NotFound";
 			 
-			 const docData = docSnap.data() as Record<string, AthAsset>;
-			 const asset = docData?.[id];
+			 const asset: AthAsset = docSnap.data() || {};
 			 if ( /*NOT->*/ ! asset) throw "NotFound";
 			 
 			 return successResponse({ asset });
