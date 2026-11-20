@@ -62,9 +62,9 @@ export const DEV_NAME = "Arnab Pal";
 export const GITHUB_REPOSITORY_URL = "https://github.com/learnabpal/MCA";
 
 export const UI_TEXTS = {
-	  subjects: "Select a subject to view its available study materials and downloads.",
+	  subjects: "Select a subject to view its available resources.",
 	  courses: "Select a course to view its available semester-wise subjects.",
-	  subject: "Browse the available content and subject resources."
+	  subject: "Browse the available content and downloadable resources."
 };
 export const MAX_FILE_MB = 25;
 export const MAX_FILE_BYTES = MAX_FILE_MB * 1024 * 1024;
