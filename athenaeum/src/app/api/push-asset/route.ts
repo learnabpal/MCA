@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 			 const sub = asset[0].sub;
 			 if (asset.some(item => item?.sub !== sub)) throw "MixedSubjects";
 			 
-			 const subjectNodeRef = subjectNodeRef(sub, assetType);
+			 const ref = subjectNodeRef(sub, assetType);
 			 
 			 const rtdbContentUpdates: Record<string, string> = {};
 			 const rtdbDownloadUpdates: Record<string, AthAsset> = {};
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
 						  await setDoc(doc(contentCollectionRef, sub), fsUpdates, { merge: true });
 						  break;
 			 }
-			 await update(subjectNodeRef, assetType === content ? rtdbContentUpdates : rtdbDownloadUpdates);
+			 await update(ref, assetType === content ? rtdbContentUpdates : rtdbDownloadUpdates);
 			 
 			 return successResponse({});
 	  } catch (error) {
