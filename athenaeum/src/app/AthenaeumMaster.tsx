@@ -34,16 +34,9 @@ export type BgcId = { bgcId: string }
 type AthKeys = { sub: SubKey, ast: AssetKey };
 export type AthAsset = AthKeys & BgcId & { title: string, src: string };
 
-// Firestore will hold the 'content' type AthAsset because its src may be huge json.
-// RTDb will hold the map of firestore 'content'
-// as well as 'download' type AthAsset because its src will only be a url.
-// The url can be either a non-firebase direct url, or a Firebase Storage download url.
-export type AthRtdbMap = {
-	  [subject]: Partial<Record<SubKey, {
-			 [content]?: { [fs_key: string]: string }
-			 [download]?: { [rtdb_key: string]: AthAsset }
-	  }>>
-};
+// Firestore will hold 'content' and 'download' type AthAsset documents.
+// RTDb will hold the map of firestore 'content' and 'download' keys to their titles.
+export type AthRtdbMap = { [subject]: Partial<Record<SubKey, Record<AssetType, { [fs_key: string]: string }>>> };
 
 export type AthBuilderMeta = { crs: CrsKey, spcl?: SpclKey, email: string } & BgcId
 

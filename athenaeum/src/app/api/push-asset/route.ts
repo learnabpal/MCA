@@ -1,4 +1,4 @@
-import { ASSET_TYPES, AssetType, AthAsset, buildKey, content, download } from "@/app/AthenaeumMaster";
+import { ASSET_TYPES, AssetType, AthAsset, buildKey } from "@/app/AthenaeumMaster";
 import { errorOccurred, successResponse } from "@/firebase/Bridge";
 import { invokeServerApp } from "@/firebase/FirebaseApp";
 import { update } from "@firebase/database";
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
 	  try {
 			 const { assetType, asset } = await request.json() as { assetType: AssetType; asset: AthAsset[] };
 			 if ( /*NOT->*/ ! ASSET_TYPES.includes(assetType) || /*NOT->*/ ! Array.isArray(asset) || /*NOT->*/ ! asset.length) throw "NoAssetData";
-			 const { uid, contentCollectionRef, subjectNodeRef } = await invokeServerApp(request);
+			 const { uid, createAssetCollectionRef, subjectNodeRef } = await invokeServerApp(request);
 			 if ( /*NOT->*/ ! uid) throw "UnauthorisedBuilder";
 			 
 			 const sub = asset[0].sub;
@@ -20,29 +20,17 @@ export async function POST(request: NextRequest) {
 			 
 			 const ref = subjectNodeRef(sub, assetType);
 			 
-			 const rtdbContentUpdates: Record<string, string> = {};
-			 const rtdbDownloadUpdates: Record<string, AthAsset> = {};
+			 const rtdbUpdates: Record<string, string> = {};
 			 const fsUpdates: Record<string, AthAsset> = {};
 			 
 			 asset.forEach(item => {
 					const key = buildKey();
-					switch (assetType) {
-						  case content:
-								 rtdbContentUpdates[key] = item.title;
-								 fsUpdates[key] = item;
-								 break;
-						  case download:
-								 rtdbDownloadUpdates[key] = item;
-								 break;
-					}
+					rtdbUpdates[key] = item.title;
+					fsUpdates[key] = item;
 			 });
 			 
-			 switch (assetType) {
-					case content:
-						  await Promise.all(Object.entries(fsUpdates).map(([ key, item ]) => setDoc(doc(contentCollectionRef, key), item, { merge: true })));
-						  break;
-			 }
-			 await update(ref, assetType === content ? rtdbContentUpdates : rtdbDownloadUpdates);
+			 await Promise.all(Object.entries(fsUpdates).map(([ key, item ]) => setDoc(doc(createAssetCollectionRef(assetType), key), item, { merge: true })));
+			 await update(ref, rtdbUpdates);
 			 
 			 return successResponse({});
 	  } catch (error) {

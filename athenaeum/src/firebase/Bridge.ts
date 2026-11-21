@@ -1,4 +1,4 @@
-import { AssetType, AthAsset, AthBuilderMeta, AthRtdbMap, BgcId, subject } from "@/app/AthenaeumMaster";
+import { AssetType, AthAsset, AthBuilderMeta, AthRtdbMap, BgcId, pathJoiner, subject } from "@/app/AthenaeumMaster";
 import { SubKey } from "@/app/BgcMaster";
 import { api } from "@/firebase/FirebaseApp";
 import { AxiosResponse } from "axios";
@@ -55,12 +55,12 @@ export const bridgeAdminAddNewBuilder = (data: BgcId): Promise<AxiosResponse<Api
 	  return api.post(p_admin(addNewBuilder), data);
 };
 
-const p_subjects = (sub: string, ...rest: string[]) => [ "subjects", sub, ...rest ].join("/");
+const p_subjects = (sub: SubKey, ...rest: string[]) => pathJoiner("subjects", sub, ...rest);
 
-export const bridgeGetSubject = (sub: string): Promise<AxiosResponse<AthRtdbMap[typeof subject][SubKey] & ApiStatus>> => {
+export const bridgeGetSubjectMap = (sub: SubKey): Promise<AxiosResponse<AthRtdbMap[typeof subject][SubKey]> & ApiStatus> => {
 	  return api.get(p_subjects(sub));
 };
 
-export const bridgeGetSubjectAsset = (sub: string, assetType: AssetType, id: string): Promise<AxiosResponse<{ asset: AthAsset } & ApiStatus>> => {
+export const bridgeGetSubjectAsset = (sub: SubKey, assetType: AssetType, id: string): Promise<AxiosResponse<{ asset: AthAsset } & ApiStatus>> => {
 	  return api.get(p_subjects(sub, assetType, id));
 };

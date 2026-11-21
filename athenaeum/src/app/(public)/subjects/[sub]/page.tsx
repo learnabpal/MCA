@@ -5,7 +5,7 @@ import { APP_NAME, ArrowBackRoundedIcon, type AthAsset, type AthRtdbMap, BGC_HEX
 import { SUB_MAP, SubKey } from "@/app/BgcMaster";
 import DevMarkdown, { ColourScheme } from "@/app/DevMarkdown";
 // import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
-import { bridgeGetSubject, bridgeGetSubjectAsset } from "@/firebase/Bridge";
+import { bridgeGetSubjectMap, bridgeGetSubjectAsset } from "@/firebase/Bridge";
 import { Alert, Box, Button, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
 import "katex/dist/katex.min.css";
 import Link from "next/link";
@@ -19,7 +19,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 	  const subject = sub as SubKey;
 	  const subjectName = SUB_MAP[subject];
 	  const [ contents, setContents ] = React.useState<Record<string, string>>({});
-	  const [ downloads, setDownloads ] = React.useState<Record<string, AthAsset>>({});
+	  const [ downloads, setDownloads ] = React.useState<Record<string, string>>({});
 	  const [ selectedContent, setSelectedContent ] = React.useState<AthAsset | null>(null);
 	  const [ loading, setLoading ] = React.useState(true);
 	  
@@ -36,7 +36,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 			 // setContents(index.content || {});
 			 // setDownloads(index.download || {});
 			 // setLoading(false);
-			 bridgeGetSubject(subject).then(
+			 bridgeGetSubjectMap(subject).then(
 						value => {
 							  const { content, download, status } = value.data;
 							  if (status === "SUCCESS") {
@@ -66,7 +66,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 			 { Object.keys(downloads).length > 0 && <Box>
 					<Typography variant={ "h5" } sx={ { mb: 2 } }>{ "Downloads" }</Typography>
 					<Grid container spacing={ 2 }>
-						  { Object.entries(downloads).map(([ id, asset ]) => (
+						  { Object.entries(downloads).map(([ id, title ]) => (
 									 <Grid key={ id } size={ { xs: 12, sm: 6, md: 4 } } sx={ { flexGrow: 1 } }>
 											<Card variant={ "outlined" } sx={ { height: "100%" } }>
 												  <CardActionArea
@@ -85,8 +85,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 														 <CardContent sx={ { display: "flex", alignItems: "center", gap: 2, p: 2 } }>
 																<FileIcon color={ "action" }/>
 																<Stack sx={ { flex: 1, minWidth: 0 } }>
-																	  <Typography sx={ { fontWeight: 600 } }>{ asset.title }</Typography>
-																	  { asset.bgcId && <Typography variant={ "caption" } color={ "text.secondary" }>{ asset.bgcId }</Typography> }
+																	  <Typography sx={ { fontWeight: 600 } }>{ title }</Typography>
 																</Stack>
 																<DownloadIcon color={ "action" }/>
 														 </CardContent>
