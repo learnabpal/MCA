@@ -12,13 +12,13 @@ export async function POST(request: NextRequest) {
 	  try {
 			 const { assetType, asset } = await request.json() as { assetType: AssetType; asset: AthAsset[] };
 			 if ( /*NOT->*/ ! ASSET_TYPES.includes(assetType) || /*NOT->*/ ! Array.isArray(asset) || /*NOT->*/ ! asset.length) throw "NoAssetData";
-			 const { uid, createAssetCollectionRef, subjectNodeRef } = await invokeServerApp(request);
+			 const { uid, createAssetCollectionRef, createSubjectNodeRef } = await invokeServerApp(request);
 			 if ( /*NOT->*/ ! uid) throw "UnauthorisedBuilder";
 			 
 			 const sub = asset[0].sub;
 			 if (asset.some(item => item?.sub !== sub)) throw "MixedSubjects";
 			 
-			 const ref = subjectNodeRef(sub, assetType);
+			 const ref = createSubjectNodeRef(sub, assetType);
 			 
 			 const rtdbUpdates: Record<string, string> = {};
 			 const fsUpdates: Record<string, AthAsset> = {};

@@ -12,11 +12,11 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 	  try {
 			 const { sub } = await params;
 			 if ( /*NOT->*/ ! SUB_MAP[sub]) throw "NoSubject";
-			 const { subjectNodeRef } = await invokeServerApp(request);
+			 const { createSubjectNodeRef } = await invokeServerApp(request);
 			 const snapshots = await Promise.all(
 						[
-							  get(subjectNodeRef(sub, content)),
-							  get(subjectNodeRef(sub, download))
+							  get(createSubjectNodeRef(sub, content)),
+							  get(createSubjectNodeRef(sub, download))
 						]
 			 );
 			 const data: AthRtdbMap[ typeof subject ][ SubKey ] = {
