@@ -184,7 +184,7 @@ const invokeServerApp = (request?: NextRequest) => {
 					createSubjectNodeRef: (sub: SubKey, assetType: AssetType) => child(rtdbRoot, pathJoiner(APP_NAME, subject, sub, assetType)),
 					adminNodeRef,
 					bgcIdNodeRef, builderMetaNodeRef,
-					createAssetCollectionRef,
+					createAssetCollectionRef
 					/* profileStorageRef, serviceStorageRef */
 			 });
 	  });
