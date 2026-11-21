@@ -168,7 +168,6 @@ const invokeServerApp = (request?: NextRequest) => {
 			 const adminNodeRef = child(rtdbRoot, pathJoiner(APP_NAME, ADMIN_NODE));
 			 const bgcIdNodeRef = child(rtdbRoot, pathJoiner(APP_NAME, BGC_ID_NODE));
 			 const builderMetaNodeRef = child(rtdbRoot, pathJoiner(APP_NAME, BUILDER_META_NODE));
-			 const createAssetCollectionRef = (assetType: AssetType) => collection(doc(collection(firestoreRoot, APP_NAME), assetType), CONTENT_COLLECTION);
 			 
 			 return ({
 					uid: user?.uid,
@@ -184,7 +183,7 @@ const invokeServerApp = (request?: NextRequest) => {
 					createSubjectNodeRef: (sub: SubKey, assetType: AssetType) => child(rtdbRoot, pathJoiner(APP_NAME, subject, sub, assetType)),
 					adminNodeRef,
 					bgcIdNodeRef, builderMetaNodeRef,
-					createAssetCollectionRef
+					createAssetCollectionRef: (assetType: AssetType) => collection(doc(collection(firestoreRoot, APP_NAME), assetType), CONTENT_COLLECTION)
 					/* profileStorageRef, serviceStorageRef */
 			 });
 	  });
