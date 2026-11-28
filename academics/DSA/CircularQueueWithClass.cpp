@@ -10,10 +10,7 @@ class CirQueue
       int data[MAX];
       int f, r;
 
-      void reset()
-      {
-            f = r = -1;
-      }
+      void reset() { f = r = -1; }
 
       bool is_empty()
       {
@@ -22,7 +19,7 @@ class CirQueue
 
       bool is_full()
       {
-            return (r + 1) % MAX == f;
+            return f == (r + 1) % MAX;
       }
 
 public:
@@ -39,7 +36,7 @@ public:
                   return;
             }
 
-            if (f == -1)
+            if (is_empty())
             {
                   f = r = 0;
             }
