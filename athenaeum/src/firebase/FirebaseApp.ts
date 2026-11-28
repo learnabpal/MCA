@@ -1,4 +1,4 @@
-import { APP_NAME, AssetType, content, pathJoiner, subject } from "@/app/AthenaeumMaster";
+import { AssetType, content, pathJoiner, subject } from "@/app/AthenaeumMaster";
 import { SubKey } from "@/app/BgcMaster";
 import { isInRestrictedList } from "@/components/mui/apx/ts/Utils";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "@firebase/auth";
@@ -89,10 +89,20 @@ export const useFirebaseDeleteUser = () => {
 	  return { uid, deleteUser, deleting, deletionError };
 };
 
+export const getStorageDownloadUrl = (path: string): Promise<string> => {
+	  if (path.startsWith("http://") || path.startsWith("https://")) return Promise.resolve(path);
+	  return getDownloadURL(storageRef(STORAGE_ROOT_REF, path));
+};
+
 export const useStorageDownloadUrls = (paths: string[]) => {
 	  const [ mediaUrls, setMediaUrls ] = React.useState<string[]>([]);
 	  React.useEffect(() => {
-			 const urls = paths.map(path => getDownloadURL(storageRef(STORAGE_ROOT_REF, path)));
+			 const validPaths = paths.filter(Boolean);
+			 if ( /*NOT->*/ ! validPaths.length) {
+					setMediaUrls([]);
+					return;
+			 }
+			 const urls = validPaths.map(path => (path.startsWith("http://") || path.startsWith("https://")) ? Promise.resolve(path) : getDownloadURL(storageRef(STORAGE_ROOT_REF, path)));
 			 Promise.all(urls).then(urls => setMediaUrls(urls));
 	  }, [ paths ]);
 	  return { mediaUrls };
@@ -165,14 +175,14 @@ const invokeServerApp = (request?: NextRequest) => {
 			 // const trashedNodeRef = child(rtdbRoot, TRASHED_NODE);
 			 
 			 
-			 const adminNodeRef = child(rtdbRoot, pathJoiner(APP_NAME, ADMIN_NODE));
-			 const bgcIdNodeRef = child(rtdbRoot, pathJoiner(APP_NAME, BGC_ID_NODE));
-			 const builderMetaNodeRef = child(rtdbRoot, pathJoiner(APP_NAME, BUILDER_META_NODE));
+			 const adminNodeRef = child(rtdbRoot, ADMIN_NODE);
+			 const bgcIdNodeRef = child(rtdbRoot, BGC_ID_NODE);
+			 const builderMetaNodeRef = child(rtdbRoot, BUILDER_META_NODE);
 			 
 			 return ({
 					uid: user?.uid,
 					email: user?.email,
-					createStorageRef: (path: string) => storageRef(storageRoot, pathJoiner(APP_NAME, path)),
+					createStorageRef: (path: string) => storageRef(storageRoot, path),
 					// rtdbRoot, firestoreRoot, storageRoot,
 					// handleMapNodeRef, hostNodeRef, claimNodeRef,
 					/* contentCollectionRef, gatewayCollectionRef */
@@ -180,10 +190,10 @@ const invokeServerApp = (request?: NextRequest) => {
 					// contentGuideShardsCollectionRef, contentEventShardsCollectionRef,
 					// gatewayNodeRef,  archiveNodeRef, trashedNodeRef
 					// enquiriesNodeRef,
-					createSubjectNodeRef: (sub: SubKey, assetType: AssetType) => child(rtdbRoot, pathJoiner(APP_NAME, subject, sub, assetType)),
+					createSubjectNodeRef: (sub: SubKey, assetType: AssetType) => child(rtdbRoot, pathJoiner(subject, sub, assetType)),
 					adminNodeRef,
 					bgcIdNodeRef, builderMetaNodeRef,
-					createAssetCollectionRef: (assetType: AssetType) => collection(doc(collection(firestoreRoot, APP_NAME), assetType), CONTENT_COLLECTION)
+					createAssetCollectionRef: (assetType: AssetType) => collection(firestoreRoot, assetType)
 					/* profileStorageRef, serviceStorageRef */
 			 });
 	  });

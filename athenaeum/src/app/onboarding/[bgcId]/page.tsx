@@ -1,13 +1,13 @@
 "use client";
 
 import { CrsKey, getCourseSets, getCourseSubs, SubKey } from "@/app/BgcMaster";
+import GoogleSignInButton from "@/components/GoogleSignInButton";
 import { bridgeOnboarding, bridgeOnboardingBuilderMetaPOST } from "@/firebase/Bridge";
-import { useFirebaseAccountModifiers, useFirebaseUid } from "@/firebase/FirebaseApp";
+import { useFirebaseUid } from "@/firebase/FirebaseApp";
 import { Box, Button, Chip, TextField, Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
-import GoogleIcon from "@mui/icons-material/Google";
 
 
 
@@ -18,7 +18,6 @@ export default function OnboardingPage() {
 	  const toBuilder = () => router.replace("/builder");
 	  const [ allowed, setAllowed ] = React.useState(undefined);
 	  const [ onboardingState, setOnboardingState ] = React.useState<boolean | string>(undefined);
-	  const { signInWithGoogle, signOut } = useFirebaseAccountModifiers();
 	  const uid = useFirebaseUid();
 	  const invalidBgcId = ( /*NOT->*/ ! bgcId || typeof bgcId !== "string");
 	  
@@ -81,7 +80,7 @@ export default function OnboardingPage() {
 	  
 	  return (allowed) && (
 				 <Stack spacing={ 1 } sx={ { height: "100vh", mx: "auto", p: { xs: 2, md: 4 } } } maxWidth={ 480 } justifyContent={ "center" }>
-						<Button variant={ "contained" } fullWidth onClick={ () => signInWithGoogle() } startIcon={ <GoogleIcon/> }>{ "Sign-In with Google" }</Button>
+						<GoogleSignInButton/>
 				 </Stack>
 	  );
 }

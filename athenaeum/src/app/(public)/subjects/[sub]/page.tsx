@@ -5,8 +5,11 @@ import { APP_NAME, ArrowBackRoundedIcon, type AthAsset, type AthRtdbMap, BGC_HEX
 import { SUB_MAP, SubKey } from "@/app/BgcMaster";
 import DevMarkdown, { ColourScheme } from "@/app/DevMarkdown";
 // import { ATHENAEUM_DEMO_CONTENT, ATHENAEUM_DEMO_DATA } from "@/app/dummy";
+import GoogleSignInButton from "@/components/GoogleSignInButton";
 import { bridgeGetSubjectMap, bridgeGetSubjectAsset } from "@/firebase/Bridge";
-import { Alert, Box, Button, Card, CardActionArea, CardContent, Grid, Stack, Typography } from "@mui/material";
+import { getStorageDownloadUrl, useFirebaseUid } from "@/firebase/FirebaseApp";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { Alert, Box, Button, Card, CardActionArea, CardContent, Grid, Paper, Stack, Typography } from "@mui/material";
 import "katex/dist/katex.min.css";
 import Link from "next/link";
 import React, { use } from "react";
@@ -18,6 +21,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 	  const { sub } = use(params);
 	  const subject = sub as SubKey;
 	  const subjectName = SUB_MAP[subject];
+	  const uid = useFirebaseUid();
 	  const [ contents, setContents ] = React.useState<Record<string, string>>({});
 	  const [ downloads, setDownloads ] = React.useState<Record<string, string>>({});
 	  const [ selectedContent, setSelectedContent ] = React.useState<AthAsset | null>(null);
@@ -26,7 +30,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 	  React.useEffect(() => {
 			 setLoading(true);
 			 setSelectedContent(null);
-			 if ( /*NOT->*/ ! subjectName) {
+			 if ( /*NOT->*/ ! subjectName || /*NOT->*/ ! uid) {
 					setContents({});
 					setDownloads({});
 					setLoading(false);
@@ -47,7 +51,7 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 						},
 						() => setLoading(false)
 			 );
-	  }, [ subject, subjectName ]);
+	  }, [ subject, subjectName, uid ]);
 	  
 	  // const indexedContents = Object.entries(contents).flatMap(([ id, title ]) => {
 	  // 	 const content = ATHENAEUM_DEMO_CONTENT[id];
@@ -55,6 +59,22 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 	  // });
 	  
 	  if ( /*NOT->*/ ! subjectName) return <Alert severity={ "warning" }>{ "Subject not found." }</Alert>;
+	  if ( /*NOT->*/ ! uid) return (
+				 <Stack spacing={ 3 }>
+						<Button component={ Link } variant={ "text" } href={ NAV_ITEMS.subjects.href } startIcon={ <ArrowBackRoundedIcon/> } sx={ { px: 0, color: BGC_HEX_O, alignSelf: "flex-start" } }>
+							  { "All Subjects" }
+						</Button>
+						<Heading title={ subjectName } subtitle={ UI_TEXTS.subject }/>
+						<Paper variant={ "outlined" } sx={ { p: { xs: 3, md: 4 }, mx: "auto", width: "100%" } }>
+							  <Stack spacing={ 2 } alignItems={ "center" } textAlign={ "center" }>
+									 <LockOutlinedIcon color={ "action" } fontSize={ "large" }/>
+									 <Typography variant={ "h6" }>{ "Sign in required" }</Typography>
+									 <Typography color={ "text.secondary" }>{ "Sign in to access study materials and downloads." }</Typography>
+									 <GoogleSignInButton/>
+							  </Stack>
+						</Paper>
+				 </Stack>
+	  );
 	  if (loading) return <Typography color={ "text.secondary" }>{ "Loading..." }</Typography>;
 	  
 	  return <Stack spacing={ 3 }>
@@ -75,7 +95,9 @@ export default function SubjectPage({ params }: { params: Promise<{ sub: string 
 																			  value => {
 																					 const { status, asset } = value.data;
 																					 if (status === "SUCCESS" && asset?.src) {
-																							window.open(asset.src, "_blank", "noopener,noreferrer");
+																							getStorageDownloadUrl(asset.src).then(url => {
+																								  window.open(url, "_blank", "noopener,noreferrer");
+																							});
 																					 }
 																			  }
 																	);

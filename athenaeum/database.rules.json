@@ -1,34 +1,32 @@
 {
 	  "rules": {
-			 "Athenaeum": {
-					"ADMIN": {
-						  ".read": "auth.email === 'learnabpal@gmail.com' || auth.email === 'iamarnabpal@gmail.com' || auth.email === 'apxdgtl@gmail.com'",
-						  ".write": "auth.email === 'learnabpal@gmail.com' || auth.email === 'iamarnabpal@gmail.com' || auth.email === 'apxdgtl@gmail.com'"
-					},
-					"BGC_ID": {
-						  "$bgcId": {
-								 ".read": true,
-								 ".write": "auth !== null"
-						  }
-					},
-					"BUILDER_META": {
-						  "$uid": {
-								 ".read": "auth !== null && auth.uid === $uid",
-								 ".write": "auth !== null && auth.uid === $uid"
-						  }
-					},
-					"subject": {
-						  "$sub": {
-								 ".read": true,
-								 "content": {
-										"$key": {
-											  ".write": "auth !== null"
-										}
-								 },
-								 "download": {
-										"$key": {
-											  ".write": "auth !== null"
-										}
+			 "ADMIN": {
+					".read": "auth.email === 'learnabpal@gmail.com' || auth.email === 'iamarnabpal@gmail.com' || auth.email === 'apxdgtl@gmail.com'",
+					".write": "auth.email === 'learnabpal@gmail.com' || auth.email === 'iamarnabpal@gmail.com' || auth.email === 'apxdgtl@gmail.com'"
+			 },
+			 "BGC_ID": {
+					"$bgcId": {
+						  ".read": true,
+						  ".write": "auth !== null"
+					}
+			 },
+			 "BUILDER_META": {
+					"$uid": {
+						  ".read": "auth !== null && auth.uid === $uid",
+						  ".write": "auth !== null && auth.uid === $uid"
+					}
+			 },
+			 "subject": {
+					"$sub": {
+						  ".read": "auth !== null",
+						  "content": {
+								 "$key": {
+										".write": "auth !== null"
+								 }
+						  },
+						  "download": {
+								 "$key": {
+										".write": "auth !== null"
 								 }
 						  }
 					}

@@ -5,17 +5,24 @@ import type { AssetKey, AssetType, AthAsset, AthBuilderMeta, BgcId, DownloadType
 import { APP_NAME, ASSET_MAP, ASSET_TYPES, DL_TYPES, EXTS, MAX_FILE_BYTES, MAX_FILE_MB } from "@/app/AthenaeumMaster";
 import { getCourseSubs, SubKey } from "@/app/BgcMaster";
 import DevMarkdown from "@/app/DevMarkdown";
+import GoogleSignInButton from "@/components/GoogleSignInButton";
 import { useWipView } from "@/components/mui/apx/tsx/WiPView";
 import { AthAssetUploadResult, bridgeAdminAddNewBuilder, bridgeAdminCheck, bridgeOnboardingBuilderMetaGET, bridgePushAsset, bridgeUploadFiles } from "@/firebase/Bridge";
 import { useFirebaseAccountModifiers, useFirebaseUid } from "@/firebase/FirebaseApp";
 import AddIcon from "@mui/icons-material/Add";
 import ContentCopyOutlined from "@mui/icons-material/ContentCopyOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
-import GoogleIcon from "@mui/icons-material/Google";
 import { Box, Button, Chip, IconButton, Paper, Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import "@uiw/react-markdown-preview/markdown.css";
+import MDEditor from "@uiw/react-md-editor";
 import "@uiw/react-md-editor/markdown-editor.css";
 import React from "react";
+
+
+
+
+const CONTENT_MODES = [ "paste", "author" ] as const;
+type ContentMode = typeof CONTENT_MODES[ number ];
 
 
 
@@ -94,6 +101,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 	  const { setUi, close, open, WiPView } = useWipView();
 	  
 	  /* Content Form State */
+	  const [ contentMode, setContentMode ] = React.useState<ContentMode>("paste");
 	  const [ contentTitle, setContentTitle ] = React.useState("");
 	  const [ content, setContent ] = React.useState("");
 	  
@@ -108,7 +116,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 				 // downloadType === "file"
 				 // 		? (selectedFiles.length > 0 && selectedFiles.every(isValidFile))
 				 // 		:
-				 (urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && validateUrl(p.url)))
+				 (urlPairs.length > 0 && urlPairs.every((p) => p.title.trim() && (p.readonly ? Boolean(p.url.trim()) : validateUrl(p.url))))
 				 && (downloadType !== "file" || selectedFiles.length === 0)
 	  );
 	  
@@ -250,30 +258,57 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 														  required fullWidth
 												/>
 												<Stack spacing={ 1 }>
+													  <Box sx={ { display: "flex", justifyContent: "center", mb: 1 } }>
+															 <ToggleButtonGroup
+																		value={ contentMode }
+																		exclusive
+																		onChange={ (_, newMode: ContentMode | null) => (/*TRUTHY->*/ !! newMode) && setContentMode(newMode) }
+																		size={ "small" }
+																		color={ "primary" }
+															 >
+																	{ CONTENT_MODES.map((cm) => (
+																			  <ToggleButton key={ cm } value={ cm } sx={ { px: 3, textTransform: "capitalize" } }>
+																					 { cm === "paste" ? "Paste Markdown" : "MD Editor" }
+																			  </ToggleButton>
+																	)) }
+															 </ToggleButtonGroup>
+													  </Box>
 													  <Typography variant={ "body2" } color={ "text.secondary" }>{ "Content *" }</Typography>
-													  <Stack flexDirection={ "row" } alignItems={ "center" } sx={ { border: "1px solid", borderRadius: 2, opacity: 0.5 } } p={ 1 }>
-															 <Stack spacing={ 1 }>
-																	<Typography variant={ "body2" }>{ "Copy the following prompt to generate structured educational Markdown content." }</Typography>
-																	<Typography fontSize={ 10 }>{ GEN_AI_PROMPT.substring(0, 360) + "..." }</Typography>
-															 </Stack>
-															 <IconButton onClick={ () => window.navigator.clipboard.writeText(GEN_AI_PROMPT) }>
-																	<ContentCopyOutlined/>
-															 </IconButton>
-													  </Stack>
+													  { contentMode === "paste" && (
+																 <>
+																		<Stack flexDirection={ "row" } alignItems={ "center" } sx={ { border: "1px solid", borderRadius: 2, opacity: 0.5 } } p={ 1 }>
+																			  <Stack spacing={ 1 }>
+																					 <Typography variant={ "body2" }>{ "Copy the following prompt to generate structured educational Markdown content." }</Typography>
+																					 <Typography fontSize={ 10 }>{ GEN_AI_PROMPT.substring(0, 360) + "..." }</Typography>
+																			  </Stack>
+																			  <IconButton onClick={ () => window.navigator.clipboard.writeText(GEN_AI_PROMPT) }>
+																					 <ContentCopyOutlined/>
+																			  </IconButton>
+																		</Stack>
+																		<TextField
+																				  value={ content }
+																				  onChange={ (event) => setContent(event.target.value) }
+																				  multiline
+																				  minRows={ 20 }
+																				  placeholder={ GEN_AI_PROMPT }
+																				  required fullWidth
+																		/>
+																 </>
+													  ) }
+													  { contentMode === "author" && (
+																 <MDEditor
+																			value={ content }
+																			onChange={ (val) => setContent(val ?? "") }
+																			height={ 480 }
+																			preview={ "edit" }
+																 />
+													  ) }
 													  {/* <MDEditor
 																 value={ content || GEN_AI_PROMPT }
 																 onChange={ (val) => setContent(val ?? "") }
 																 height={ 480 }
 																 preview={ "edit" }
 													  /> */ }
-													  <TextField
-																 value={ content }
-																 onChange={ (event) => setContent(event.target.value) }
-																 multiline
-																 minRows={ 20 }
-																 placeholder={ GEN_AI_PROMPT }
-																 required fullWidth
-													  />
 													  <Stack spacing={ 2 } py={ 2 }>
 															 <Typography variant={ "body2" } color={ "text.secondary" }>{ "Preview:" }</Typography>
 															 <DevMarkdown text={ content || GEN_AI_PROMPT }/>
@@ -373,7 +408,7 @@ function BuilderForms({ meta }: { meta: AthBuilderMeta }) {
 																										  const val = e.target.value;
 																										  setUrlPairs((prev) => prev.map((p, i) => i === index ? { ...p, url: val } : p));
 																									} }
-																									error={ /*TRUTHY->*/ !! (pair.url.trim() && /*NOT->*/ ! validateUrl(pair.url)) }
+																									error={ /*TRUTHY->*/ !! (pair.url.trim() && /*NOT->*/ ! (pair.readonly || validateUrl(pair.url))) }
 																									required fullWidth
 																									disabled={ pair.readonly }
 																						 />
@@ -467,7 +502,7 @@ function AdminView() {
 
 export default function BuilderPage() {
 	  const uid = useFirebaseUid();
-	  const { signInWithGoogle, signOut } = useFirebaseAccountModifiers();
+	  const { signOut } = useFirebaseAccountModifiers();
 	  const [ builderMeta, setBuilderMeta ] = React.useState<AthBuilderMeta>(undefined);
 	  
 	  React.useEffect(() => {
@@ -485,7 +520,7 @@ export default function BuilderPage() {
 	  
 	  if ( /*NOT->*/ ! uid) return (
 				 <Stack spacing={ 1 } sx={ { height: "100vh", mx: "auto", p: { xs: 2, md: 4 } } } maxWidth={ 360 } justifyContent={ "center" }>
-						<Button variant={ "contained" } fullWidth onClick={ () => signInWithGoogle() } startIcon={ <GoogleIcon/> }>{ "Sign-In with Google" }</Button>
+						<GoogleSignInButton/>
 				 </Stack>
 	  );
 	  
